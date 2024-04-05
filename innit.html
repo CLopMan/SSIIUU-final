@@ -7,8 +7,15 @@
     
     <body>     
         <header>
-        	<h1>PLACEHOLDER</h1>
+        	<h1>Selecciona tu rol</h1>
         </header>
-        <script type="text/javascript" src="script.js"></script>
+        <button onclick="soy(cliente)">Cliente</button>
+        <button onclick="soy(cajero)">Cajero</button>
+		<script>
+			const socket = io();
+			socket.on("connect", () => {console.log("innit conectado");});
+			
+			function soy(id) {socket.emit(id);}
+		</script>
     </body>
 </html>
