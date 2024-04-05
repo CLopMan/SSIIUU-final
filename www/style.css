@@ -1,11 +1,6 @@
-.pointer{
-  margin: auto;
-  width: 32px;
-  height: 32px;
-  min-height: 32px;
-  background-color: red;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 9999;
+header {
+	width: 100vw;
+	height: 6vh;
+	text-align: center;
+	border-bottom: 4px solid black;
 }
