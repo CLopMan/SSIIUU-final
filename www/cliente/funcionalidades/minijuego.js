@@ -14,7 +14,7 @@ export function init_minigame() {
 	reglas.style.display = "block";
 	boton_cerrar.style.display = "none";
 	warning.innerHTML = "!!!";
-	warning.marginLeft = "100vw";
+	warning.style.marginLeft = "100vw";
 	
 	boton_reglas.addEventListener("click", () => {
 		reglas.style.display = "none"
