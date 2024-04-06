@@ -12,6 +12,7 @@ const boton_cerrar = document.getElementById("cerrar_minijuego");
 var tries_id;
 var capturable = false;
 var capturado = false;
+var gamma;
 
 window.addEventListener("deviceorientation", handle_pos);
 
@@ -95,13 +96,16 @@ function trigger_fishing_event() {
 
 function handle_pos(ev) {
 	if (capturable) {
-		if (Math.abs(ev.gamma) >= 70) {
+		if (Math.abs(ev.gamma - gamma) >= 70) {
 			if (tries_id != null) {
 				console.log("WIN");
 				window.clearTimeout(tries_id);
 			}
 			capturado = 1;
 		}
+	}
+	else {
+		gamma = ev.gamma;
 	}
 }
 
