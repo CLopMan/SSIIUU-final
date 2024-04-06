@@ -280,3 +280,33 @@ header {
 	border: 2px solid #E75480;
 	z-index: 1000;
 }
+
+@media screen and (max-width: 600px) {
+	#aviso {
+		font-size: 1.5rem;
+	}
+	
+	#reglas_pesca {
+		top: 20%;
+	}
+	
+	#reglas_pesca p {
+		font-size: 0.8rem;
+	}
+	
+	#boton_reglas {
+		height: 12%;
+		width: 40%;
+		margin-left: 30%;
+		font-size: 1rem;
+	}
+	
+	#shadow {
+		top: 22%;
+	}
+	
+	.lilypad_circle {
+		width: 15vh;
+		height: 15vh;
+	}
+}

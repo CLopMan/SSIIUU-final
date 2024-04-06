@@ -8,9 +8,17 @@ const reglas = document.getElementById("reglas_pesca");
 const boton_reglas = document.getElementById("boton_reglas");
 const boton_cerrar = document.getElementById("cerrar_minijuego");
 
+// Variables para la captura
+var tries_id;
+var capturable = false;
+var capturado = false;
+
+window.addEventListener("deviceorientation", handle_pos);
+
 export function init_minigame() {
 	// Corrige el warning
 	warning.style.marginLeft = "100vw";
+	warning.style.color = "red";
 	warning.innerHTML = "!!!";
 	
 	// Enseña las reglas
@@ -26,17 +34,26 @@ export function init_minigame() {
 	// Reinicia las animaciones
 	warning.style.animation = "";
 	wave.style.animation = "";
-	shadow.style.animation = "";	
+	shadow.style.animation = "";
+	
+	// Reinicia los bools
+	capturable = false;
+	capturado = false;	
 }
 
 function start_minigame(intentos) {
+	if (capturado) {
+		trigger_win();
+		return ;
+	}
+	
 	if (intentos > 0) {
 		let contador = Math.random()*5000+3000;
 		let aviso = contador + 4500;
-		let siguiente_intento = aviso + 2000;
+		let siguiente_intento = aviso + 1000;
 		window.setTimeout(trigger_fishing_event, contador);
 		intentos -= 1;
-		window.setTimeout(show_tries, aviso, intentos);	
+		tries_id = window.setTimeout(show_tries, aviso, intentos);	
 		window.setTimeout(start_minigame, siguiente_intento, intentos);
 	}
 	else {
@@ -51,6 +68,8 @@ function start_minigame(intentos) {
 }
 
 function show_tries(intentos) {
+	console.log(tries_id);
+	tries_id = null;
 	warning.innerHTML = "Intentos restantes: " + intentos;
 	warning.style.animation = "appear_aviso 0.35s 1";
 	window.setTimeout(() => {
@@ -70,7 +89,20 @@ function hide_tries() {
 }
 
 function trigger_fishing_event() {
+	capturable = true;
 	trigger_animations();
+}
+
+function handle_pos(ev) {
+	if (capturable) {
+		if (Math.abs(ev.gamma) >= 70) {
+			if (tries_id != null) {
+				console.log("WIN");
+				window.clearTimeout(tries_id);
+			}
+			capturado = 1;
+		}
+	}
 }
 
 function trigger_animations() {	
@@ -86,6 +118,7 @@ function trigger_animations() {
 	window.setTimeout(() => {
 		shadow.style.animation = "disappear_shadow 1.8s 1";
 		warning.style.animation = "disappear_aviso 0.35s 1";
+		capturable = 0;
 		window.setTimeout(()=> {
 			warning.style.marginLeft = "100vw";
 			warning.style.animation = "";
@@ -94,10 +127,19 @@ function trigger_animations() {
 	
 	window.setTimeout(() => {
 		wave.style.animation = "";
-		console.log(styleSheet);
 		styleSheet.deleteRule(0);
-		shadow.style.animation = "";		
-	}, 3600)
+		shadow.style.animation = "";
+	}, 3600);
+}
+
+function trigger_win() {
+	warning.innerHTML = "¡Enhorabuena! Has conseguido un [PLACHOLDER]";
+	warning.style.color = "green";
+	warning.style.animation = "appear_aviso 0.35s 1";
+	window.setTimeout(() => {
+		warning.style.marginLeft = "0";
+		warning.style.animation = "";
+	}, 350);
 }
 
 // Añade el listener al botón de reglas	
