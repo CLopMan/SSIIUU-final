@@ -60,7 +60,7 @@ header {
 #wave {
 	position: relative;
 	opacity: 0;
-	top: 23%;
+	top: 33%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 2px;
@@ -85,7 +85,7 @@ header {
 #shadow {
 	position: relative;
 	left: 50%;
-	top: 40%;
+	top: 50%;
 	transform: translate(-50%, -50%);
 	width: 5vw;
 	height: 5vh;

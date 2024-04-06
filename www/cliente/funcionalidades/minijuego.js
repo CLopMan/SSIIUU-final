@@ -13,9 +13,16 @@ export function init_minigame() {
 	minijuego.style.display = "block";	
 	reglas.style.display = "block";
 	boton_cerrar.style.display = "none";
+	warning.innerHTML = "!!!";
+	warning.marginLeft = "100vw";
+	
 	boton_reglas.addEventListener("click", () => {
 		reglas.style.display = "none"
 		start_minigame(3);		
+	});
+	boton_cerrar.addEventListener("click", () => {
+		inventario.style.display = "block";
+		minijuego.style.display = "none";
 	});
 	
 }
@@ -79,3 +86,4 @@ function trigger_animations() {
 		shadow.style.animation = "none";		
 	}, 3600)
 }
+
