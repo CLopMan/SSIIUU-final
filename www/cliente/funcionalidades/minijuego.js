@@ -51,7 +51,7 @@ function start_minigame(intentos) {
 	if (intentos > 0) {
 		let contador = Math.random()*5000+3000;
 		let aviso = contador + 4500;
-		let siguiente_intento = aviso + 1000;
+		let siguiente_intento = aviso + 2000;
 		window.setTimeout(trigger_fishing_event, contador);
 		intentos -= 1;
 		tries_id = window.setTimeout(show_tries, aviso, intentos);	
@@ -60,16 +60,15 @@ function start_minigame(intentos) {
 	else {
 		warning.innerHTML = "Intentos acabados";
 		warning.style.animation = "appear_aviso 0.35s 1";
-		window.setTimeout(() => { 
+		window.setTimeout(() => {
 			warning.style.marginLeft = "0vw";
 			boton_cerrar.style.display = "block";
 			warning.style.animation = "";
-		})
+		}, 350);
 	}
 }
 
 function show_tries(intentos) {
-	console.log(tries_id);
 	tries_id = null;
 	warning.innerHTML = "Intentos restantes: " + intentos;
 	warning.style.animation = "appear_aviso 0.35s 1";
@@ -77,13 +76,14 @@ function show_tries(intentos) {
 		warning.style.marginLeft = "0vw";
 		warning.style.animation = "";
 	}, 350);
-	window.setTimeout(hide_tries, 1000);
+	window.setTimeout(hide_tries, 1500);
 }
 
 function hide_tries() {
 	warning.style.animation = "disappear_aviso 0.35s 1";
 	window.setTimeout(() => {
 		warning.style.marginLeft = "100vw";
+		console.log("Hola");
 		warning.innerHTML = "!!!";
 		warning.style.animation = "";
 	}, 350);
@@ -98,7 +98,6 @@ function handle_pos(ev) {
 	if (capturable) {
 		if (Math.abs(ev.gamma - gamma) >= 70) {
 			if (tries_id != null) {
-				console.log("WIN");
 				window.clearTimeout(tries_id);
 			}
 			capturado = 1;
