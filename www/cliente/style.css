@@ -49,7 +49,7 @@ header {
 	width: 100vw;
 	margin-left: 100vw;
 	height: 10vh;
-	top: 0.3;
+	top: -10%;
 	background-color: rgba(255, 255, 255, 0.6);
 	color: red;
 	font-size: 2rem;
@@ -61,7 +61,7 @@ header {
 #wave {
 	position: relative;
 	opacity: 0;
-	top: 23%;
+	top: 3%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 2px;
@@ -86,7 +86,7 @@ header {
 #shadow {
 	position: relative;
 	left: 50%;
-	top: 40%;
+	top: 20%;
 	transform: translate(-50%, -50%);
 	width: 5vw;
 	height: 5vh;
@@ -105,7 +105,7 @@ header {
 	position: relative;
 	z-index: 999;
 	left: 50%;
-	top: 40%;
+	top: 20%;
 	transform: translate(-50%, -50%);
 	border-radius: 25px;
 	border: 5px solid white;
@@ -221,6 +221,32 @@ header {
 	top: 50%;
 }
 
+#lilypad-1-flower {
+	background-color: #FC6C85;
+	top: 39%;
+	left: 42%;
+}
+
+#lilypad-2 {
+	position: relative;
+	left: 90%;
+	top: 65%;
+	width: 7vw;
+	height: 7vw;
+}
+
+#lilypad-2-triangle {
+	transform: rotate(135deg);
+	left: -10%;
+	top: -10%;
+}
+
+#lilypad-2-flower {
+	background-color: red;
+	top: 42%;
+	left: 45%;
+}
+
 .lilypad_circle {
 	position: absolute;
 	width: 7vw;
@@ -250,10 +276,7 @@ header {
 	position: absolute;
 	width: 1.5vw;
 	height: 1.5vw;
-	border-radius: 50%;
-	background-color: #FC6C85;
+	border-radius: 50%;s
 	border: 2px solid #E75480;
-	top: 38%;
-	left: 40%;
 	z-index: 1000;
 }
