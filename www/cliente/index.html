@@ -13,11 +13,24 @@
         	<h2>Inventario</h2>
         	<div id="grid"></div>
         	<button id="add_button">+</button>
+        	<button id="minigame_button">Minijuego</button>
         </div>
         <div id="minijuego">
-        	<h2>Minijuego</h2>
-        	<div class="wave"></div>
+        	<div id="intentos">
+        		<p>Intentos: 3</p>
+        	</div>
+        	<div id="reglas_pesca">
+        		<p>1. Pon tu dispositivo en una posición horizontal, con la pantalla hacia arriba.<br>
+        		2. Aparecerá un pez entre 3 y 8 segundos, intenta pescarlo levantando el movil como si fuera una caña de pescar.<br>
+        		3. Tienes 3 intentos.
+        		</p>
+        		<button id="boton_reglas">START</button>
+        	</div>
+        	<div id="shadow"></div>
+        	<p id="exclamacion">!!!</p>
+        	<div id="wave"></div>
         </div>
-        <script type="text/javascript" src="script.js"></script>
+        <script type="module" src="funcionalidades/minijuego.js"></script>
+        <script type="module" src="script.js"></script>
     </body>
 </html>

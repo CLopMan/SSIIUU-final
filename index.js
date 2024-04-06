@@ -19,11 +19,11 @@ io.on('connection', (socket) => {
   
   socket.on("CASHIER_CONNECTED", () => {
   	cashierSocket = socket;
-  	cashierSocket.emmit("ACK_CONNECTION");
+  	cashierSocket.emit("ACK_CONNECTION");
   })
   
-  socket.on("TRIGGER_ADD", () => {
-  	clientSocket.emmit("TRIGGER_ADD");
+  socket.on("TRIGGER_MINIGAME", () => {
+  	clientSocket.emit("TRIGGER_MINIGAME");
   })
 
 });

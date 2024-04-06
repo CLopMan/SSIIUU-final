@@ -1,3 +1,5 @@
+import {init_minigame} from './funcionalidades/minijuego.js';
+ 
 function add() {
 	console.log("add");
 }
@@ -19,7 +21,8 @@ function pay() {
 }
 
 function minigame() {
-	console.log("minigame");
+	console.log("Doing client minigame");
+	init_minigame();
 }
 
 function duel() {
@@ -48,18 +51,8 @@ socket.on("connect", () => {
   socket.on("TRIGGER_MINIGAME", minigame)
   
   socket.on("TRIGGER_DUEL", duel)
-  
-  socket.on("SENSOR_READING", (data) => {
-    const cursor = document.querySelector(`#${data.pointerId}`);
-    if (cursor) {
-      cursor.style.left = data.coords[0] + window.innerWidth / 2;
-      cursor.style.top = data.coords[1] + window.innerHeight / 2;
-    }
-
-  });
 
 });
 
-
 document.getElementById("add_button").addEventListener("touch", () => (socket.emit("TRIGGER_ADD")));
-
+document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME")));
