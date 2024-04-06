@@ -9,22 +9,24 @@ const boton_reglas = document.getElementById("boton_reglas");
 const boton_cerrar = document.getElementById("cerrar_minijuego");
 
 export function init_minigame() {
-	inventario.style.display = "none";
-	minijuego.style.display = "block";	
-	reglas.style.display = "block";
-	boton_cerrar.style.display = "none";
-	warning.innerHTML = "!!!";
+	// Corrige el warning
 	warning.style.marginLeft = "100vw";
+	warning.innerHTML = "!!!";
 	
-	boton_reglas.addEventListener("click", () => {
-		reglas.style.display = "none"
-		start_minigame(3);		
-	});
-	boton_cerrar.addEventListener("click", () => {
-		inventario.style.display = "block";
-		minijuego.style.display = "none";
-	});
+	// Enseña las reglas
+	reglas.style.display = "block";
+
+	// Oculta el botón de cerrar	
+	boton_cerrar.style.display = "none";
 	
+	// Enseña la página
+	inventario.style.display = "none";
+	minijuego.style.display = "block";
+	
+	// Reinicia las animaciones
+	warning.style.animation = "";
+	wave.style.animation = "";
+	shadow.style.animation = "";	
 }
 
 function start_minigame(intentos) {
@@ -43,6 +45,7 @@ function start_minigame(intentos) {
 		window.setTimeout(() => { 
 			warning.style.marginLeft = "0vw";
 			boton_cerrar.style.display = "block";
+			warning.style.animation = "";
 		})
 	}
 }
@@ -50,16 +53,19 @@ function start_minigame(intentos) {
 function show_tries(intentos) {
 	warning.innerHTML = "Intentos restantes: " + intentos;
 	warning.style.animation = "appear_aviso 0.35s 1";
-	window.setTimeout(() => {warning.style.marginLeft = "0vw"}, 350);
+	window.setTimeout(() => {
+		warning.style.marginLeft = "0vw";
+		warning.style.animation = "";
+	}, 350);
 	window.setTimeout(hide_tries, 1000);
 }
 
 function hide_tries() {
-	console.log(1);
 	warning.style.animation = "disappear_aviso 0.35s 1";
 	window.setTimeout(() => {
 		warning.style.marginLeft = "100vw";
 		warning.innerHTML = "!!!";
+		warning.style.animation = "";
 	}, 350);
 }
 
@@ -69,7 +75,10 @@ function trigger_fishing_event() {
 
 function trigger_animations() {	
 	warning.style.animation = "appear_aviso 0.35s 1";
-	window.setTimeout(() => {warning.style.marginLeft = "0";}, 350);
+	window.setTimeout(() => {
+		warning.style.marginLeft = "0";
+		warning.style.animation = "";	
+	}, 350);
 	wave.style.animation = "ripple 3.6s 1";
 	styleSheet.insertRule("#wave::after { animation: ripple-2 3.6s 1 }");
 	shadow.style.animation = "appear_shadow 1.8s 1";
@@ -77,13 +86,29 @@ function trigger_animations() {
 	window.setTimeout(() => {
 		shadow.style.animation = "disappear_shadow 1.8s 1";
 		warning.style.animation = "disappear_aviso 0.35s 1";
-		window.setTimeout(()=> {warning.style.marginLeft = "100vw"}, 350);
+		window.setTimeout(()=> {
+			warning.style.marginLeft = "100vw";
+			warning.style.animation = "";
+			}, 350);
 	}, 1800);
 	
 	window.setTimeout(() => {
-		wave.style.animation = "none";
-		styleSheet.insertRule("#wave::after { animation: none}");
-		shadow.style.animation = "none";		
+		wave.style.animation = "";
+		console.log(styleSheet);
+		styleSheet.deleteRule(0);
+		shadow.style.animation = "";		
 	}, 3600)
 }
 
+// Añade el listener al botón de reglas	
+boton_reglas.addEventListener("click", () => {
+	reglas.style.display = "none"
+	start_minigame(3);		
+});
+
+// Añade el listener al botón de reglas
+boton_cerrar.addEventListener("click", () => {
+	inventario.style.display = "block";
+	minijuego.style.display = "none";
+});
+	
