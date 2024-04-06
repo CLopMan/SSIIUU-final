@@ -3,25 +3,57 @@ const minijuego = document.getElementById("minijuego");
 const wave = document.getElementById("wave");
 const shadow = document.getElementById("shadow");
 const styleSheet = document.styleSheets[0];
-const aviso = document.getElementById("aviso");
+const warning = document.getElementById("aviso");
 const reglas = document.getElementById("reglas_pesca");
-
 const boton_reglas = document.getElementById("boton_reglas");
-
+const boton_cerrar = document.getElementById("cerrar_minijuego");
 
 export function init_minigame() {
 	inventario.style.display = "none";
 	minijuego.style.display = "block";	
 	reglas.style.display = "block";
+	boton_cerrar.style.display = "none";
 	boton_reglas.addEventListener("click", () => {
 		reglas.style.display = "none"
-		start_minigame();		
+		start_minigame(3);		
 	});
 	
 }
 
-function start_minigame() {
-	window.setTimeout(trigger_fishing_event, Math.random()*5000+3000);
+function start_minigame(intentos) {
+	if (intentos > 0) {
+		let contador = Math.random()*5000+3000;
+		let aviso = contador + 4500;
+		let siguiente_intento = aviso + 2000;
+		window.setTimeout(trigger_fishing_event, contador);
+		intentos -= 1;
+		window.setTimeout(show_tries, aviso, intentos);	
+		window.setTimeout(start_minigame, siguiente_intento, intentos);
+	}
+	else {
+		warning.innerHTML = "Intentos acabados";
+		warning.style.animation = "appear_aviso 0.35s 1";
+		window.setTimeout(() => { 
+			warning.style.marginLeft = "0vw";
+			boton_cerrar.style.display = "block";
+		})
+	}
+}
+
+function show_tries(intentos) {
+	warning.innerHTML = "Intentos restantes: " + intentos;
+	warning.style.animation = "appear_aviso 0.35s 1";
+	window.setTimeout(() => {warning.style.marginLeft = "0vw"}, 350);
+	window.setTimeout(hide_tries, 1000);
+}
+
+function hide_tries() {
+	console.log(1);
+	warning.style.animation = "disappear_aviso 0.35s 1";
+	window.setTimeout(() => {
+		warning.style.marginLeft = "100vw";
+		warning.innerHTML = "!!!";
+	}, 350);
 }
 
 function trigger_fishing_event() {
@@ -29,16 +61,16 @@ function trigger_fishing_event() {
 }
 
 function trigger_animations() {	
-	aviso.style.animation = "appear_aviso 0.35s 1";
-	window.setTimeout(() => {aviso.style.marginLeft = "0";}, 350);
+	warning.style.animation = "appear_aviso 0.35s 1";
+	window.setTimeout(() => {warning.style.marginLeft = "0";}, 350);
 	wave.style.animation = "ripple 3.6s 1";
 	styleSheet.insertRule("#wave::after { animation: ripple-2 3.6s 1 }");
 	shadow.style.animation = "appear_shadow 1.8s 1";
 	
 	window.setTimeout(() => {
 		shadow.style.animation = "disappear_shadow 1.8s 1";
-		aviso.style.animation = "disappear_aviso 0.35s 1";
-		window.setTimeout(()=> {aviso.style.marginLeft = "100vw"}, 350);
+		warning.style.animation = "disappear_aviso 0.35s 1";
+		window.setTimeout(()=> {warning.style.marginLeft = "100vw"}, 350);
 	}, 1800);
 	
 	window.setTimeout(() => {
