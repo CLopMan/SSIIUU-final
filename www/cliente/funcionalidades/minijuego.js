@@ -203,6 +203,7 @@ function trigger_animations() {
 function trigger_win() {
 	/*Función que llama a las animaciones cuando el usuario gana*/
 	capturado = true;
+	capturable = false;
 	
 	// Aparece el pez por encima del agua
 	fish.style.animation = "appear_pez 0.1s 1";

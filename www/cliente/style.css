@@ -9,4 +9,18 @@ header {
 	text-align: center;
 }
 
+.star {
+	width: 10vw;
+	height: 10vw;
+	background-color: yellow;
+	opacity: 0;
+}
 
+@keyframes appear_star{
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

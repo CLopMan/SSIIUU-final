@@ -1,5 +1,6 @@
 import {init_minigame} from './funcionalidades/minijuego.js';
- 
+import {change_fav} from './funcionalidades/favorito.js';
+
 function add() {
 	console.log("add");
 }
@@ -9,7 +10,8 @@ function del() {
 }
 
 function fav() {
-	console.log("fav");
+	console.log("Doing client fav");
+	change_fav();
 }
 
 function inventory() {
@@ -55,4 +57,5 @@ socket.on("connect", () => {
 });
 
 document.getElementById("add_button").addEventListener("touch", () => (socket.emit("TRIGGER_ADD")));
+document.getElementById("favorito").addEventListener("click", () => (socket.emit("TRIGGER_FAVOURITE")));
 document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME")));

@@ -25,6 +25,10 @@ io.on('connection', (socket) => {
   socket.on("TRIGGER_MINIGAME", () => {
   	clientSocket.emit("TRIGGER_MINIGAME");
   })
+  
+  socket.on("TRIGGER_FAVOURITE", ()=> {
+  	clientSocket.emit("TRIGGER_FAVOURITE");
+  })
 
 });
 
