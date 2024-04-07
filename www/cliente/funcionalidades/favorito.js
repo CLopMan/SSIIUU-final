@@ -28,7 +28,7 @@ function handle_pos(ev){
 }
 
 function change_obj_fav() {
-	if (!obj_false) {
+	if (!obj_fav) {
 		trigger_star_appearing();
 	}
 	else {
@@ -38,9 +38,15 @@ function change_obj_fav() {
 }
 
 function trigger_star_appearing() {
-	
+	star.style.animation = "appear_star 1s 1";
+	window.setTimeout(() =>{
+		star.style.backgroundColor = "yellow";
+	}, 990);
 }
 
 function trigger_star_disappearing() {
-
+	star.style.animation = "disappear_star 1s 1";
+	window.setTimeout(() => {
+		star.style.backgroundColor = "transparent";
+	}, 990);
 }
