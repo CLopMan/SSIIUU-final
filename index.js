@@ -35,13 +35,14 @@ function write_keys() {
 }
 
 function find_in_keys(data) {
-	let check_pwd = keys[data["user"]];
-	if (check_pwd == null) {
+	let user_data = keys[data["user"]];
+	if (user_data == null) {
 		clientSocket.emit("LOG_IN_RESPONSE", -1);
 		return ;
 	};
 	
-	if (check_pwd != data["pwd"]) {
+	let user_pwd = user_data["pwd"];
+	if (user_pwd != data["pwd"]) {
 		clientSocket.emit("LOG_IN_RESPONSE", -2);
 		return ;
 	};
@@ -54,8 +55,8 @@ function add_user(data) {
 		clientSocket.emit("SIGN_UP_RESPONSE", -1);
 		return ;
 	}
-	
-	keys[data["user"]] = data["pwd"];
+	// Cambiar esta línea para cambiar el JSON
+	keys[data["user"]] = {"pwd": data["pwd"]};
 	write_keys();
 	clientSocket.emit("SIGN_UP_RESPONSE", 0);
 }
