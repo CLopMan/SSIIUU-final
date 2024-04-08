@@ -23,7 +23,7 @@ var tries_id;
 var next_try_id;
 var capturado = false;
 var capturable = false;
-var gamma;
+var beta;
 
 ////////CAMBIAR LOS CLICKS POR TOUCH CUANDO ACABE DE DEBUGGEAR
 
@@ -91,10 +91,9 @@ function start_minigame_round(intentos) {
 		// Se avisa de que no hay más intentos y se pone el botón de cerrar
 		warning.innerHTML = "Intentos acabados";
 		warning.style.animation = "appear_aviso 0.35s 1";
+		warning.style.marginLeft = "0vw";
 		window.setTimeout(() => {
-			warning.style.marginLeft = "0vw";
 			boton_cerrar.style.display = "block";
-			warning.style.animation = "";
 		}, 350);
 	}
 }
@@ -108,10 +107,7 @@ function show_tries(intentos) {
 	// Enseña los intentos
 	warning.innerHTML = "Intentos restantes: " + intentos;
 	warning.style.animation = "appear_aviso 0.35s 1";
-	window.setTimeout(() => {
-		warning.style.marginLeft = "0vw";
-		warning.style.animation = "";
-	}, 350);
+	warning.style.marginLeft = "0vw";
 	
 	// Se ocultan los avisos en 1.5 segundos
 	window.setTimeout(hide_tries, 1500);
@@ -120,11 +116,9 @@ function show_tries(intentos) {
 function hide_tries() {
 	/*Función que oculta los intentos */ 
 	warning.style.animation = "disappear_aviso 0.35s 1";
+	warning.style.marginLeft = "100vw";
 	window.setTimeout(() => {
-		warning.style.marginLeft = "100vw";
-		console.log("Hola");
 		warning.innerHTML = "!!!";
-		warning.style.animation = "";
 	}, 350);
 }
 
@@ -139,10 +133,10 @@ function handle_pos(ev) {
 	
 	// Si se puede capturar
 	if (capturable) {
-		
-		// Si el jugador ha hecho un moviemiento de 70 grados en el eje gamma 
-		if (Math.abs(ev.gamma - gamma) >= 70) {
-			
+		// Si el jugador ha hecho un movimiento de 70 grados en el eje beta 
+		if (Math.abs(ev.beta - beta) >= 70) {
+			console.log(ev.beta - beta);
+
 			// Se evita enseñar el número de intentos e iniciar la siguiente ronda
 			if (tries_id != null) {
 				window.clearTimeout(tries_id);
@@ -154,8 +148,8 @@ function handle_pos(ev) {
 		}
 	}
 	else {
-		// Actualiza la posición del dispositivo en el eje gamma
-		gamma = ev.gamma;
+		// Actualiza la posición del dispositivo en el eje beta
+		beta = ev.beta;
 	}
 }
 
@@ -164,10 +158,7 @@ function trigger_animations() {
 	
 	// Hace aparecer el aviso del pez
 	warning.style.animation = "appear_aviso 0.35s 1";
-	window.setTimeout(() => {
-		warning.style.marginLeft = "0";
-		warning.style.animation = "";	
-	}, 350);
+	warning.style.marginLeft = "0";
 	
 	// Se llama la animación de las ondas y de la aparición de la sombra
 	wave.style.animation = "ripple 3.6s 1";
@@ -186,17 +177,14 @@ function trigger_animations() {
 		}
 				
 		warning.style.animation = "disappear_aviso 0.35s 1";
-		window.setTimeout(()=> {
-			warning.style.marginLeft = "100vw";
-			warning.style.animation = "";
-			}, 350);
+		warning.style.marginLeft = "100vw";
+		
 	}, 1800);
 	
 	// Se reinician las animaciones de las ondas y la sombra
 	window.setTimeout(() => {
 		wave.style.animation = "";
 		styleSheet.deleteRule(0);
-		shadow.style.animation = "";
 	}, 3600);
 }
 
@@ -207,20 +195,17 @@ function trigger_win() {
 	
 	// Aparece el pez por encima del agua
 	fish.style.animation = "appear_pez 0.1s 1";
-	shadow.style.animation = "";
+	fish.style.opacity = "1"; 
+	
 	window.setTimeout(()=> {
 		
 		// En 0.5s se reinicia la animación y se llama a la de la pesca del pez
-		fish.style.opacity = "1"; 
-		fish.style.animation = "";
 		fish_oval.style.animation = "subir_pez_ovalo 1s 1";
 		fish_triangle.style.animation = "subir_pez_triangulo 1s 1";
 		
 		window.setTimeout(() => {
 			
 			// Se reinician las animaciones del pez para que no aparezca
-			fish_oval.style.animation = "";
-			fish_triangle.style.animation = "";
 			fish.style.opacity = "0";
 
 			window.setTimeout( () => {
@@ -228,15 +213,14 @@ function trigger_win() {
 				warning.innerHTML = "¡Enhorabuena! Has conseguido un [PLACHOLDER]";
 				warning.style.color = "green";
 				warning.style.animation = "appear_aviso 0.35s 1";
+				warning.style.marginLeft = "0";
 				
 				// Se deja el mensaje en pantalla			
-				window.setTimeout(() => {
-					warning.style.marginLeft = "0";
-					warning.style.animation = "";			
+				window.setTimeout(() => {			
 					boton_cerrar.style.display = "block";
 				}, 350);
-			}, 500);
-		}, 1000);
+			}, 700);
+		}, 900);
 	}, 150);
 }
 

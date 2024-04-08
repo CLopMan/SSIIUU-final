@@ -1,0 +1,79 @@
+#register {
+	width: 100vw;
+	height: 100vh;
+	display: none;
+}
+
+#log-in {
+	width: 100vw;
+	height: 100vh;
+	background-color: red;
+}
+
+#sign-up {
+	width: 100vw;
+	height: 100vh;
+	margin-top: -100vh;
+	margin-left: 100vw;
+	background-color: blue;
+}
+
+#log-in h1, #sign-up h1 {
+	text-align: center;
+}
+
+@keyframes move_left_log-in {
+	from {
+		margin-left: 0vw;
+	}
+	to {
+		margin-left: -100vw;
+	}
+}
+
+@keyframes move_left_sign-up {
+	from {
+		margin-left: 100vw;
+	}
+	to {
+		margin-left: 0vw;
+	}
+}
+
+@keyframes move_right_log-in {
+	from {
+		margin-left: -100vw;
+	}
+	
+	to {
+		margin-left: 0vw;
+	}
+}
+
+@keyframes move_right_sign-up {
+	from {
+		margin-left: 0vw;
+	}
+	
+	to {
+		margin-left: 100vw;
+	}
+}
+
+@keyframes registered {
+	from {
+		margin-top: 0vh;
+	}
+	to {
+		margin-top: -100vh;
+	}
+}
+
+@keyframes log_out {
+	from {
+		margin-top: -100vh;
+	}
+	to {
+		margin-top: 0vh;
+	}
+}

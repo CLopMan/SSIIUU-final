@@ -4,13 +4,30 @@
       <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	  <link rel="stylesheet" href="style.css">
 	  <link rel="stylesheet" href="funcionalidades/minijuego.css">
+	  <link rel="stylesheet" href="funcionalidades/registro.css">
 	  <title>Cliente</title>
     </head>
     
     <body>
+    	<!--LOGIN-->
+		<div id="register">
+			<div id="log-in">
+				<h1>LOG-IN</h1>
+				<button class="register_button">Register</button>
+				<button id="to_sign-up">SIGN-UP</button>
+			</div>
+			
+			<div id="sign-up">
+				<h1>SIGN-UP</h1>
+				<button class="register_button">Register</button>
+				<button id="to_log-in">LOG-IN</button>
+			</div>		
+		</div>    
+    	<!--INVENTARIO-->
         <div id="inventario">
         	<h2>Inventario</h2>
         	<div id="grid"></div>
+        	<button id="log-out">Log-out</button>
         	<button id="add_button">+</button>
         	<button id="minigame_button">Minijuego</button>
         	<button id="favorito">Favorito</button>
@@ -18,6 +35,7 @@
 		    	<p>No favorito</p>
 		    </div>
         </div>
+        <!---MINIJUEGO-->
         <div id="minijuego">
         	<div id="lilypad-1">
         		<div class="lilypad_circle"></div>
@@ -30,9 +48,10 @@
         		<div class="lilypad_flower" id="lilypad-2-flower"></div>
         	</div>
         	<div id="reglas_pesca">
-        		<p>1. Pon tu dispositivo en una posición horizontal, con la pantalla hacia arriba.<br><br>
-        		2. Aparecerá un pez entre 3 y 8 segundos, intenta pescarlo levantando el movil como si fuera una caña de pescar.<br><br>
-        		3. Tienes 3 intentos.
+        		<p> 
+        			1. Aparecerá un pez entre 3 y 8 segundos. <br><br>
+        			2. Cuando aparezca, levantan el móvil para capturarlo.<br><br>
+        			2. Tienes 3 intentos.
         		</p>
         		<button id="boton_reglas">START</button>
         	</div>
@@ -47,6 +66,7 @@
         	<div id="wave"></div>
         </div>
         <script type="module" src="funcionalidades/minijuego.js"></script>
+		<script type="module" src="funcionalidades/registro.js"></script>
         <script type="module" src="script.js"></script>
     </body>
 </html>
