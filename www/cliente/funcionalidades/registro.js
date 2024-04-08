@@ -1,46 +1,112 @@
+// Divs de registro
 const register = document.getElementById("register");
 const log_in = document.getElementById("log-in");
 const sign_up = document.getElementById("sign-up");
 
-const register_buttons = document.getElementsByClassName("register_button");
+// Botones de registro
 const log_out_button = document.getElementById("log-out");
 const to_sign_up_button = document.getElementById("to_sign-up"); 
 const to_log_in_button = document.getElementById("to_log-in");
 
+// Inputs de registro
+const login_user = document.getElementById("log-in_username");
+const login_pwd = document.getElementById("log-in_pwd");
+
+const signup_user = document.getElementById("sign-up_username");
+const signup_pwd = document.getElementById("sign-up_pwd");
+const signup_pwd_rep = document.getElementById("sign-up_pwd_rep");
+
+// Bools para el cambio de página
 var changeable = false;
 var page = 0; // 0 = log-in, 1 = sign-up
-var gamma;
 
+// Listeneres de los botones
+log_out_button.addEventListener("click", log_out);
 to_sign_up_button.addEventListener("click", log_in_to_sign_up);
 to_log_in_button.addEventListener("click", sign_up_to_log_in);
-log_out_button.addEventListener("click", log_out);
 
-for (let i = 0; i <= 1; i++) {
-	register_buttons[i].addEventListener("click", register_effective);
-}
-
+// Listener para control por movimientos
 window.addEventListener("deviceorientation", handle_pos);
 
-function log_in_to_sign_up() {
+export function check_log_in(ev) {
+	ev.preventDefault();
+	if (login_user.value.length == 0) {
+		register_error("Usuario necesario");
+		return null;
+	}
+	
+	if (login_pwd.value.length == 0) {
+		register_error("Contraseña necesaria");
+		return null;
+	}
+
+	return {"user": login_user.value, "pwd": login_pwd.value};	
+}
+
+export function check_sign_up(ev) {
+	ev.preventDefault();
+	
+	if (signup_user.value.length == 0) {
+		register_error("Usuario necesario");
+		return null;
+	}
+	
+	if (signup_pwd.value.length == 0) {
+		register_error("Contraseña necesaria");
+		return null;
+	}
+	
+	if (signup_pwd.value != signup_pwd_rep.value) {
+		register_error("Las contraseñas no coinciden");
+		return null;
+	}
+	
+	return {"user": signup_user.value, "pwd": signup_pwd.value};
+}
+
+function log_in_to_sign_up(ev) {
+	ev.preventDefault();
+
 	log_in.style.animation = "move_left_log-in 0.6s 1";
 	sign_up.style.animation = "move_left_sign-up 0.6s 1";
 	log_in.style.marginLeft = "-100vw";
 	sign_up.style.marginLeft = "0vw";	
 	page = 1;
+	
+	// Se borran inputs
+	login_user.value = "";
+	login_pwd.value = "";
 }
 
-function sign_up_to_log_in() {
+function sign_up_to_log_in(ev) {
+	ev.preventDefault();
+
 	log_in.style.animation = "move_right_log-in 0.6s 1";
 	sign_up.style.animation = "move_right_sign-up 0.6s 1";
 	log_in.style.marginLeft = "0vw";
 	sign_up.style.marginLeft = "100vw";
 	page = 0;
+
+	// Se borran inputs	
+	signup_user.value = "";
+	signup_pwd.value = "";
+	signup_pwd_rep.value = "";
 }
 
-function register_effective(ev) {
-	ev.preventDefault();
+export function register_effective() {
 	register.style.animation = "registered 0.6s 1";
 	register.style.marginTop = "-100vh";
+	
+	// Se borran inputs
+	login_user.value = "";
+	login_pwd.value = "";
+	signup_user.value = "";
+	signup_pwd.value = "";
+	signup_pwd_rep.value = "";
+}
+
+export function register_error(error) {
+	console.log(error);
 }
 
 function log_out() {
@@ -71,3 +137,4 @@ function handle_pos(ev) {
 		}, 1000);
 	}
 }
+
