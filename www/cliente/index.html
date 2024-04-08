@@ -13,14 +13,30 @@
 		<div id="register">
 			<div id="log-in">
 				<h1>LOG-IN</h1>
-				<button class="register_button">Register</button>
-				<button id="to_sign-up">SIGN-UP</button>
+				<form id="form_log-in">
+					<label for="log-in_username" class="log-in_label">Nombre de usuario</label>
+					<input type="text" id="log-in_username" class="log-in_input" placeholder="Nombre de usuario">
+					<label for="log-in_pwd" class="log-in_label">Contraseña</label>
+					<input type="password" id="log-in_pwd" class="log-in_input" placeholder="Contraseña">
+					<button class="register_button" id="log-in_register">Register</button>
+					<p id="error_log-in">Error: Usuario ya registrado</p>
+				</form>
+				<button id="to_sign-up">SIGN-UP -&gt;</button>
 			</div>
 			
 			<div id="sign-up">
 				<h1>SIGN-UP</h1>
-				<button class="register_button">Register</button>
-				<button id="to_log-in">LOG-IN</button>
+				<form id="form_sign-up">
+					<label for="sign-up_username" class="sign-up_label">Nombre de usuario</label>
+					<input type="text" id="sign-up_username" class="sign-up_input" placeholder="Nombre de usuario">
+					<label for="sign-up_pwd" class="sign-up_label">Contraseña</label>
+					<input type="password" id="sign-up_pwd" class="sign-up_input" placeholder="Contraseña">
+					<label for="sign-up_pwd repeat" class="sign-up_label">Repetir contraseña</label>
+					<input type="password" id="sign-up_pwd_rep"class="sign-up_input" placeholder="Repetir contraseña">
+					<button class="register_button" id="sign-up_register">Register</button>
+					<p id="error_sign-up">Error: Usuario ya registrado</p>
+				</form>
+				<button id="to_log-in">&lt;- LOG-IN</button>
 			</div>		
 		</div>    
     	<!--INVENTARIO-->
