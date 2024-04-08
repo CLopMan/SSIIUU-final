@@ -50,8 +50,14 @@ function find_in_keys(data) {
 }
 
 function add_user(data) {
+	if (keys[data["user"]] != null) {
+		clientSocket.emit("SIGN_UP_RESPONSE", -1);
+		return ;
+	}
+	
 	keys[data["user"]] = data["pwd"];
 	write_keys();
+	clientSocket.emit("SIGN_UP_RESPONSE", 0);
 }
 
 io.on('connection', (socket) => {

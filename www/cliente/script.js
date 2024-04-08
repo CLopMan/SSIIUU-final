@@ -53,6 +53,15 @@ socket.on("connect", () => {
   	}
   })
   
+  socket.on("SIGN_UP_RESPONSE", (res) => {
+  	if (res == -1) {
+  		register_error("EL usuario ya existe");
+  	}
+  	else if (res == 0) {
+  		register_effective();
+  	}
+  })
+  
   socket.on("TRIGGER_ADD", add)
   
   socket.on("TRIGGER_DELETE", del)
