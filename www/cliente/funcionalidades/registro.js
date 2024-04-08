@@ -21,6 +21,8 @@ const signup_pwd_rep = document.getElementById("sign-up_pwd_rep");
 var changeable = false;
 var page = 0; // 0 = log-in, 1 = sign-up
 
+var error_id;
+
 // Listeneres de los botones
 log_out_button.addEventListener("click", log_out);
 to_sign_up_button.addEventListener("click", log_in_to_sign_up);
@@ -107,10 +109,14 @@ export function register_effective() {
 }
 
 export function register_error(error, id) {
+	if (error_id != null) {
+		window.clearTimeout(error_id);
+	}
 	error_texts[id].innerHTML = error;
 	error_texts[id].style.display = "block";
-	window.setTimeout(() => {
+	error_id = window.setTimeout(() => {
 		error_texts[id].style.display = "none";
+		error_id = null;
 	}, 2000);
 }
 
