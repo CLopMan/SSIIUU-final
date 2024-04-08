@@ -2,6 +2,7 @@
 const register = document.getElementById("register");
 const log_in = document.getElementById("log-in");
 const sign_up = document.getElementById("sign-up");
+const error_texts = document.getElementsByClassName("register_error");
 
 // Botones de registro
 const log_out_button = document.getElementById("log-out");
@@ -31,12 +32,12 @@ window.addEventListener("deviceorientation", handle_pos);
 export function check_log_in(ev) {
 	ev.preventDefault();
 	if (login_user.value.length == 0) {
-		register_error("Usuario necesario");
+		register_error("Usuario necesario", page);
 		return null;
 	}
 	
 	if (login_pwd.value.length == 0) {
-		register_error("Contraseña necesaria");
+		register_error("Contraseña necesaria", page);
 		return null;
 	}
 
@@ -47,17 +48,17 @@ export function check_sign_up(ev) {
 	ev.preventDefault();
 	
 	if (signup_user.value.length == 0) {
-		register_error("Usuario necesario");
+		register_error("Usuario necesario", page);
 		return null;
 	}
 	
 	if (signup_pwd.value.length == 0) {
-		register_error("Contraseña necesaria");
+		register_error("Contraseña necesaria", page);
 		return null;
 	}
 	
 	if (signup_pwd.value != signup_pwd_rep.value) {
-		register_error("Las contraseñas no coinciden");
+		register_error("Las contraseñas no coinciden", page);
 		return null;
 	}
 	
@@ -105,8 +106,12 @@ export function register_effective() {
 	signup_pwd_rep.value = "";
 }
 
-export function register_error(error) {
-	console.log(error);
+export function register_error(error, id) {
+	error_texts[id].innerHTML = error;
+	error_texts[id].style.display = "block";
+	window.setTimeout(() => {
+		error_texts[id].style.display = "none";
+	}, 2000);
 }
 
 function log_out() {

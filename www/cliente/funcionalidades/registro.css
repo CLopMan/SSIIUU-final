@@ -156,11 +156,12 @@
 
 #error_log-in, #error_sign-up {
 	color: red;
+	font-weight: bold;
 	font-size: 3rem;
-	width: 75vw;
+	width: 70vw;
+	height: auto;
 	margin-left: auto;
 	margin-top: 5vh;
-	height: auto;
 	display: none;
 }
 

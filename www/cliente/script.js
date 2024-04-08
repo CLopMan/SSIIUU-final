@@ -43,10 +43,10 @@ socket.on("connect", () => {
   
   socket.on("LOG_IN_RESPONSE", (res) => {
   	if (res == -1) {
-  		register_error("El usuario no existe");
+  		register_error("El usuario no existe", 0);
   	}
   	else if (res == -2) {
-  		register_error("Contraseña incorrecta");
+  		register_error("Contraseña incorrecta", 0);
   	}
   	else if (res == 0) {
   		register_effective();
@@ -55,7 +55,7 @@ socket.on("connect", () => {
   
   socket.on("SIGN_UP_RESPONSE", (res) => {
   	if (res == -1) {
-  		register_error("EL usuario ya existe");
+  		register_error("EL usuario ya existe", 1);
   	}
   	else if (res == 0) {
   		register_effective();
