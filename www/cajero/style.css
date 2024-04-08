@@ -4,3 +4,7 @@ header {
 	text-align: center;
 	border-bottom: 4px solid black;
 }
+
+a {
+	border: chocolate;
+}

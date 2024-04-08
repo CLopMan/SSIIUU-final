@@ -56,6 +56,6 @@ socket.on("connect", () => {
 
 });
 
-document.getElementById("add_button").addEventListener("touch", () => (socket.emit("TRIGGER_ADD")));
+document.getElementById("add_button").addEventListener("touchend", () => {console.log("hola"); location.href='annadir.html'});
 document.getElementById("favorito").addEventListener("click", () => (socket.emit("TRIGGER_FAVOURITE")));
 document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME")));
