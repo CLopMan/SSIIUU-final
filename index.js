@@ -4,6 +4,7 @@ const path = require('path');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const fs = require('fs');	
+const crypto = require("crypto");
 
 app.use('/', express.static(path.join(__dirname, 'www')));
 
@@ -42,7 +43,9 @@ function find_in_keys(data) {
 	};
 	
 	let user_pwd = user_data["pwd"];
-	if (user_pwd != data["pwd"]) {
+	let b64_pwd = crypto.createHash("sha256").update(data["pwd"]).digest("base64");
+	
+	if (user_pwd != b64_pwd) {
 		clientSocket.emit("LOG_IN_RESPONSE", -2);
 		return ;
 	};
@@ -55,8 +58,9 @@ function add_user(data) {
 		clientSocket.emit("SIGN_UP_RESPONSE", -1);
 		return ;
 	}
+	
 	// Cambiar esta línea para cambiar el JSON
-	keys[data["user"]] = {"pwd": data["pwd"]};
+	keys[data["user"]] = {"pwd": crypto.createHash("sha256").update(data["pwd"]).digest("base64")};
 	write_keys();
 	clientSocket.emit("SIGN_UP_RESPONSE", 0);
 }
