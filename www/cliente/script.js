@@ -2,6 +2,8 @@ import {init_minigame} from './funcionalidades/minijuego.js';
 import {change_fav} from './funcionalidades/favorito.js';
 import {check_log_in, check_sign_up, register_effective, register_error} from './funcionalidades/registro.js';
 
+var client_id;
+
 function add() {
 	console.log("add");
 }
@@ -35,10 +37,11 @@ function duel() {
 const socket = io();
 
 socket.on("connect", () => {
-  socket.emit("CLIENT_CONNECTED", { id: 1 });
+  socket.emit("CLIENT_CONNECTED");
 
-  socket.on("ACK_CONNECTION", () => {
-    console.log("ACK");
+  socket.on("ACK_CONNECTION", (id) => {
+    client_id = id; 
+    console.log("Client id: " + client_id);
   });
   
   socket.on("LOG_IN_RESPONSE", (res) => {
@@ -67,6 +70,7 @@ socket.on("connect", () => {
   socket.on("TRIGGER_DELETE", del)
   
   socket.on("TRIGGER_FAVOURITE", fav)
+  
   socket.on("TRIGGER_INVENTORY", inventory)
   
   socket.on("TRIGGER_PAYMENT", pay)
@@ -78,18 +82,18 @@ socket.on("connect", () => {
 });
 
 document.getElementById("add_button").addEventListener("touch", () => (socket.emit("TRIGGER_ADD")));
-document.getElementById("favorito").addEventListener("click", () => (socket.emit("TRIGGER_FAVOURITE")));
-document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME")));
+document.getElementById("favorito").addEventListener("click", () => (socket.emit("TRIGGER_FAVOURITE", client_id)));
+document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME", client_id)));
 document.getElementById("log-in_register").addEventListener("click", (ev) => {
 	let data = check_log_in(ev);
 	if (data != null) {
-		socket.emit("LOG_IN", data);
+		socket.emit("LOG_IN", client_id, data);
 	}
 });
 
 document.getElementById("sign-up_register").addEventListener("click", (ev) => {
 	let data = check_sign_up(ev);
 	if (data != null) {
-		socket.emit("SIGN_UP", data);
+		socket.emit("SIGN_UP", client_id, data);
 	}
 });
