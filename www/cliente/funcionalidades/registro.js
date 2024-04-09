@@ -100,6 +100,14 @@ export function register_effective() {
 	register.style.animation = "registered 0.6s 1";
 	register.style.marginTop = "-100vh";
 	
+	window.setTimeout(() => {
+		page = 0;
+		log_in.style.animation = "";
+		sign_up.style.animation = "";
+		log_in.style.marginLeft = "0vw";
+		sign_up.style.marginLeft = "100vw";
+	}, 600);
+	
 	// Se borran inputs
 	login_user.value = "";
 	login_pwd.value = "";
@@ -128,14 +136,12 @@ function log_out() {
 function handle_pos(ev) {
 	if (changeable) {
 		if (ev.gamma > 40) {
-			console.log(ev.gamma);
 			if (page == 0) {
 				log_in_to_sign_up();
 				changeable = false;
 			};
 		}
 		else if (ev.gamma < -40) {
-			console.log(ev.gamma);
 			if (page == 1) {
 				sign_up_to_log_in();
 				changeable = false;
@@ -143,9 +149,9 @@ function handle_pos(ev) {
 		}
 	}
 	else {		
-		window.setTimeout(() => {
+		if (ev.gamma < 10 || ev.gamma > 10) {
 			changeable = true;
-		}, 1000);
+		} 
 	}
 }
 
