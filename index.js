@@ -36,13 +36,12 @@ function write_keys() {
 }
 
 function find_in_keys(data) {
-	let user_data = keys[data["user"]];
-	if (user_data == null) {
+	let user_pwd = keys[data["user"]];
+	if (user_pwd == null) {
 		clientSocket.emit("LOG_IN_RESPONSE", -1);
 		return ;
 	};
 	
-	let user_pwd = user_data["pwd"];
 	let b64_pwd = crypto.createHash("sha256").update(data["pwd"]).digest("base64");
 	
 	if (user_pwd != b64_pwd) {
@@ -60,7 +59,7 @@ function add_user(data) {
 	}
 	
 	// Cambiar esta línea para cambiar el JSON
-	keys[data["user"]] = {"pwd": crypto.createHash("sha256").update(data["pwd"]).digest("base64")};
+	keys[data["user"]] = crypto.createHash("sha256").update(data["pwd"]).digest("base64");
 	write_keys();
 	clientSocket.emit("SIGN_UP_RESPONSE", 0);
 }
