@@ -67,7 +67,6 @@ socket.on("connect", () => {
   socket.on("TRIGGER_DELETE", del)
   
   socket.on("TRIGGER_FAVOURITE", fav)
-  
   socket.on("TRIGGER_INVENTORY", inventory)
   
   socket.on("TRIGGER_PAYMENT", pay)
