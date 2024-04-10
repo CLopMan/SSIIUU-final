@@ -104,6 +104,22 @@ header {
 	margin-left: 100vw;
 }
 
+#duel_warning {
+	display: none;
+	border-radius: 25px;
+	width: 40vw;
+	height: 10vh;
+	position: absolute;
+	border: none;
+	background-color: white;
+	color: red;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 4rem;
+	z-index: 500;
+}
+
 @keyframes appear_banner_left {
 	from {
 		margin-left: -80vw;

@@ -1,10 +1,11 @@
 import {init_minigame} from './funcionalidades/minijuego.js';
 import {change_fav} from './funcionalidades/favorito.js';
 import {check_log_in, check_sign_up, register_effective, register_error} from './funcionalidades/registro.js';
-import {appear_duel_symbol, init_duel, get_duel_time, display_duel_outcome, display_object_lost} from './funcionalidades/duelo.js'; 
+import {appear_duel_symbol, init_duel, get_duel_done, display_duel_outcome, display_object_lost} from './funcionalidades/duelo.js'; 
 
 var opponent_id;
 var opponent_name;
+var id;
 var name;
 
 if ('NDEFReader' in window) {
@@ -70,8 +71,8 @@ function minigame() {
 
 async function duel(timer) {
 	init_duel(timer, name, opponent_name);
-	let time = await get_duel_time();
-	socket.emit("DUEL_FINISHED", opponent_id, opponent_name, time);
+	let done = await get_duel_done();
+	socket.emit("DUEL_FINISHED_2", id, opponent_id);
 }
 
 const socket = io();
@@ -123,6 +124,10 @@ socket.on("connect", () => {
   	duel(timer);
   })
   
+  socket.on("TIME_NOT_NULL", () => {
+  	socket.emit("CHECK_TIME", id, opponent_id);
+  })
+  
   socket.on("DUEL_WON", (objects) => {
   	display_duel_outcome(0, objects);
   	let object = get_stolen_object();
@@ -136,10 +141,6 @@ socket.on("connect", () => {
   
   socket.on("OBJECT_LOST", (object) => {
   	display_object_lost(object);
-  })
-  
-  socket.on("DUEL_TIED", () => {
-  	display_duel_outcome(2, null);
   })
 
 });
@@ -163,11 +164,13 @@ document.getElementById("sign-up_register").addEventListener("click", (ev) => {
 });
 
 document.getElementById("duel_1").addEventListener("click", (ev) => {
-	console.log("duel_1");
+	id = 1;
+	opponent_id = 2;
 	socket.emit("TRIGGER_DUEL_2", 1, 2);
 })
 
 document.getElementById("duel_2").addEventListener("click", (ev) => {
-	console.log("duel_2");
+	id = 2;
+	opponent_id = 1;
 	socket.emit("TRIGGER_DUEL_2", 2, 1);
 })

@@ -83,14 +83,16 @@ function add_user(socket, data) {
 	socket.emit("SIGN_UP_RESPONSE", 0, data["user"]);
 }
 
-async function wait_duel(opponent_id, timer){
+async function wait_duel(opponent_id){
 	while (duelos[opponent_id] == null) { 
   		await new Promise(resolve => setTimeout(resolve, 70)); 
   	}
+
+	return ;
 }
 
 io.on('connection', (socket) => {
-	console.log("socket connected, id: " + socket.id);
+  console.log("socket connected, id: " + socket.id);
 
   socket.on("CLIENT_CONNECTED", () => {
     socket.emit("ACK_CONNECTION");
@@ -105,7 +107,8 @@ io.on('connection', (socket) => {
   	socket.emit("TRIGGER_MINIGAME");
   })
   
-  socket.on("TRIGGER_DUEL", (opponent_id) => {
+  socket.on("TRIGGER_DUEL", async (opponent_id) => {
+  	// Función con NFC
   	let timer;
   	
   	if (duelos[opponent_id] != null) {
@@ -115,14 +118,14 @@ io.on('connection', (socket) => {
   		timer = Math.random*1000 + 5000;
   	}
   	
-  	duelos[socket.id] = {"opponent": opponent_id, "timer": timer, "time": null};
+  	duelos[socket.id] = {"opponent": opponent_id, "timer": timer, "done": null};
   	
-  	while (duelos[opponent_id] == null) { ; }
-  	
+  	await wait_duel(opponent_id);
   	socket.on("TRIGGER_DUEL", timer);
   })
   
   socket.on("TRIGGER_DUEL_2", async (id, opponent_id) => {
+  	// Función sin NFC
   	let timer;
   	
   	if (duelos[opponent_id] != null) {
@@ -132,24 +135,40 @@ io.on('connection', (socket) => {
   		timer = Math.random() * 1000 + 5000;
   	}
   	
-  	duelos[id] = {"opponent": opponent_id, "timer": timer, "time": null};
+  	duelos[id] = {"opponent": opponent_id, "timer": timer};
 
-  	await wait_duel(opponent_id, timer);
-	socket.emit("TRIGGER_DUEL", timer, socket_name[opponent_id]); 
+  	await wait_duel(opponent_id);
+	socket.emit("TRIGGER_DUEL", timer, socket_name[opponent_id]);	
   })
   
-  socket.on("DUEL_FINISHED", (op_id, op_name, time) => {
-  	duelos[socket.id]["time"] = time;
-  	while (duelos[op_id]["time"] == null) { ; }
-  	if (time < duelos[op_id]["time"]) {
-  		let objects = read_objects(op_name);
+  socket.on("DUEL_FINISHED", async (op_id) => {
+  	// Función con NFC
+  	
+  	duelos[socket.id]["done"] = true;
+  	
+  	if (duelos[op_id] == null) {
+  		let objects = {"pipas": 5};
   		socket.emit("DUEL_WON", objects);
   	}
-  	else if (time > duelos[op_id]["time"]) {
+  	else {
+  		duelos[socket.id] = null;
+  		duelos[op_id] = null;
   		socket.emit("DUEL_LOST");
   	}
+  });
+  
+  socket.on("DUEL_FINISHED_2", async (id, op_id) => {
+  	// Función sin NFC
+  	duelos[id]["done"] = true;
+  	
+  	if (duelos[op_id]["done"] == null) {
+  		let objects = {"pipas": "5€"}
+  		socket.emit("DUEL_WON", objects);
+  	}
   	else {
-  		socket.emit("DUEL_TIED")
+  		duelos[id] = null;
+  		duelos[op_id] = null;
+  		socket.emit("DUEL_LOST");
   	}
   });
   
@@ -169,6 +188,7 @@ io.on('connection', (socket) => {
   
   socket.on("LOG_IN", (data) => {
   	find_in_keys(socket, data);
+  	
   });
   
   socket.on("SIGN_UP", (data) => {
