@@ -10,6 +10,7 @@
 	height: 100vh;
 	background-color: #F6EDE6;
 	border-right: 1vw solid black;
+	display: none;
 }
 
 #sign-up {
@@ -19,6 +20,7 @@
 	margin-left: 100vw;
 	background-color: #7E4D29;
 	border-left: 5px solid black;
+	display: none;
 }
 
 #log-in h1, #sign-up h1 {

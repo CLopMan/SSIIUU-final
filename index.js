@@ -132,7 +132,7 @@ io.on('connection', (socket) => {
   		timer = duelos[opponent_id]["timer"];
   	}
   	else {
-  		timer = Math.random() * 1000 + 5000;
+  		timer = Math.random() * 5000 + 50000000;
   	}
   	
   	duelos[id] = {"opponent": opponent_id, "timer": timer};
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
   	else {
   		duelos[socket.id] = null;
   		duelos[op_id] = null;
-  		socket.emit("DUEL_LOST");
+  		socket.emit("DUEL_LOST", objects);
   	}
   });
   

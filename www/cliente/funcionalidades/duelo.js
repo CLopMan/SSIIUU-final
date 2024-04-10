@@ -1,6 +1,9 @@
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
 
+const op_inventario = document.getElementById("inventario_oponente");
+const h1_op_inv = document.getElementById("h1_op_inv");
+
 const user_banner = document.getElementById("banner_user");
 const op_banner = document.getElementById("banner_opponent");
 
@@ -126,12 +129,12 @@ function display_win(objects) {
 		user_banner.style.marginLeft = "-80vw";
 		op_banner.style.marginLeft = "100vw";
 		window.setTimeout(() => {
-			show_inventory(objects);
+			show_inventory(objects, 1);
 		})
 	}, 2000);
 }
 
-function display_loss() {
+function display_loss(objects) {
 	// Esconde el warning de duelo
 	duel_warning.style.display = "none";
 	window.clearTimeout(loss_id);
@@ -161,17 +164,21 @@ function display_loss() {
 		user_banner.style.marginLeft = "-80vw";
 		op_banner.style.marginLeft = "100vw";
 		window.setTimeout(() => {
-			show_inventory(null);
+			show_inventory(objects, 0);
 		})
 	}, 2000);
 }
 
-function show_inventory(objects) {
+function show_inventory(objects, won) {
 	inventario.style.display = "block";
 	duel_page.style.display = "none";
 	
-	if (objects != null) {
-		console.log("APARECE INVENTARIO JUGADOR");
+	op_inventario.style.display = "block";
+	if (won == 1) {
+		h1_op_inv.inerHTML = "ROBA UN OBJETO";	
+	}
+	else {
+		h1_op_inv.innerHTML = "TUS OBJETOS";
 	}
 }
 

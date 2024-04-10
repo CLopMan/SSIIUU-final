@@ -130,7 +130,7 @@ socket.on("connect", () => {
   
   socket.on("DUEL_WON", (objects) => {
   	display_duel_outcome(0, objects);
-  	let object = get_stolen_object();
+  	//let object = get_stolen_object();
   	socket.emit("DUEL_OBJECT", object, opponent_id);
   })
   
