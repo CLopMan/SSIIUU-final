@@ -48,9 +48,6 @@ function printMatrix(matrix) {
 }
 
 function dibujarFiguraEnMatriz() {
-    console.log("Voy a rellenar al matriz con esta figura");
-    console.log("Figura", figura_actual);
-
     console.log(figura_actual.x, figura_actual.y);
     console.log(figura_actual.height, figura_actual.width);
     for (let i = 0; i < figura_actual.height; i++) {
@@ -61,7 +58,7 @@ function dibujarFiguraEnMatriz() {
     console.log(matriz_figuras);
 }
 
-function moverFiguraDerecha() {
+function moverFiguraIzquierda() {
     if (figura_actual.x + figura_actual.width < COLUMNAS_MATRIZ) {
         let colision = false;
         for (let i = 0; i < figura_actual.height && !colision; i++) {
@@ -75,11 +72,12 @@ function moverFiguraDerecha() {
         }
         if (!colision) {
             figura_actual.x++;
+            window.navigator.vibrate(200);
         }
     }
 }
 
-function moverFiguraIzquierda() {
+function moverFiguraDerecha() {
     if (figura_actual.x > 0) {
         let colision = false;
         for (let i = 0; i < figura_actual.height && !colision; i++) {
@@ -91,6 +89,7 @@ function moverFiguraIzquierda() {
         }
         if (!colision) {
             figura_actual.x--;
+            window.navigator.vibrate(200);
         }
     }
 }
@@ -98,6 +97,7 @@ function moverFiguraIzquierda() {
 function moverFiguraAbajo() {
     if (!colisionAbajo()) {
         figura_actual.y++;
+        window.navigator.vibrate(200);
         // Actualizar visualización o lógica relacionada con el movimiento
     } else {
         // La figura ha llegado al final, puedes hacer algo aquí como colocarla o generar una nueva figura.
@@ -124,10 +124,8 @@ function colisionAbajo() {
 }
 
 function rotarFiguraDerecha() {
-    console.log("Figura", figura_actual);
-    console.log("Antes de rotar", figura_actual.height, figura_actual.width);
-    const nuevaAltura = ANCHO_FIGURA;
-    const nuevaAnchura = ALTURA_FIGURA;
+    const nuevaAltura = figura_actual.width;
+    const nuevaAnchura = figura_actual.height;
     const nuevaMatriz = [];
     for (let i = 0; i < nuevaAltura; i++) {
         nuevaMatriz[i] = [];
@@ -148,15 +146,13 @@ function rotarFiguraDerecha() {
                     nuevaMatriz[i][j];
             }
         }
+        window.navigator.vibrate(200);
     }
-    console.log("Despues de rotar", figura_actual.height, figura_actual.width);
 }
 
 function rotarFiguraIzquierda() {
-    console.log("Figura", figura_actual);
-    console.log("Antes de rotar", figura_actual.height, figura_actual.width);
-    const nuevaAltura = ANCHO_FIGURA;
-    const nuevaAnchura = ALTURA_FIGURA;
+    const nuevaAltura = figura_actual.width;
+    const nuevaAnchura = figura_actual.height;
     const nuevaMatriz = [];
     for (let i = 0; i < nuevaAltura; i++) {
         nuevaMatriz[i] = [];
@@ -177,8 +173,8 @@ function rotarFiguraIzquierda() {
                     nuevaMatriz[i][j];
             }
         }
+        window.navigator.vibrate(200);
     }
-    console.log("Despues de rotar", figura_actual.height, figura_actual.width);
 }
 
 function hayColision(nuevaMatriz) {
@@ -201,13 +197,13 @@ function hayColision(nuevaMatriz) {
 }
 
 function generar_bloque() {
-    figura_actual = new Figura(0, 0, "green");
+    figura_actual = new Figura(0, 0, "#8f90b5");
     lista_figuras.push(figura_actual);
 }
 
 function dibujar_figuras() {
     for (let cell of cells) {
-        cell.style.backgroundColor = "white";
+        cell.style.backgroundColor = "#3c2012";
     }
     for (let figura of lista_figuras) {
         for (let i = 0; i < figura.height; i++) {
@@ -263,9 +259,9 @@ function handleOrientation(event) {
 
         if (AngleDiff.alpha >= minRotacionAlpha && timeDiff <= movementTimeMS) {
             // derecha
-            console.log("Me muevo a la derecha");
             moverFiguraDerecha();
             dibujar_figuras();
+
             isLocked = true; // bloquear la detección de giros
             setTimeout(() => {
                 isLocked = false; // desbloquear después de lockTimeMS
@@ -277,9 +273,9 @@ function handleOrientation(event) {
             timeDiff <= movementTimeMS
         ) {
             // izquierda
-            console.log("Me muevo a la izquierda");
             moverFiguraIzquierda();
             dibujar_figuras();
+
             isLocked = true; // bloquear la detección de giros
             setTimeout(() => {
                 isLocked = false; // desbloquear después de lockTimeMS
@@ -293,6 +289,7 @@ function handleOrientation(event) {
             // rotar derecha
             rotarFiguraDerecha();
             dibujar_figuras();
+
             isLocked = true; // bloquear la detección de giros
             setTimeout(() => {
                 isLocked = false; // desbloquear después de lockTimeMS
