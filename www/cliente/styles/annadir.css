@@ -53,4 +53,18 @@ canvas {
     z-index: 1000000000000;
 }
 
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100vw); /* Mueve el div completamente fuera de la pantalla hacia la izquierda */
+    }
+}
+
+.animate-left {
+    animation: slideOutToLeft 0.5s forwards; /* Ajusta la duración según necesites */
+}
+
+
 

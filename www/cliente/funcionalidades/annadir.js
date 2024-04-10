@@ -34,6 +34,8 @@ const movementTimeMS = 500;
 function handleOrientation(event) {
     const currentGamma = event.gamma; 
     const currentTime = new Date().getTime(); 
+
+    
     if (startGamma === null || startTime === null) { // inicializar 
         startGamma = currentGamma;
         startTime = currentTime;
@@ -47,7 +49,13 @@ function handleOrientation(event) {
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
                 console.log("eliminar foto");
-                canvas_cont.style.display = "none";
+                canvas_cont.classList.add("animate-left")
+                window.setTimeout(() => {
+                    canvas_cont.style.display = "none";
+                    canvas_cont.classList.remove("animate-left");
+                }, 500);
+                
+        
                 startGamma = null;
                 startTime = null;
                 fotico = false;
