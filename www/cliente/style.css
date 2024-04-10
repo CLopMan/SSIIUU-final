@@ -69,3 +69,75 @@ header {
 		transform: rotate(720deg);
 	}
 }
+
+/* DUELO  ---- MOVER A CSS PROPIO*/
+
+#duelo {
+	background-color: black;
+	width: 100vw;
+	height: 100vh;
+	display: none;
+}
+
+#duel_1, #duel_2 {
+	width: 40vw;
+	height: 10vh;
+}
+
+#banner_user, #banner_opponent {
+	width: 80vw;
+	height: 10vh;
+	font-size: 4rem;
+	text-align: center;
+	position: relative;
+	z-index: 999;
+	color: white;
+}
+
+#banner_user {
+	top: 15%;
+	margin-left: -80vw;
+}
+
+#banner_opponent {
+	top: 75%;
+	margin-left: 100vw;
+}
+
+@keyframes appear_banner_left {
+	from {
+		margin-left: -80vw;
+	}
+	to {
+		margin-left: 0vw;
+	}
+}
+
+@keyframes disappear_banner_left {
+	from {
+		margin-left: 0vw;
+	}
+	to {
+		margin-left: -80vw;
+	}
+}
+
+@keyframes appear_banner_right {
+	from {
+		margin-left: 100vw;
+	}
+	
+	to {
+		margin-left: 20vw;
+	}
+}
+
+@keyframes disappear_banner_right {
+	from {
+		margin-left: 20vw;
+	}
+	
+	to {
+		margin-left: 100vw;
+	}
+}

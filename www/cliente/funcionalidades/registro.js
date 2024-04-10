@@ -108,12 +108,22 @@ export function register_effective() {
 		sign_up.style.marginLeft = "100vw";
 	}, 600);
 	
+	let name;
+	if (page == 0) {
+		name = login_user.value;
+	}
+	else {
+		name = signup_user.value;
+	}
+	
 	// Se borran inputs
 	login_user.value = "";
 	login_pwd.value = "";
 	signup_user.value = "";
 	signup_pwd.value = "";
 	signup_pwd_rep.value = "";
+	
+	return name;
 }
 
 export function register_error(error, id) {
