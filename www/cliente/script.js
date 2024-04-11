@@ -1,7 +1,7 @@
 import {init_minigame} from './funcionalidades/minijuego.js';
 import {change_fav} from './funcionalidades/favorito.js';
 import {check_log_in, check_sign_up, register_effective, register_error} from './funcionalidades/registro.js';
-import {appear_duel_symbol, init_duel, get_duel_done, display_duel_outcome, display_object_lost} from './funcionalidades/duelo.js'; 
+import {appear_duel_symbol, init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost} from './funcionalidades/duelo.js'; 
 
 var opponent_id;
 var opponent_name;
@@ -72,7 +72,7 @@ function minigame() {
 async function duel(timer) {
 	init_duel(timer, name, opponent_name);
 	let done = await get_duel_done();
-	socket.emit("DUEL_FINISHED_2", id, opponent_id);
+	socket.emit("DUEL_FINISHED", opponent_id, id);
 }
 
 const socket = io();
@@ -128,16 +128,15 @@ socket.on("connect", () => {
   	socket.emit("CHECK_TIME", id, opponent_id);
   })
   
-  socket.on("DUEL_WON", (objects) => {
-  	display_duel_outcome(0, objects);
-  	//let object = get_stolen_object();
-  	socket.emit("DUEL_OBJECT", object, opponent_id);
+  socket.on("DUEL_WON", async(objects) => {
+  	display_duel_outcome(objects);
+  	let object = await get_stolen_object();
+  	socket.emit("DUEL_OBJECT", object, opponent_id, id);
   })
   
   socket.on("DUEL_LOST", (objects) => {
-  	console.log(objects);
-  	display_duel_outcome(1, objects);
-  	socket.emit("DUEL_OBJECT", null, null);
+  	display_duel_outcome(objects);
+  	socket.emit("DUEL_OBJECT", null, opponent_id, id);
   })
   
   socket.on("OBJECT_LOST", (object) => {
@@ -167,11 +166,11 @@ document.getElementById("sign-up_register").addEventListener("click", (ev) => {
 document.getElementById("duel_1").addEventListener("click", (ev) => {
 	id = 1;
 	opponent_id = 2;
-	socket.emit("TRIGGER_DUEL_2", 1, 2);
+	socket.emit("TRIGGER_DUEL", 2, 1);
 })
 
 document.getElementById("duel_2").addEventListener("click", (ev) => {
 	id = 2;
 	opponent_id = 1;
-	socket.emit("TRIGGER_DUEL_2", 2, 1);
+	socket.emit("TRIGGER_DUEL", 1, 2);
 })

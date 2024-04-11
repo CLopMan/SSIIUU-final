@@ -228,14 +228,14 @@
 	left: 15%;
 	top: 65%;
 	width: 8vw;
-  height: 8vw;
-  background-image:
+	height: 8vw;
+  	background-image:
     linear-gradient(to bottom right, transparent 50%, #3498DB 0),
     linear-gradient(to top right, #3498DB 50%, transparent 0);
-  background-size: 50% 100%;
-  background-repeat: no-repeat;
-  background-position: left, right;
-  z-index: 950;
+  	background-size: 50% 100%;
+  	background-repeat: no-repeat;
+  	background-position: left, right;
+  	z-index: 950;
 }
 
 .lilypad_flower {

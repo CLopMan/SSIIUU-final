@@ -1,17 +1,21 @@
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
-
 const op_inventario = document.getElementById("inventario_oponente");
+
 const h1_op_inv = document.getElementById("h1_op_inv");
 const conf = document.getElementById("confirmation")
 let conf_div;
+const wait_msg = document.getElementById("wait_msg");
 
 const user_banner = document.getElementById("banner_user");
 const op_banner = document.getElementById("banner_opponent");
 
 const duel_warning = document.getElementById("duel_warning");
+const object_lost = document.getElementById("object_lost");
+
 let done = false;
 let loss_id;
+var stolen_object;
 
 duel_warning.addEventListener("click", register_done);
 
@@ -55,27 +59,47 @@ export function appear_duel_symbol() {
 }
 
 export function init_duel(timer, name, op_name) {
+	// Reinicia variables
+	done = false;
+	stolen_object = null;
+	if (conf_div != null) {
+		conf_div.style.display = "none";
+	}
+	
+	// Guarda el nombre en el banner
+	user_banner.innerHTML = name;
+	op_banner.innerHTML = op_name;
+
+	// Cambia el color del banner	
+	user_banner.style.backgroundColor = "blue";
+	user_banner.style.border = "5px solid blue";
+	op_banner.style.backgroundColor = "red";
+	op_banner.style.border = "5px solid red";
+
+	// Reinicia el mensaje de espera
+	wait_msg.style.animation = "";
+	wait_msg.style.marginLeft = "100%";
+
+	// Aparece el duelo
 	inventario.style.display = "none";
 	duelo.style.display = "block";
 	
-	user_banner.innerHTML = name;
-	op_banner.innerHTML = op_name;
-	
-	user_banner.style.backgroundColor = "blue";
-	op_banner.style.backgroundColor = "red";
-	
+	// Animación de aparición del bannner	
 	user_banner.style.animation = "appear_banner_left 1s 1";
 	op_banner.style.animation = "appear_banner_right 1s 1";
 	
 	user_banner.style.marginLeft = "0vw";
 	op_banner.style.marginLeft = "20vw";
 	
+	// Animación de desaparición del banner
 	window.setTimeout(() => {
 		user_banner.style.animation = "disappear_banner_left 1s 1";
 		op_banner.style.animation = "disappear_banner_right 1s 1";
 		
-		user_banner.style.marginLeft = "-80vw";
-		op_banner.style.marginLeft = "100vw";
+		user_banner.style.marginLeft = "-85vw";
+		op_banner.style.marginLeft = "105vw";
+		
+		// Comienzo del duelo
 		window.setTimeout(appear_duel_warning, timer);
 	}, 2000);
 }
@@ -96,8 +120,8 @@ function register_done() {
 	window.clearTimeout(loss_id);
 }
 
-export function display_duel_outcome(res, objects) {
-	if (res == 0) {
+export function display_duel_outcome(objects) {
+	if (objects != null) {
 		display_win(objects);
 	}
 	else {
@@ -110,12 +134,14 @@ function display_win(objects) {
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Ganador: " + user;
 	user_banner.style.backgroundColor = "yellow";
+	user_banner.style.border = "5px solid yellow";
 	user_banner.style.color = "black";
 	
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Perdedor: " + op;
 	op_banner.style.backgroundColor = "purple";
+	op_banner.style.border = "5px solid purple";
 	op_banner.style.color = "black";
 	
 	// Aparecen los banners
@@ -128,15 +154,15 @@ function display_win(objects) {
 	window.setTimeout(() => {
 		user_banner.style.animation = "disappear_banner_left 1s 1";
 		op_banner.style.animation = "disappear_banner_right 1s 1";
-		user_banner.style.marginLeft = "-80vw";
-		op_banner.style.marginLeft = "100vw";
+		user_banner.style.marginLeft = "-85vw";
+		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			show_inventory(objects, 1);
+			duel_aftermath(objects);
 		})
 	}, 2000);
 }
 
-function display_loss(objects) {
+function display_loss() {
 	// Esconde el warning de duelo
 	duel_warning.style.display = "none";
 	window.clearTimeout(loss_id);
@@ -145,12 +171,14 @@ function display_loss(objects) {
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Perdedor: " + user;
 	user_banner.style.backgroundColor = "purple";
+	user_banner.style.border = "5px solid purple";
 	user_banner.style.color = "black";
 
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Ganador: " + op;
 	op_banner.style.backgroundColor = "yellow";
+	op_banner.style.border = "5px solid yellow";
 	op_banner.style.color = "black";
 	
 	// Aparecen los banners
@@ -163,24 +191,25 @@ function display_loss(objects) {
 	window.setTimeout(() => {
 		user_banner.style.animation = "disappear_banner_left 1s 1";
 		op_banner.style.animation = "disappear_banner_right 1s 1";
-		user_banner.style.marginLeft = "-80vw";
-		op_banner.style.marginLeft = "100vw";
+		user_banner.style.marginLeft = "-85vw";
+		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			show_inventory(objects, 0);
+			duel_aftermath(null);
 		})
 	}, 2000);
 }
 
-function show_inventory(objects, won) {
-	inventario.style.display = "block";
-	duel_page.style.display = "none";
+function duel_aftermath(objects) {
 	
-	op_inventario.style.display = "block";
-	if (won == 1) {
+	if (objects != null) {
 		h1_op_inv.innerHTML = "ROBA UN OBJETO";	
+		op_inventario.style.display = "block";
+		inventario.style.display = "block";
+		duel_page.style.display = "none";
 	}
 	else {
-		h1_op_inv.innerHTML = "TUS OBJETOS";
+		wait_for_object_lost();
+		return ;
 	}
 	
 	Object.keys(objects).forEach((item) => {
@@ -191,9 +220,7 @@ function show_inventory(objects, won) {
 		p.innerHTML = item;
 		p.setAttribute("class", "item_p");
 		
-		if (won == 1) {
-			p.addEventListener("click", confirmation);
-		}
+		p.addEventListener("click", confirmation);
 		
 		div.appendChild(p);
 		
@@ -230,6 +257,11 @@ function show_inventory(objects, won) {
 	
 }
 
+function wait_for_object_lost() {
+	wait_msg.style.animation = "appear_wait_msg 0.5s 1";
+	wait_msg.style.marginLeft = "0%";
+}
+
 function confirmation(ev) {
 	if (conf_div != null) {
 		conf_div.style.display = "none";
@@ -239,11 +271,19 @@ function confirmation(ev) {
 }
 
 function confirmation_yes() {
-
+	stolen_object = conf_div.parentNode.children[0].innerHTML;
+	op_inventario.style.display = "none";
 }
 
 function confirmation_no() {
+	conf_div.style.display = "none";
+}
 
+export async function get_stolen_object() {
+	while (stolen_object == null) {
+		await new Promise(resolve => setTimeout(resolve, 200));
+	}
+	return stolen_object;
 }
 
 export async function get_duel_done() {
@@ -253,6 +293,15 @@ export async function get_duel_done() {
 	return true;
 }
 
-export function display_object_lost() {
-
+export function display_object_lost(object) {
+	duel_page.style.display = "none";
+	inventario.style.display = "block";
+	object_lost.innerHTML = "Objeto perdido: " + object;
+	object_lost.style.animation = "appear_object_lost 1s 1";
+	object_lost.style.marginLeft = "0vw";
+	
+	window.setTimeout(() => {
+		object_lost.style.animation = "disappear_object_lost 1s 1";
+		object_lost.style.marginLeft = "100vw";
+	}, 2500);
 }

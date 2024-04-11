@@ -175,7 +175,7 @@ header {
 
 @keyframes appear_banner_left {
 	from {
-		margin-left: -80vw;
+		margin-left: -85vw;
 	}
 	to {
 		margin-left: 0vw;
@@ -187,13 +187,13 @@ header {
 		margin-left: 0vw;
 	}
 	to {
-		margin-left: -80vw;
+		margin-left: -85vw;
 	}
 }
 
 @keyframes appear_banner_right {
 	from {
-		margin-left: 100vw;
+		margin-left: 105vw;
 	}
 	
 	to {
@@ -207,7 +207,7 @@ header {
 	}
 	
 	to {
-		margin-left: 100vw;
+		margin-left: 105vw;
 	}
 }
 
@@ -294,3 +294,58 @@ header {
 	transform: rotate(90deg);
 	z-index: 350;
 }
+
+#wait_msg {
+	width: 100vw;
+	height: auto;
+	padding: 2.5%;
+	position: relative;
+	top: 20%;
+	margin-left: 100%;
+	background-color: white;
+	color: red;
+	font-size: 3rem;
+	text-align: center;
+	z-index: 700;
+}
+
+@keyframes appear_wait_msg{
+	from {
+		margin-left: 100vw;
+	}
+	to {
+		margin-left: 0vw;
+	}
+}
+
+#object_lost {
+	width: 100vw;
+	height: auto;
+	padding: 2.5%;
+	position: relative;
+	top: -20%;
+	margin-left: 100%;
+	background-color: white;
+	color: red;
+	font-size: 3rem;
+	text-align: center;
+	z-index: 700;
+}
+
+@keyframes appear_object_lost {
+	from {
+		margin-left: 100vw;		
+	}
+	to {
+		margin-left: 0vw;
+	}
+}
+
+@keyframes disappear_object_lost {
+	from {
+		margin-left: 0vw;
+	}
+	to {
+		margin-left: 100vw;
+	}
+} 
