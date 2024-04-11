@@ -1,3 +1,5 @@
+import {init_minigame} from './minijuego.js';
+
 // elementos html a rellenar
 const player = document.getElementById('player');
 const canvas_cont = document.getElementById("container")
@@ -44,7 +46,8 @@ function handleOrientation(event) {
         const timeDiff = currentTime - startTime; 
         if (fotico) {
             if (gammaDiff >= minRotacion && timeDiff <= movementTimeMS) { // derecha
-                location.href="index.html" // ir al minijuego
+                document.getElementById("annadir").style.display="none";
+                init_minigame() // ir al minijuego
                 startGamma = null;
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
