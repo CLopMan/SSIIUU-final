@@ -115,7 +115,7 @@ io.on('connection', (socket) => {
   		timer = duelos[opponent_id]["timer"];
   	}
   	else {
-  		timer = Math.random*1000 + 5000;
+  		timer = Math.random*1000 + 0;
   	}
   	
   	duelos[socket.id] = {"opponent": opponent_id, "timer": timer, "done": null};
@@ -132,10 +132,10 @@ io.on('connection', (socket) => {
   		timer = duelos[opponent_id]["timer"];
   	}
   	else {
-  		timer = Math.random() * 5000 + 50000000;
+  		timer = Math.random() * 5000 + 5000;
   	}
   	
-  	duelos[id] = {"opponent": opponent_id, "timer": timer};
+  	duelos[id] = {"opponent": opponent_id, "timer": timer, "done": null};
 
   	await wait_duel(opponent_id);
 	socket.emit("TRIGGER_DUEL", timer, socket_name[opponent_id]);	
@@ -161,14 +161,15 @@ io.on('connection', (socket) => {
   	// Función sin NFC
   	duelos[id]["done"] = true;
   	
+  	let objects = {"pipas": "1€", "jamón": "5€", "pimientos": "2€", "fanta": "1€", "chorizo": "2.5€", "patatas": ".8€", "sandía": "5€", "solomillo": "20€", "ramón bilbao": "4.7€", "pescaito": "1.9€", "chicles": "2€", "iphone": "1200€", "portátil": "1500€", "silla": "50€", "sable laser": "no tiene valor", "mona lisa": "que hace un cuadro aquí"};
+  	
   	if (duelos[op_id]["done"] == null) {
-  		let objects = {"pipas": "5€"}
   		socket.emit("DUEL_WON", objects);
   	}
   	else {
   		duelos[id] = null;
   		duelos[op_id] = null;
-  		socket.emit("DUEL_LOST");
+  		socket.emit("DUEL_LOST", objects);
   	}
   });
   

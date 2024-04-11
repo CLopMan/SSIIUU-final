@@ -3,6 +3,8 @@ const duel_page = document.getElementById("duelo");
 
 const op_inventario = document.getElementById("inventario_oponente");
 const h1_op_inv = document.getElementById("h1_op_inv");
+const conf = document.getElementById("confirmation")
+let conf_div;
 
 const user_banner = document.getElementById("banner_user");
 const op_banner = document.getElementById("banner_opponent");
@@ -99,7 +101,7 @@ export function display_duel_outcome(res, objects) {
 		display_win(objects);
 	}
 	else {
-		display_loss();
+		display_loss(objects);
 	}
 }
 
@@ -175,11 +177,73 @@ function show_inventory(objects, won) {
 	
 	op_inventario.style.display = "block";
 	if (won == 1) {
-		h1_op_inv.inerHTML = "ROBA UN OBJETO";	
+		h1_op_inv.innerHTML = "ROBA UN OBJETO";	
 	}
 	else {
 		h1_op_inv.innerHTML = "TUS OBJETOS";
 	}
+	
+	Object.keys(objects).forEach((item) => {
+		let div = document.createElement("div");
+		
+		// Nombre del objeto
+		let p = document.createElement("p")
+		p.innerHTML = item;
+		p.setAttribute("class", "item_p");
+		
+		if (won == 1) {
+			p.addEventListener("click", confirmation);
+		}
+		
+		div.appendChild(p);
+		
+		// Confirmación del objeto
+		let confirmation_div = document.createElement("div")
+		confirmation_div.setAttribute("class", "confirmation_div");
+		
+		// Texto de confirmación
+		let p_conf = document.createElement("p");
+		p_conf.innerHTML = "¿Estás seguro?";
+		confirmation_div.appendChild(p_conf);
+		
+		// Botones
+		let button_yes = document.createElement("button");
+		let button_no = document.createElement("button");
+		
+		button_yes.setAttribute("class", "button_yes");
+		button_no.setAttribute("class", "button_no");
+		
+		button_yes.innerHTML = "SI";
+		button_no.innerHTML = "NO";
+		
+		button_yes.addEventListener("click", confirmation_yes);
+		button_no.addEventListener("click", confirmation_no);
+		
+		confirmation_div.appendChild(button_yes);
+		confirmation_div.appendChild(button_no);
+		
+		// Añadir div
+		div.appendChild(confirmation_div);
+		div.setAttribute("class", "item_div");
+		op_inventario.appendChild(div);
+	})
+	
+}
+
+function confirmation(ev) {
+	if (conf_div != null) {
+		conf_div.style.display = "none";
+	}
+	conf_div = ev.srcElement.parentNode.children[1];
+	conf_div.style.display = "block";
+}
+
+function confirmation_yes() {
+
+}
+
+function confirmation_no() {
+
 }
 
 export async function get_duel_done() {

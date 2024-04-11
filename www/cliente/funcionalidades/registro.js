@@ -147,13 +147,13 @@ function handle_pos(ev) {
 	if (changeable) {
 		if (ev.gamma > 40) {
 			if (page == 0) {
-				log_in_to_sign_up();
+				log_in_to_sign_up(ev);
 				changeable = false;
 			};
 		}
 		else if (ev.gamma < -40) {
 			if (page == 1) {
-				sign_up_to_log_in();
+				sign_up_to_log_in(ev);
 				changeable = false;
 			}
 		}

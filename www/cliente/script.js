@@ -81,7 +81,7 @@ socket.on("connect", () => {
   socket.emit("CLIENT_CONNECTED");
 
   socket.on("ACK_CONNECTION", () => {
-    console.log("ACK cliente recibido");
+    console.log("Cliente conectado");
   });
   
   socket.on("LOG_IN_RESPONSE", (res, username) => {
@@ -134,8 +134,9 @@ socket.on("connect", () => {
   	socket.emit("DUEL_OBJECT", object, opponent_id);
   })
   
-  socket.on("DUEL_LOST", () => {
-  	display_duel_outcome(1, null);
+  socket.on("DUEL_LOST", (objects) => {
+  	console.log(objects);
+  	display_duel_outcome(1, objects);
   	socket.emit("DUEL_OBJECT", null, null);
   })
   

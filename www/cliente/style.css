@@ -14,7 +14,6 @@ header {
 	height: 100vh;
 	width: 100vw;
 	background-color: brown;
-	display: none;
 }
 
 #inventario h2 {
@@ -77,7 +76,7 @@ header {
 	background-color: black;
 	width: 100vw;
 	height: 100vh;
-	display: block;
+	display: none;
 }
 
 #duel_1, #duel_2 {
@@ -101,8 +100,61 @@ header {
 }
 
 #banner_opponent {
-	top: 75%;
+	top: 65%;
 	margin-left: 100vw;
+}
+
+.item_div {
+	width: 60%;
+	margin: 3%;
+	margin-left: 20%;
+	height: auto;
+	background-color: white;
+	border-radius: 25px;
+	color: black;
+	font-size: 2rem;
+	text-align: center;
+}
+
+.item_p {
+	padding: 2%;
+	width: 100%;
+	height: auto;
+}
+
+.confirmation_div {
+	width: 100%;
+	height: auto;
+	background-color: black;
+	border-radius: 25px;
+	margin-top: 1%;
+	display: none;
+}
+
+.confirmation_div p {
+	height: auto;
+	width: 100%;
+	color: white;
+	margin: 1%;
+}
+
+.button_yes {
+	background-color: green;
+	color: black;
+	width: 40%;
+	height: 5%;
+	border-radius: 25px;
+	font-size: 2rem;
+}
+
+.button_no {
+	background-color: red;
+	color: black;
+	width: 39%;
+	height: 5%;
+	margin: 1%;
+	border-radius: 25px;
+	font-size: 2rem;
 }
 
 #duel_warning {
@@ -170,6 +222,7 @@ header {
 	border-radius: 25px;
 	display: none;
 	z-index: 1500;
+	overflow-y: auto;
 }
 
 #sky {
@@ -208,7 +261,7 @@ header {
 	position: absolute;
 	background-color: green;
 	z-index: 275;
-	top: 50%;
+	top: 48%;
 	left: 8%;
 	transform: rotate(90deg);
 	border-radius: 80px;
@@ -230,7 +283,7 @@ header {
 }
 
 #spike_2 {
-	top: 53.5%;
+	top: 51%;
 	left: 4%;
 	transform: rotate(-90deg);
 }
