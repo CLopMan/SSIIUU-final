@@ -117,7 +117,7 @@ function del_object(object, username) {
 
 async function wait_duel(opponent_id){
 	while (duelos[opponent_id] == null) { 
-  		await new Promise(resolve => setTimeout(resolve, 70)); 
+  		await new Promise(resolve => setTimeout(resolve, 50)); 
   	}
 
 	return ;
@@ -125,7 +125,7 @@ async function wait_duel(opponent_id){
 
 async function wait_object(id) {
 	while (objects_lost[id] == null) {
-		await new Promise(resolve => setTimeout(resolve, 70));
+		await new Promise(resolve => setTimeout(resolve, 100));
 	}
 	
 	return ;
@@ -159,7 +159,7 @@ io.on('connection', (socket) => {
   		timer = duelos[op_id]["timer"];
   	}
   	else {
-  		timer = Math.random*1000 + 0;
+  		timer = Math.random*4000 + 2500;
   	}
   	
   	duelos[id] = {"opponent": op_id, "timer": timer, "done": null};

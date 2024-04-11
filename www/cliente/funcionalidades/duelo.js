@@ -16,8 +16,11 @@ const object_lost = document.getElementById("object_lost");
 let done = false;
 let loss_id;
 var stolen_object;
+let beta;
+let duel_start = false;
 
 duel_warning.addEventListener("click", register_done);
+window.addEventListener("deiveorientation", handle_pos);
 
 export async function write_duel_petition() {
 	Nfc.write("Petition: " + socket.id + "," + name)
@@ -62,6 +65,7 @@ export function init_duel(timer, name, op_name) {
 	// Reinicia variables
 	done = false;
 	stolen_object = null;
+	duel_start = false;
 	if (conf_div != null) {
 		conf_div.style.display = "none";
 	}
@@ -105,6 +109,7 @@ export function init_duel(timer, name, op_name) {
 }
 
 function appear_duel_warning() {
+	navigator.vibrate(500);
 	duel_warning.style.display = "block";
 	loss_id = window.setTimeout(trigger_loss, 10000);	
 }
@@ -304,4 +309,16 @@ export function display_object_lost(object) {
 		object_lost.style.animation = "disappear_object_lost 1s 1";
 		object_lost.style.marginLeft = "100vw";
 	}, 2500);
+}
+
+function handle_pos(ev) {
+	if (duel_start) {
+		if (Math.abs(beta - ev.beta) > 70) {
+			duel_start = false;
+			register_done();
+		}
+	}
+	else {
+		beta = ev.beta;
+	}
 }

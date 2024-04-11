@@ -125,6 +125,7 @@ function hide_tries() {
 function trigger_fishing_event() {
 	// Pone el evento capturable a true y luego inicia las animaciones
 	capturable = true;
+	navigator.vibrate(500);
 	trigger_animations();
 }
 
