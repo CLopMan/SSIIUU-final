@@ -16,3 +16,30 @@ a {
 	top: 120;
 
 }
+
+
+.cartel-se-busca {
+    width: 300px;
+    background-color: #f5deb3; /* Beige claro */
+    border: 2px solid #8b4513; /* Marrón oscuro */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+    padding: 20px;
+    font-family: 'Old Standard TT', serif; /* Fuente del viejo oeste */
+}
+
+.cartel-se-busca h2 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 24px;
+    color: #8b4513; /* Marrón oscuro */
+}
+
+.cartel-se-busca ul {
+    padding-left: 20px;
+}
+
+.cartel-se-busca li {
+    font-size: 18px;
+    color: #8b4513; /* Marrón oscuro */
+}

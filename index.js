@@ -233,7 +233,8 @@ io.on('connection', (socket) => {
         }
 
         // Enviar el archivo JSON al cliente
-        socket.emit('jsonData', JSON.parse(data));
+        cashierSocket.emit('jsonData', JSON.parse(data));
+        console.log(JSON.parse(data))
         console.log('Archivo JSON enviado al cliente');
     });
   });
