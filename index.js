@@ -29,6 +29,10 @@ io.on('connection', (socket) => {
   socket.on("TRIGGER_FAVOURITE", ()=> {
   	clientSocket.emit("TRIGGER_FAVOURITE");
   })
+  socket.on("PAGO", ()=> {
+  	console.log("FUNCIONA");
+    
+  })
 
 });
 

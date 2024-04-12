@@ -8,3 +8,11 @@ header {
 a {
 	border: chocolate;
 }
+
+#qrcode {
+	display: flex;
+	position: absolute;
+	left: 90;
+	top: 120;
+
+}

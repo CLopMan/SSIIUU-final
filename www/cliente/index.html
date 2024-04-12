@@ -2,9 +2,11 @@
     <head>
       <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
       <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 	  <link rel="stylesheet" href="style.css">
 	  <link rel="stylesheet" href="funcionalidades/minijuego.css">
 	  <link rel="stylesheet" href="styles/annadir.css">
+	  <link rel="stylesheet" href="styles/cobro.css">
 	  <title>Cliente</title>
     </head>
     
@@ -15,6 +17,7 @@
         	<button id="add_button">+</button>
         	<button id="minigame_button">Minijuego</button>
         	<button id="favorito">Favorito</button>
+			<button id = "Scan">scan</button>
 		    <div class="star">
 		    	<p>No favorito</p>
 		    </div>
@@ -52,8 +55,13 @@
         	<button id="capture"><img src="camera-solid(1).svg" width="70%"></button>
         	<div id ="container"><canvas id="canvas" width=320 height=240></canvas></div>
 		</div>
+		<div id="cobro">
+			<div id = "reader"><div id="qr-overlay"></div></div>
+			
+		</div>
         <script type="module" src="funcionalidades/minijuego.js"></script>
         <script type="module" src="script.js"></script>
         <script type="module" src="funcionalidades/annadir.js"></script>
+        <script type="module" src="funcionalidades/cobro.js"></script>
     </body>
 </html>

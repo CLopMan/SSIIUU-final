@@ -32,7 +32,10 @@ function duel() {
 	console.log("duel");
 }
 
-const socket = io();
+export const socket = io();
+
+
+
 
 socket.on("connect", () => {
   socket.emit("CLIENT_CONNECTED", { id: 1 });
@@ -54,6 +57,7 @@ socket.on("connect", () => {
   socket.on("TRIGGER_MINIGAME", minigame)
   
   socket.on("TRIGGER_DUEL", duel)
+
 
 });
 
