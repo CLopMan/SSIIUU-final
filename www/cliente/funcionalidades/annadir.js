@@ -84,7 +84,10 @@ document.getElementById("add_button").addEventListener("touchend", () => {init()
         player.srcObject = stream;
 });
 });
-let model, webcam, labelContainer, maxPredictions;
+
+// IA - Teachable machine 
+export let last_predict; 
+let model;
 const URL = "https://teachablemachine.withgoogle.com/models/h8pgHqUIh/";
 async function init () {
     const modelURL = URL + "model.json";
@@ -97,6 +100,7 @@ async function init () {
 async function predict() {
     // predict can take in an image, video or canvas html element
     const prediction = await model.predict(canvas);
-    console.log(prediction);
+    last_predict = (prediction[0].probability > prediction[1].probability)? prediction[0].className : prediction[1].className;
+    console.log(last_predict);
 }
 
