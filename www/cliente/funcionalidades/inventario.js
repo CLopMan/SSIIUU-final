@@ -16,6 +16,7 @@ class Figura {
 }
 
 let lista_figuras = [];
+let div_figuras = [];
 let i_figura = -1;
 const matriz_figuras = [
     [0, 0, 0, 0, 0, 0],
@@ -77,6 +78,25 @@ function moverFiguraIzquierda() {
     }
 }
 
+function colocarBloque() {
+    let div_figura = document.createElement("div");
+
+    let x = figura_actual.x;
+    let y = figura_actual.y;
+    let index_width = figura_actual.x + figura_actual.width;
+    let index_height =
+        (figura_actual.y + figura_actual.height) * COLUMNAS_MATRIZ;
+    let celda_width = cells[index_width];
+    let celda_height = cells[index_height];
+
+    /* for (let i = 0; i < figura_actual.height; i++) {
+        for (let j = 0; j < figura_actual.width; j++) {
+            const index =
+                (figura_actual.y + i) * COLUMNAS_MATRIZ + (figura_actual.x + j);
+        }
+    } */
+}
+
 function moverFiguraDerecha() {
     if (figura_actual.x > 0) {
         let colision = false;
@@ -101,6 +121,7 @@ function moverFiguraAbajo() {
         // Actualizar visualización o lógica relacionada con el movimiento
     } else {
         // La figura ha llegado al final, puedes hacer algo aquí como colocarla o generar una nueva figura.
+        colocarBloque();
         dibujarFiguraEnMatriz();
         generar_bloque();
     }
