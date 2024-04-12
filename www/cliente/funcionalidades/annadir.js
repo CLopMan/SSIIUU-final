@@ -45,7 +45,7 @@ function handleOrientation(event) {
                 document.getElementById("annadir").style.display="none";
                 var tr = player.srcObject.getTracks();
                 tr[0].stop();
-                console.log(tr);
+                predict();
                 init_minigame() // ir al minijuego
                 startGamma = null;
                 startTime = null;
@@ -77,12 +77,26 @@ window.addEventListener('deviceorientation', handleOrientation);
 
 const annadir_div = document.getElementById("annadir");
 const inventario = document.getElementById("inventario");
-document.getElementById("add_button").addEventListener("touchend", () => {inventario.style.display = "none"; annadir_div.style.display="flex";
+document.getElementById("add_button").addEventListener("touchend", () => {init(); inventario.style.display = "none"; annadir_div.style.display="flex";
 
     // mostrar foto
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         player.srcObject = stream;
 });
 });
+let model, webcam, labelContainer, maxPredictions;
+const URL = "https://teachablemachine.withgoogle.com/models/h8pgHqUIh/";
+async function init () {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+    const weightsURL = URL + "weights.bin";
+    //model = await tmImage.loadFromFiles(uploadModelFile.files[0], uploadWeights.files[0], uploadDataFile[0])
+    model = await tmImage.load(modelURL, metadataURL);
+}
 
+async function predict() {
+    // predict can take in an image, video or canvas html element
+    const prediction = await model.predict(canvas);
+    console.log(prediction);
+}
 

@@ -1,54 +1,123 @@
 <html>
     <head>
-      <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+        ></script>
+        <script src="node_modules/@taptrack/ndef/dist/ndef.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
 	  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-	  <link rel="stylesheet" href="style.css">
-	  <link rel="stylesheet" href="funcionalidades/minijuego.css">
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="funcionalidades/minijuego.css"/>
+        <link rel="stylesheet" href="funcionalidades/registro.css"/>
+        <link rel="stylesheet" href="funcionalidades/duelo.css"/>
 	  <link rel="stylesheet" href="styles/annadir.css">
 	  <link rel="stylesheet" href="styles/cobro.css">
-	  <title>Cliente</title>
+        <title>Cliente</title>
     </head>
-    
+
     <body>
-        <div id="inventario">
-        	<h2>Inventario</h2>
-        	<div id="grid"></div>
-        	<button id="add_button">+</button>
-        	<button id="minigame_button">Minijuego</button>
-        	<button id="favorito">Favorito</button>
-			<button id = "Scan">scan</button>
-		    <div class="star">
-		    	<p>No favorito</p>
-		    </div>
+        <!--LOGIN-->
+        <div id="register">
+            <div id="log-in">
+                <h1>LOG-IN</h1>
+                <form id="form_log-in">
+                    <label for="log-in_username" class="log-in_label"
+                        >Nombre de usuario</label
+                    >
+                    <input
+                        type="text"
+                        id="log-in_username"
+                        class="log-in_input"
+                        placeholder="Nombre de usuario"/>
+                    <label for="log-in_pwd" class="log-in_label">Contraseña</label>
+                    <input
+                        type="password"
+                        id="log-in_pwd"
+                        class="log-in_input"
+                        placeholder="Contraseña"/>
+                    <button class="register_button" id="log-in_register">
+                        Register
+                    </button>
+                    <p id="error_log-in" class="register_error">
+                        Error: Usuario ya registrado
+                    </p>
+                </form>
+                <button id="to_sign-up">SIGN-UP -&gt;</button>
+            </div>
+
+            <div id="sign-up">
+                <h1>SIGN-UP</h1>
+                <form id="form_sign-up">
+                    <label for="sign-up_username" class="sign-up_label">Nombre de usuario</label>
+                    <input type="text" id="sign-up_username" class="sign-up_input" placeholder="Nombre de usuario"/>
+                    <label for="sign-up_pwd" class="sign-up_label">Contraseña</label>
+                    <input type="password" id="sign-up_pwd" class="sign-up_input" placeholder="Contraseña"/>
+                    <label for="sign-up_pwd repeat" class="sign-up_label" >Repetir contraseña</label>
+                    <input type="password" id="sign-up_pwd_rep" class="sign-up_input" placeholder="Repetir contraseña"/>
+                    <button class="register_button" id="sign-up_register">
+                        Register
+                    </button>
+                    <p id="error_sign-up" class="register_error">
+                        Error: Usuario ya registrado
+                    </p>
+                </form>
+                <button id="to_log-in">&lt;- LOG-IN</button>
+            </div>
         </div>
+        <!--INVENTARIO-->
+        <div id="inventario">
+            <h2>Inventario</h2>
+            <div id="grid-container">
+                <div id="grid"></div>
+            </div>
+            <buttom id="log-out">Log-out</buttom>
+            <button id="add_button">+</button>
+            <button id="minigame_button" style="display: none">Minijuego</button>
+            <button id="Scan" style="display: flex">Scan</button>
+            <button id="favorito"style="display: none">Favorito</button>
+            <div class="star"style="display: none">
+                <p>No favorito</p>
+            </div>
+            <button id="duel_1"style="display: block">DUELO 1</button>
+            <button id="duel_2"style="display: block">DUELO 2</button>
+            <div id="inventario_oponente">
+                <h2 id="h1_op_inv"></h2>
+            </div>
+            <p id="object_lost"></p>
+        </div>
+        <!---MINIJUEGO-->
         <div id="minijuego">
-        	<div id="lilypad-1">
-        		<div class="lilypad_circle"></div>
-        		<div class="lilypad_triangle" id="lilypad-1-triangle"></div>
-        		<div class="lilypad_flower" id="lilypad-1-flower"></div>
-        	</div>
-        	<div id="lilypad-2">
-        		<div class="lilypad_circle"></div>
-        		<div class="lilypad_triangle" id="lilypad-2-triangle"></div>
-        		<div class="lilypad_flower" id="lilypad-2-flower"></div>
-        	</div>
-        	<div id="reglas_pesca">
-        		<p>1. Pon tu dispositivo en una posición horizontal, con la pantalla hacia arriba.<br><br>
-        		2. Aparecerá un pez entre 3 y 8 segundos, intenta pescarlo levantando el movil como si fuera una caña de pescar.<br><br>
-        		3. Tienes 3 intentos.
-        		</p>
-        		<button id="boton_reglas">START</button>
-        	</div>
-        		
-        	<div id="pez">
-        		<div id="pez_ovalo"></div>
-        		<div id="pez_triangulo"></div>
-        	</div>
-        	<div id="shadow"></div>
-        	<p id="aviso">!!!</p>
-        	<button id="cerrar_minijuego">END</button>
-        	<div id="wave"></div>
+            <div id="lilypad-1">
+                <div class="lilypad_circle"></div>
+                <div class="lilypad_triangle" id="lilypad-1-triangle"></div>
+                <div class="lilypad_flower" id="lilypad-1-flower"></div>
+            </div>
+            <div id="lilypad-2">
+                <div class="lilypad_circle"></div>
+                <div class="lilypad_triangle" id="lilypad-2-triangle"></div>
+                <div class="lilypad_flower" id="lilypad-2-flower"></div>
+            </div>
+            <div id="reglas_pesca">
+                <p>
+                    1. Aparecerá un pez entre 3 y 8 segundos. <br /><br />
+                    2. Cuando aparezca, levanta el móvil para capturarlo.<br /><br />
+                    2. Tienes 3 intentos.
+                </p>
+                <button id="boton_reglas">START</button>
+            </div>
+
+            <div id="pez">
+                <div id="pez_ovalo"></div>
+                <div id="pez_triangulo"></div>
+            </div>
+            <div id="shadow"></div>
+            <p id="aviso">!!!</p>
+            <button id="cerrar_minijuego">END</button>
+            <div id="wave"></div>
         </div>
 		<div id="annadir">
 			<video id="player" autoplay></video>
@@ -59,9 +128,32 @@
 			<div id = "reader"><div id="qr-overlay"></div></div>
 			
 		</div>
+        <!--DUELO-->
+        <div id="duelo">
+            <p id="banner_user"></p>
+            <p id="banner_opponent"></p>
+            <p id="duel_warning">¡Ahora!</p>
+            <p></p>
+            <div id="sky"></div>
+            <div id="ground"></div>
+            <div class="cactus"></div>
+            <div class="rama"></div>
+            <div class="spike" id="spike_1"></div>
+            <div class="spike" id="spike_2"></div>
+            <div class="spike" id="spike_3"></div>
+            <p id="wait_msg">Esperando al oponente...</p>
+
+            <div id="inventario_oponente">
+                <h2 id="h1_op_inv"></h2>
+            </div>
+            <p id="object_lost"></p>
+        </div>
         <script type="module" src="funcionalidades/minijuego.js"></script>
+        <script type="module" src="funcionalidades/registro.js"></script>
+        <script type="module" src="funcionalidades/duelo.js"></script>
         <script type="module" src="script.js"></script>
         <script type="module" src="funcionalidades/annadir.js"></script>
         <script type="module" src="funcionalidades/cobro.js"></script>
+        <script src="funcionalidades/inventario.js"></script>
     </body>
 </html>

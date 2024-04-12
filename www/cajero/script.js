@@ -14,7 +14,11 @@ socket.on("connect", () => {
   socket.on("ACK_CONNECTION", () => {
     console.log("ACK");
   });
-
+// Escuchar el evento 'jsonData' del servidor
+socket.on('jsonData', (data) => {
+  console.log('Datos JSON recibidos del servidor:', data);
+  // Aquí puedes hacer lo que quieras con los datos recibidos
+});
 
 });
 

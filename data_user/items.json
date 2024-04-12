@@ -1,0 +1,21 @@
+{
+	"manu": 
+		{
+			"0": {
+				"tipo": "manzana",
+				"fav": 0,
+				"x": 3,
+				"y": 3,
+				"height": 2,
+				"width": 3
+			},
+			"1": {
+				"tipo": "naranja",
+				"fav": 1,
+				"x": 0,
+				"y": 0,
+				"height": 2,
+				"width": 0
+			}
+		}
+}
