@@ -2,6 +2,7 @@
     border: none;
     margin: 0;
     padding: 0;
+    overflow: auto;
 }
 
 #inventario {
@@ -13,6 +14,12 @@
 header {
     height: 6vh;
     text-align: center;
+}
+
+#inventario {
+    height: 100vh;
+    width: 100vw;
+    background-color: brown;
 }
 
 h2 {
@@ -31,6 +38,325 @@ h2 {
     background-color: green;
     color: white;
     font-size: 1.5rem;
+}
+
+.star {
+    width: 5vw;
+    height: 5vw;
+    background-color: transparent;
+    border: 2px solid black;
+    margin: auto;
+    margin-top: 10vh;
+}
+
+.star p {
+    width: 100%;
+    height: 10%;
+    margin-top: 40%;
+    text-align: center;
+}
+
+@keyframes appear_star {
+    from {
+        background-color: transparent;
+    }
+    to {
+        background-color: yellow;
+        transform: rotate(-720deg);
+    }
+}
+
+@keyframes disappear_star {
+    from {
+        background-color: yellow;
+    }
+    to {
+        background-color: transparent;
+        transform: rotate(720deg);
+    }
+}
+
+/* DUELO  ---- MOVER A CSS PROPIO*/
+
+#duelo {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
+#duel_1,
+#duel_2 {
+    width: 40vw;
+    height: 10vh;
+}
+
+#banner_user,
+#banner_opponent {
+    width: 80vw;
+    height: 10vh;
+    font-size: 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 999;
+    color: white;
+}
+
+#banner_user {
+    top: 15%;
+    margin-left: -80vw;
+}
+
+#banner_opponent {
+    top: 65%;
+    margin-left: 100vw;
+}
+
+.item_div {
+    width: 60%;
+    margin: 3%;
+    margin-left: 20%;
+    height: auto;
+    background-color: white;
+    border-radius: 25px;
+    color: black;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.item_p {
+    padding: 2%;
+    width: 100%;
+    height: auto;
+}
+
+.confirmation_div {
+    width: 100%;
+    height: auto;
+    background-color: black;
+    border-radius: 25px;
+    margin-top: 1%;
+    display: none;
+}
+
+.confirmation_div p {
+    height: auto;
+    width: 100%;
+    color: white;
+    margin: 1%;
+}
+
+.button_yes {
+    background-color: green;
+    color: black;
+    width: 40%;
+    height: 5%;
+    border-radius: 25px;
+    font-size: 2rem;
+}
+
+.button_no {
+    background-color: red;
+    color: black;
+    width: 39%;
+    height: 5%;
+    margin: 1%;
+    border-radius: 25px;
+    font-size: 2rem;
+}
+
+#duel_warning {
+    display: none;
+    border-radius: 25px;
+    width: 40vw;
+    height: 10vh;
+    position: absolute;
+    border: none;
+    background-color: white;
+    color: red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    text-align: center;
+    z-index: 500;
+}
+
+@keyframes appear_banner_left {
+    from {
+        margin-left: -85vw;
+    }
+    to {
+        margin-left: 0vw;
+    }
+}
+
+@keyframes disappear_banner_left {
+    from {
+        margin-left: 0vw;
+    }
+    to {
+        margin-left: -85vw;
+    }
+}
+
+@keyframes appear_banner_right {
+    from {
+        margin-left: 105vw;
+    }
+
+    to {
+        margin-left: 20vw;
+    }
+}
+
+@keyframes disappear_banner_right {
+    from {
+        margin-left: 20vw;
+    }
+
+    to {
+        margin-left: 105vw;
+    }
+}
+
+#inventario_oponente {
+    width: 90vw;
+    height: 90vh;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    display: none;
+    z-index: 1500;
+    overflow-y: auto;
+}
+
+#sky {
+    width: 100vw;
+    height: 60vh;
+    position: absolute;
+    top: 0;
+    z-index: 200;
+    background-color: #3498db;
+}
+
+#ground {
+    width: 100vw;
+    height: 39.5vh;
+    position: absolute;
+    bottom: 0%;
+    z-index: 400;
+    background-color: #dfad60;
+    border-top: 0.8vh solid #b58a49;
+}
+
+.cactus {
+    width: 10vw;
+    height: 20vh;
+    position: absolute;
+    bottom: 35%;
+    left: 10%;
+    border-radius: 50px;
+    background-color: green;
+    z-index: 300;
+}
+
+.rama {
+    width: 5vh;
+    height: 10vh;
+    position: absolute;
+    background-color: green;
+    z-index: 275;
+    top: 48%;
+    left: 8%;
+    transform: rotate(90deg);
+    border-radius: 80px;
+}
+
+.spike {
+    width: 1vw;
+    height: 3vh;
+    position: absolute;
+    background-color: white;
+    z-index: 250;
+    border-radius: 80px;
+}
+
+#spike_1 {
+    top: 45%;
+    left: 18%;
+    transform: rotate(36deg);
+}
+
+#spike_2 {
+    top: 51%;
+    left: 4%;
+    transform: rotate(-90deg);
+}
+
+#spike_3 {
+    top: 52%;
+    left: 20%;
+    transform: rotate(90deg);
+    z-index: 350;
+}
+
+#wait_msg {
+    width: 100vw;
+    height: auto;
+    padding: 2.5%;
+    position: relative;
+    top: 20%;
+    margin-left: 100%;
+    background-color: white;
+    color: red;
+    font-size: 3rem;
+    text-align: center;
+    z-index: 700;
+}
+
+@keyframes appear_wait_msg {
+    from {
+        margin-left: 100vw;
+    }
+    to {
+        margin-left: 0vw;
+    }
+}
+
+#object_lost {
+    width: 100vw;
+    height: auto;
+    padding: 2.5%;
+    position: relative;
+    top: -20%;
+    margin-left: 100%;
+    background-color: white;
+    color: red;
+    font-size: 3rem;
+    text-align: center;
+    z-index: 700;
+}
+
+@keyframes appear_object_lost {
+    from {
+        margin-left: 100vw;
+    }
+    to {
+        margin-left: 0vw;
+    }
+}
+
+@keyframes disappear_object_lost {
+    from {
+        margin-left: 0vw;
+    }
+    to {
+        margin-left: 100vw;
+    }
 }
 
 #grid-container {
