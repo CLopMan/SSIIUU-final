@@ -7,8 +7,9 @@
         <script src="node_modules/@taptrack/ndef/dist/ndef.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="funcionalidades/minijuego.css" />
-        <link rel="stylesheet" href="funcionalidades/registro.css" />
+        <link rel="stylesheet" href="funcionalidades/minijuego.css"/>
+        <link rel="stylesheet" href="funcionalidades/registro.css"/>
+        <link rel="stylesheet" href="funcionalidades/duelo.css"/>
         <title>Cliente</title>
     </head>
 
@@ -25,17 +26,13 @@
                         type="text"
                         id="log-in_username"
                         class="log-in_input"
-                        placeholder="Nombre de usuario"
-                    />
-                    <label for="log-in_pwd" class="log-in_label"
-                        >Contraseña</label
-                    >
+                        placeholder="Nombre de usuario"/>
+                    <label for="log-in_pwd" class="log-in_label">Contraseña</label>
                     <input
                         type="password"
                         id="log-in_pwd"
                         class="log-in_input"
-                        placeholder="Contraseña"
-                    />
+                        placeholder="Contraseña"/>
                     <button class="register_button" id="log-in_register">
                         Register
                     </button>
@@ -49,33 +46,12 @@
             <div id="sign-up">
                 <h1>SIGN-UP</h1>
                 <form id="form_sign-up">
-                    <label for="sign-up_username" class="sign-up_label"
-                        >Nombre de usuario</label
-                    >
-                    <input
-                        type="text"
-                        id="sign-up_username"
-                        class="sign-up_input"
-                        placeholder="Nombre de usuario"
-                    />
-                    <label for="sign-up_pwd" class="sign-up_label"
-                        >Contraseña</label
-                    >
-                    <input
-                        type="password"
-                        id="sign-up_pwd"
-                        class="sign-up_input"
-                        placeholder="Contraseña"
-                    />
-                    <label for="sign-up_pwd repeat" class="sign-up_label"
-                        >Repetir contraseña</label
-                    >
-                    <input
-                        type="password"
-                        id="sign-up_pwd_rep"
-                        class="sign-up_input"
-                        placeholder="Repetir contraseña"
-                    />
+                    <label for="sign-up_username" class="sign-up_label">Nombre de usuario</label>
+                    <input type="text" id="sign-up_username" class="sign-up_input" placeholder="Nombre de usuario"/>
+                    <label for="sign-up_pwd" class="sign-up_label">Contraseña</label>
+                    <input type="password" id="sign-up_pwd" class="sign-up_input" placeholder="Contraseña"/>
+                    <label for="sign-up_pwd repeat" class="sign-up_label" >Repetir contraseña</label>
+                    <input type="password" id="sign-up_pwd_rep" class="sign-up_input" placeholder="Repetir contraseña"/>
                     <button class="register_button" id="sign-up_register">
                         Register
                     </button>
@@ -94,13 +70,13 @@
             </div>
             <buttom id="log-out">Log-out</buttom>
             <button id="add_button">+</button>
-            <button id="minigame_button">Minijuego</button>
-            <button id="favorito">Favorito</button>
-            <div class="star">
+            <button id="minigame_button" style="display: none">Minijuego</button>
+            <button id="favorito"style="display: none">Favorito</button>
+            <div class="star"style="display: none">
                 <p>No favorito</p>
             </div>
-            <button id="duel_1">DUELO 1</button>
-            <button id="duel_2">DUELO 2</button>
+            <button id="duel_1"style="display: block">DUELO 1</button>
+            <button id="duel_2"style="display: block">DUELO 2</button>
             <div id="inventario_oponente">
                 <h2 id="h1_op_inv"></h2>
             </div>

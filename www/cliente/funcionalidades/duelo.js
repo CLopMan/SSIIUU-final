@@ -74,12 +74,6 @@ export function init_duel(timer, name, op_name) {
 	user_banner.innerHTML = name;
 	op_banner.innerHTML = op_name;
 
-	// Cambia el color del banner	
-	user_banner.style.backgroundColor = "blue";
-	user_banner.style.border = "5px solid blue";
-	op_banner.style.backgroundColor = "red";
-	op_banner.style.border = "5px solid red";
-
 	// Reinicia el mensaje de espera y del duelo
 	wait_msg.style.animation = "";
 	wait_msg.style.marginLeft = "100%";
@@ -141,16 +135,10 @@ function display_win(objects) {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Ganador: " + user;
-	user_banner.style.backgroundColor = "yellow";
-	user_banner.style.border = "5px solid yellow";
-	user_banner.style.color = "black";
 	
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Perdedor: " + op;
-	op_banner.style.backgroundColor = "purple";
-	op_banner.style.border = "5px solid purple";
-	op_banner.style.color = "black";
 	
 	// Aparecen los banners
 	user_banner.style.animation = "appear_banner_left 1s 1";
@@ -178,16 +166,10 @@ function display_loss() {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Perdedor: " + user;
-	user_banner.style.backgroundColor = "purple";
-	user_banner.style.border = "5px solid purple";
-	user_banner.style.color = "black";
-
+	
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Ganador: " + op;
-	op_banner.style.backgroundColor = "yellow";
-	op_banner.style.border = "5px solid yellow";
-	op_banner.style.color = "black";
 	
 	// Aparecen los banners
 	user_banner.style.animation = "appear_banner_left 1s 1";

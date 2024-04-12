@@ -6,6 +6,7 @@ import {
     register_effective,
     register_error,
 } from "./funcionalidades/registro.js";
+
 import {
     appear_duel_symbol,
     init_duel,
