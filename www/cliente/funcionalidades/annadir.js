@@ -21,11 +21,7 @@ captureButton.addEventListener('touchend', () => { // hacer foto
     fotico = true;
 });
 
-// mostrar foto
-navigator.mediaDevices.getUserMedia(constraints)
-    .then((stream) => {
-        player.srcObject = stream;
-});
+
 
 // gestos 
 let startGamma = null; 
@@ -47,11 +43,15 @@ function handleOrientation(event) {
         if (fotico) {
             if (gammaDiff >= minRotacion && timeDiff <= movementTimeMS) { // derecha
                 document.getElementById("annadir").style.display="none";
+                var tr = player.srcObject.getTracks();
+                tr[0].stop();
+                console.log(tr);
                 init_minigame() // ir al minijuego
                 startGamma = null;
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
                 console.log("eliminar foto");
+
                 canvas_cont.classList.add("animate-left")
                 window.setTimeout(() => {
                     canvas_cont.style.display = "none";
@@ -74,4 +74,15 @@ function handleOrientation(event) {
 }
 
 window.addEventListener('deviceorientation', handleOrientation);
+
+const annadir_div = document.getElementById("annadir");
+const inventario = document.getElementById("inventario");
+document.getElementById("add_button").addEventListener("touchend", () => {inventario.style.display = "none"; annadir_div.style.display="flex";
+
+    // mostrar foto
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        player.srcObject = stream;
+});
+});
+
 

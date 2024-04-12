@@ -1,7 +1,6 @@
 import {init_minigame} from './funcionalidades/minijuego.js';
 import {change_fav} from './funcionalidades/favorito.js';
-const annadir_div = document.getElementById("annadir");
-const inventario = document.getElementById("inventario");
+
 
 function add() {
 	console.log("add");
@@ -58,6 +57,5 @@ socket.on("connect", () => {
 
 });
 
-document.getElementById("add_button").addEventListener("touchend", () => {inventario.style.display = "none"; annadir_div.style.display="flex";});
 document.getElementById("favorito").addEventListener("click", () => (socket.emit("TRIGGER_FAVOURITE")));
 document.getElementById("minigame_button").addEventListener("click", () => (socket.emit("TRIGGER_MINIGAME")));
