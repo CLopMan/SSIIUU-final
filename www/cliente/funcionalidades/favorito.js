@@ -15,9 +15,8 @@ export function change_fav() {
 function handle_pos(ev){
 	if (favorito) { 
 		if (contador < 50) {
-			if (Math.abs(ev.rotationRate.beta) > 200) {
+			if (Math.abs(ev.rotationRate.alpha) > 200) {
 				contador += 1;
-				console.log(contador);
 			}
 		}
 		else {

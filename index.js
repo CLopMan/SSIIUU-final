@@ -156,10 +156,10 @@ io.on('connection', (socket) => {
   	let timer;
   	
   	if (duelos[op_id] != null) {
-  		timer = duelos[op_id]["timer"];
+  		timer = duelos[op_id]["timer"]; // Escoge el timer del rival
   	}
   	else {
-  		timer = Math.random*4000 + 2500;
+  		timer = Math.random()*3000 + 3000; // Entre 3 y 6 segundos
   	}
   	
   	duelos[id] = {"opponent": op_id, "timer": timer, "done": null};
@@ -200,12 +200,12 @@ io.on('connection', (socket) => {
   		socket.emit("OBJECT_LOST", objects_lost[id]);
   		//del_object(objects_lost[id], socket_name[id]);
   		duelos[id] = null;
-  		duelos[op_id] = null;
   		objects_lost[id] = null;
-  		objects_lost[op_id] = null;
   	}
   	
   	objects_lost[op_id] = object;
+  	duelos[id] = null;
+  	objects_lost[id] = null;
   	//add_object(object, socket_name[id]);
   });
   

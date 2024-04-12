@@ -20,7 +20,7 @@ let beta;
 let duel_start = false;
 
 duel_warning.addEventListener("click", register_done);
-window.addEventListener("deiveorientation", handle_pos);
+window.addEventListener("deviceorientation", handle_pos);
 
 export async function write_duel_petition() {
 	Nfc.write("Petition: " + socket.id + "," + name)
@@ -80,9 +80,11 @@ export function init_duel(timer, name, op_name) {
 	op_banner.style.backgroundColor = "red";
 	op_banner.style.border = "5px solid red";
 
-	// Reinicia el mensaje de espera
+	// Reinicia el mensaje de espera y del duelo
 	wait_msg.style.animation = "";
 	wait_msg.style.marginLeft = "100%";
+	object_lost.style.animation = "";
+	object_lost.style.marginLeft = "100vw";
 
 	// Aparece el duelo
 	inventario.style.display = "none";
@@ -111,6 +113,7 @@ export function init_duel(timer, name, op_name) {
 function appear_duel_warning() {
 	navigator.vibrate(500);
 	duel_warning.style.display = "block";
+	duel_start = true;
 	loss_id = window.setTimeout(trigger_loss, 10000);	
 }
 
