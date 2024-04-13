@@ -13,7 +13,7 @@ export var div_id;
 // Listener para la ventana
 window.addEventListener("devicemotion", handle_fav_pos);
 
-export function handle_fav_pos(ev){
+function handle_fav_pos(ev){
 	if (div_id != null) { 
 		if (favourite_list[div_id]["contador"] < 50) {
 			if (Math.abs(ev.rotationRate.alpha) > 200) {
