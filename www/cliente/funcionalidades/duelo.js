@@ -1,3 +1,5 @@
+import { socket } from "../script.js";
+
 // Páginas que cambiar
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
@@ -42,6 +44,7 @@ qr_duel_close_button.addEventListener("touchend", () => {
 	qr_duel_div.style.display = "none";
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
+	socket.emit("UNREGISTER_DUEL");
 });
 qr_close_duel_scanner.addEventListener("touchend", () => {
 	qr_duel_scanner_div.style.display = "none";
@@ -112,16 +115,16 @@ function register_done() {
 	window.clearTimeout(loss_id);
 }
 
-export function display_duel_outcome(objects) {
-	if (objects != null) {
-		display_win(objects);
+export function display_duel_outcome(objects, win) {
+	if (win == 1) {
+		display_win(objects, win);
 	}
 	else {
-		display_loss(objects);
+		display_loss(objects, win);
 	}
 }
 
-function display_win(objects) {
+function display_win(objects, win) {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Ganador: " + user;
@@ -143,12 +146,12 @@ function display_win(objects) {
 		user_banner.style.marginLeft = "-85vw";
 		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			duel_aftermath(objects);
+			duel_aftermath(objects, win);
 		})
 	}, 2000);
 }
 
-function display_loss() {
+function display_loss(object, win) {
 	// Esconde el warning de duelo
 	duel_warning.style.display = "none";
 	window.clearTimeout(loss_id);
@@ -174,18 +177,25 @@ function display_loss() {
 		user_banner.style.marginLeft = "-85vw";
 		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			duel_aftermath(null);
+			duel_aftermath(object, win);
 		})
 	}, 2000);
 }
 
-function duel_aftermath(objects) {
+function duel_aftermath(objects, win) {
 	
-	if (objects != null) {
+	if (win == 1) {
 		h1_op_inv.innerHTML = "ROBA UN OBJETO";	
 		op_inventario.style.display = "block";
 		inventario.style.display = "block";
 		duel_page.style.display = "none";
+
+		for (let i of op_inventario.children) {
+			if (i.getAttribute("class") == "item_div") {
+				i.remove();
+			}
+			
+		}
 	}
 	else {
 		wait_for_object_lost();
@@ -197,10 +207,10 @@ function duel_aftermath(objects) {
 		
 		// Nombre del objeto
 		let p = document.createElement("p")
-		p.innerHTML = item;
+		p.innerHTML = objects[item]["tipo"];
 		p.setAttribute("class", "item_p");
 		
-		p.addEventListener("tocuhend", confirmation);
+		p.addEventListener("touchend", confirmation);
 		
 		div.appendChild(p);
 		
@@ -298,9 +308,14 @@ function handle_pos(ev) {
 	}
 }
 
-export function gen_duel_qr(id, name) {
+export function gen_duel_qr(id) {	
+	if (qr_duel_images.children.length > 0) {
+		qr_duel_images.removeChild(qr_duel_images.children[0]);
+		qr_duel_images.removeChild(qr_duel_images.children[0])
+	}
+	
 	const duel_qr = new QRCode("qr_duel", {
-		text: id + "," + name,
+		text: id,
 		width: 512,
 		height: 512,
 		colorDark: "#000000",
@@ -310,15 +325,22 @@ export function gen_duel_qr(id, name) {
 	qr_duel_div.style.display = "grid";
 }
 
+export function hide_duel_qr() {
+	qr_duel_div.style.display = "none";
+}
+
 export function start_duel_scanning() {
 	qr_duel_scanner_div.style.display = "block";
 	qr_duel_scanner.render(scan_duel_success, scan_duel_error);
 }
 
 function scan_duel_success(qrCodeMssg) {
-	console.log(qrCodeMssg);
+	qr_duel_scanner_div.style.display = "";
+	qr_duel_scanner.clear();
+	socket.emit("REGISTER_DUEL", qrCodeMssg);
+	
 }
 
 function scan_duel_error(err) {
-	console.log(err);
+
 }
