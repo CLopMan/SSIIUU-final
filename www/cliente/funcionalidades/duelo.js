@@ -32,28 +32,13 @@ export async function write_duel_petition() {
 	});
 }
 
-export async function write_hello(writer, reader) {
-	const message = new NDEFMessage([
-		new NDEFRecord({
-			recordType: "text",
-			mediaType: "text/plan",
-			data: "hello there"
-		})
-	]);
-	
-	writer.write(message)
+export function write_hello(reader) {
+	reader.write("Hello there")
 	.then(() => {
 		console.log("Mensaje de hola escrito");
-		reader.scan()
-		.then(() => {
-			console.log("Escaneo NFC iniciado");
-		})
-		.catch(err => {
-			console.log(err);
-		});
 	})
 	.catch((err) => {
-		console.log("Error al escribir en etiqueta NFC:", error);
+		console.log(err);
 	})
 }
 

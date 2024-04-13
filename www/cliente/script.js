@@ -14,6 +14,7 @@ import {
     display_duel_outcome,
     get_stolen_object,
     display_object_lost,
+    write_hello
 } from "./funcionalidades/duelo.js";
 
 var opponent_id;
@@ -22,40 +23,48 @@ var id;
 var name;
 
 if ("NDEFReader" in window) {
-    navigator.permissions
-        .query({ name: "nfc" })
-        .then((permission_status) => {
-            if (permission_status.state == "granted") {
-                const reader = new NDEFReader();
-                const writer = new NDEFWriter();
+	navigator.permissions
+	.query({name: "nfc"})
+	.then((status) => {
+		if (status.state == "granted") {
+			console.log("Hola");
+			const reader = new NDEFReader();
+			
+			write_hello(reader);
 
-                write_hello(writer, reader);
+			
+			reader.scan()
+			.then(() => {
+				console.log("Escaneo NFC iniciado");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+			
+			console.log("Hola");
+			
+			reader.on("read", (tag) => {
+				const message = NdefParser.parse(tag);
+				if (message == "hello") {
+				    appear_duel_symbol();
+				} else {
+				    let pos = message.indexOf(":");
+				    let substr = message.substring(0, pos);
 
-                reader.on("read", (tag) => {
-                    const message = NdefParser.parse(tag);
-                    if (message == "hello") {
-                        appear_duel_symbol();
-                    } else {
-                        let pos = message.indexOf(":");
-                        let substr = message.substring(0, pos);
+				    if (substr == "Petition") {
+				        appear_duel_petition();
+				    }
 
-                        if (substr == "Petition") {
-                            appear_duel_petition();
-                        }
-
-                        if (substr == "Accepted") {
-                            let pos_id = message.indexOf(",");
-                            opponent_id = message.substring(pos + 1, pos_id);
-                            opponent_name = message.substring(pos_id + 1);
-                            socket.emit("TRIGGER_DUEL", opponent_id);
-                        }
-                    }
-                });
-            }
-        })
-        .catch(() => {
-            "NDEFReader not in browser";
-        });
+				    if (substr == "Accepted") {
+				        let pos_id = message.indexOf(",");
+				        opponent_id = message.substring(pos + 1, pos_id);
+				        opponent_name = message.substring(pos_id + 1);
+				        socket.emit("TRIGGER_DUEL", opponent_id);
+				    }
+				}
+			});
+		}
+	});
 }
 
 function add() {

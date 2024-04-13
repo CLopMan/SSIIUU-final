@@ -44,19 +44,19 @@ for (let i = 0; i < 8; i++) {
 
 function printMatrix(matrix) {
     for (let i = 0; i < matrix.length; i++) {
-        console.log(matrix[i].join(" "));
+        //console.log(matrix[i].join(" "));
     }
 }
 
 function dibujarFiguraEnMatriz() {
-    console.log(figura_actual.x, figura_actual.y);
-    console.log(figura_actual.height, figura_actual.width);
+    //console.log(figura_actual.x, figura_actual.y);
+    //console.log(figura_actual.height, figura_actual.width);
     for (let i = 0; i < figura_actual.height; i++) {
         for (let j = 0; j < figura_actual.width; j++) {
             matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 1;
         }
     }
-    console.log(matriz_figuras);
+    //console.log(matriz_figuras);
 }
 
 function moverFiguraIzquierda() {
