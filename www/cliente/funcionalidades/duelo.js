@@ -1,50 +1,45 @@
+// Páginas que cambiar
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
+
+// QR del duelo
+const qr_duel_div = document.getElementById("qr_duel_div");
+const qr_duel_images = document.getElementById("qr_duel");
+const qr_duel_close_button = document.getElementById("qr_duel_close_button");
+
+
+// Info del oponente
 const op_inventario = document.getElementById("inventario_oponente");
-
 const h1_op_inv = document.getElementById("h1_op_inv");
-const conf = document.getElementById("confirmation")
-let conf_div;
-const wait_msg = document.getElementById("wait_msg");
 
+// Elementos de robo
+const conf = document.getElementById("confirmation")
+const wait_msg = document.getElementById("wait_msg");
+const object_lost = document.getElementById("object_lost");
+let conf_div;
+
+// Banners del inicio
 const user_banner = document.getElementById("banner_user");
 const op_banner = document.getElementById("banner_opponent");
 
+// Warning del duelo 
 const duel_warning = document.getElementById("duel_warning");
-const object_lost = document.getElementById("object_lost");
 
+// Variables del duelo
 let done = false;
 let loss_id;
 var stolen_object;
 let beta;
 let duel_start = false;
 
-duel_warning.addEventListener("click", register_done);
+// Listeners de botones
+duel_warning.addEventListener("touchend", register_done);
+qr_duel_close_button.addEventListener("touchend", () => {
+	qr_duel_div.style.display = "none";
+	qr_duel_images.removeChild(qr_duel_images.children[0]);
+	qr_duel_images.removeChild(qr_duel_images.children[0]);
+});
 window.addEventListener("deviceorientation", handle_pos);
-
-export async function write_duel_petition() {
-	Nfc.write("Petition: " + socket.id + "," + name)
-	.then(() => {
-		console.log("Petición de duelo enviada");
-	})
-	.catch((err) => {
-		console.log("Error al escribir en etiqueta NFC:", error);
-	});
-}
-
-export function write_hello(reader) {
-	reader.write("Hello there")
-	.then(() => {
-		console.log("Mensaje de hola escrito");
-	})
-	.catch((err) => {
-		console.log(err);
-	})
-}
-
-export function appear_duel_symbol() {
-	
-}
 
 export function init_duel(timer, name, op_name) {
 	// Reinicia variables
@@ -195,7 +190,7 @@ function duel_aftermath(objects) {
 		p.innerHTML = item;
 		p.setAttribute("class", "item_p");
 		
-		p.addEventListener("click", confirmation);
+		p.addEventListener("tocuhend", confirmation);
 		
 		div.appendChild(p);
 		
@@ -218,8 +213,8 @@ function duel_aftermath(objects) {
 		button_yes.innerHTML = "SI";
 		button_no.innerHTML = "NO";
 		
-		button_yes.addEventListener("click", confirmation_yes);
-		button_no.addEventListener("click", confirmation_no);
+		button_yes.addEventListener("touchend", confirmation_yes);
+		button_no.addEventListener("touchend", confirmation_no);
 		
 		confirmation_div.appendChild(button_yes);
 		confirmation_div.appendChild(button_no);
@@ -291,4 +286,20 @@ function handle_pos(ev) {
 	else {
 		beta = ev.beta;
 	}
+}
+
+export function gen_duel_qr(id, name) {
+	const duel_qr = new QRCode("qr_duel", {
+		text: id + "," + name,
+		width: 512,
+		height: 512,
+		colorDark: "#000000",
+		colorLight: "#FFFFFF",
+		correctLevel: QRCode.CorrectLevel.H
+	});
+	qr_duel_div.style.display = "grid";
+}
+
+export function scan_duel_qr() {
+	
 }

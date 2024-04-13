@@ -13,35 +13,21 @@
     </head>
 
     <body>
-        <!--LOGIN-->
         <div id="register">
+		    <!--LOGIN-->
             <div id="log-in">
                 <h1>LOG-IN</h1>
                 <form id="form_log-in">
-                    <label for="log-in_username" class="log-in_label"
-                        >Nombre de usuario</label
-                    >
-                    <input
-                        type="text"
-                        id="log-in_username"
-                        class="log-in_input"
-                        placeholder="Nombre de usuario"/>
+                    <label for="log-in_username" class="log-in_label">Nombre de usuario</label>
+                    <input type="text" id="log-in_username" class="log-in_input" placeholder="Nombre de usuario"/>
                     <label for="log-in_pwd" class="log-in_label">Contraseña</label>
-                    <input
-                        type="password"
-                        id="log-in_pwd"
-                        class="log-in_input"
-                        placeholder="Contraseña"/>
-                    <button class="register_button" id="log-in_register">
-                        Register
-                    </button>
-                    <p id="error_log-in" class="register_error">
-                        Error: Usuario ya registrado
-                    </p>
+                    <input type="password" id="log-in_pwd" class="log-in_input" placeholder="Contraseña"/>
+                    <button class="register_button" id="log-in_register">Register</button>
+                    <p id="error_log-in" class="register_error">Error: Usuario ya registrado</p>
                 </form>
                 <button id="to_sign-up">SIGN-UP -&gt;</button>
             </div>
-
+			<!--SIGN UP-->
             <div id="sign-up">
                 <h1>SIGN-UP</h1>
                 <form id="form_sign-up">
@@ -51,9 +37,7 @@
                     <input type="password" id="sign-up_pwd" class="sign-up_input" placeholder="Contraseña"/>
                     <label for="sign-up_pwd repeat" class="sign-up_label" >Repetir contraseña</label>
                     <input type="password" id="sign-up_pwd_rep" class="sign-up_input" placeholder="Repetir contraseña"/>
-                    <button class="register_button" id="sign-up_register">
-                        Register
-                    </button>
+                    <button class="register_button" id="sign-up_register">Register</button>
                     <p id="error_sign-up" class="register_error">
                         Error: Usuario ya registrado
                     </p>
@@ -67,15 +51,23 @@
             <div id="grid-container">
                 <div id="grid"></div>
             </div>
-            <buttom id="log-out">Log-out</buttom>
-            <button id="add_button">+</button>
+            <button id="log-out">Log-out</button>
             <button id="minigame_button" style="display: none">Minijuego</button>
+            <div id="botones">
+            	<button id="qr_duel_button">QR de duelo</button>
+            	<button id="add_button">+</button>
+            	<button id="scan_duel_button">Escanear QR duelo</button>
+            </div>
+            <div id="qr_duel_div">
+            	<button id="qr_duel_close_button">Cerrar</button>
+            	<div id="qr_duel"></div>
+            </div>
             <button id="favorito"style="display: none">Favorito</button>
             <div class="star"style="display: none">
                 <p>No favorito</p>
             </div>
-            <button id="duel_1"style="display: block">DUELO 1</button>
-            <button id="duel_2"style="display: block">DUELO 2</button>
+            <button id="duel_1"style="display: none">DUELO 1</button>
+            <button id="duel_2"style="display: none">DUELO 2</button>
             <div id="inventario_oponente">
                 <h2 id="h1_op_inv"></h2>
             </div>
@@ -95,8 +87,8 @@
             </div>
             <div id="reglas_pesca">
                 <p>
-                    1. Aparecerá un pez entre 3 y 8 segundos. <br /><br />
-                    2. Cuando aparezca, levanta el móvil para capturarlo.<br /><br />
+                    1. Aparecerá un pez entre 3 y 8 segundos. <br><br>
+                    2. Cuando aparezca, levanta el móvil para capturarlo.<br><br>
                     2. Tienes 3 intentos.
                 </p>
                 <button id="boton_reglas">START</button>

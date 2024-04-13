@@ -106,6 +106,7 @@ export function register_effective() {
         sign_up.style.animation = "";
         log_in.style.marginLeft = "0vw";
         sign_up.style.marginLeft = "100vw";
+        log_out_button.style.display = "block";
     }, 600);
 
     let name;
@@ -140,6 +141,7 @@ export function register_error(error, id) {
 function log_out() {
     register.style.animation = "log_out 0.6s 1";
     register.style.marginTop = "0vh";
+    log_out_button.style.display = "none";
 }
 
 function handle_pos(ev) {

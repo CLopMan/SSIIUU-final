@@ -1,6 +1,6 @@
 {
 	"manu": 
-		[
+		{
 			"0": {
 				"tipo": "manzana",
 				"fav": 0,
@@ -17,5 +17,5 @@
 				"height": 2,
 				"width": 0
 			}
-		]
+		}
 }
