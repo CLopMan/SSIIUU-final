@@ -1,6 +1,5 @@
 // Imports de otros js
 import { init_minigame } from "./funcionalidades/minijuego.js";
-import { change_fav } from "./funcionalidades/favorito.js";
 import { check_log_in, check_sign_up, register_effective, register_error } from "./funcionalidades/registro.js";
 import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost, gen_duel_qr, start_duel_scanning, hide_duel_qr} from "./funcionalidades/duelo.js";
 
@@ -36,7 +35,7 @@ function del() {
 }
 
 function fav() {
-    change_fav();
+    
 }
 
 function inventory() {

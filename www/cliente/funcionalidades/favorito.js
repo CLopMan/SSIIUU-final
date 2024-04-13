@@ -3,7 +3,7 @@ export var favourite_list = {"clave_del_div":
 	{
 		"favorito": 0,
 		"contador": 0,
-		"estrella": "literalmente el objeto";
+		"estrella": "literalmente el objeto"
 	}
 }
 
