@@ -86,10 +86,8 @@ function colocarBloque() {
     figura_actual.color = "#7273b8";
     window.navigator.vibrate(100);
 
-    // *************************** AQUI ESTÁ MANU ****************
     let figura_seleccionada;
-    // *************************** AQUI ESTÁ MANU ****************
-
+    
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
     let index_bottom_right =
         (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
@@ -115,14 +113,16 @@ function colocarBloque() {
     div_figura.style.height = height + "px";
 
     document.body.appendChild(div_figura);
-    div_figura.addEventListener("touchstart", () => {
+    div_figura.addEventListener("touchend", () => {
         {
             // Si se vuelve a tocar la misma se deselecciona
             if (figura_seleccionada === div_figura) {
+            	console.log(figura_seleccionada);
                 figura_seleccionada = null;
                 // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
             } else {
                 figura_seleccionada = div_figura;
+                
             }
         }
     });

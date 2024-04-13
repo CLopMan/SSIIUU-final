@@ -144,14 +144,3 @@ document.getElementById("sign-up_register").addEventListener("touchend", (ev) =>
 // Elementos que sirven para triggerear los eventos, eliminar cuando se puedan lanzar por el flujo esperado de la aplicación
 document.getElementById("favorito").addEventListener("touchend", fav);
 document.getElementById("minigame_button").addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
-document.getElementById("duel_1").addEventListener("touchend", (ev) => {
-    id = 1;
-    opponent_id = 2;
-    socket.emit("TRIGGER_DUEL", 2, 1);
-});
-
-document.getElementById("duel_2").addEventListener("touchend", (ev) => {
-    id = 2;
-    opponent_id = 1;
-    socket.emit("TRIGGER_DUEL", 1, 2);
-});
