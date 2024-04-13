@@ -163,7 +163,17 @@ io.on('connection', (socket) => {
   	}
   	
   	await wait_register(socket.id);
-  	socket.emit("REGISTER_DUEL", registro_duelos[socket.id]);
+  	
+  	if (registro_duelos[socket.id] != -1) {
+  		socket.emit("REGISTER_DUEL", registro_duelos[socket.id]);
+  	}
+  	else {
+  		registro_duelos[socket.id] = null;
+  	}
+  })
+  
+  socket.on("UNREGISTER_DUEL", () => {
+  	registro_duelos[socket.id] = -1;
   })
   
   socket.on("TRIGGER_DUEL", async (op_id) => {

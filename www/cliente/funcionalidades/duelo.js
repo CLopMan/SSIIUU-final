@@ -44,7 +44,7 @@ qr_duel_close_button.addEventListener("touchend", () => {
 	qr_duel_div.style.display = "none";
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
-	
+	socket.emit("UNREGISTER_DUEL");
 });
 qr_close_duel_scanner.addEventListener("touchend", () => {
 	qr_duel_scanner_div.style.display = "none";
@@ -189,6 +189,13 @@ function duel_aftermath(objects) {
 		op_inventario.style.display = "block";
 		inventario.style.display = "block";
 		duel_page.style.display = "none";
+
+		for (let i of op_inventario.children) {
+			if (i.getAttribute("class") == "item_div") {
+				i.remove();
+			}
+			
+		}
 	}
 	else {
 		wait_for_object_lost();
@@ -301,7 +308,12 @@ function handle_pos(ev) {
 	}
 }
 
-export function gen_duel_qr(id) {
+export function gen_duel_qr(id) {	
+	if (qr_duel_images.children.length > 0) {
+		qr_duel_images.removeChild(qr_duel_images.children[0]);
+		qr_duel_images.removeChild(qr_duel_images.children[0])
+	}
+	
 	const duel_qr = new QRCode("qr_duel", {
 		text: id,
 		width: 512,
