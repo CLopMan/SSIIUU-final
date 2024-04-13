@@ -4,6 +4,7 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
         ></script>
+	  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="funcionalidades/minijuego.css"/>
@@ -62,6 +63,10 @@
             	<button id="qr_duel_close_button">Cerrar</button>
             	<div id="qr_duel"></div>
             </div>
+		    <div id="duel_scanner_div">
+		    	<button id="close_duel_scanner">Cerrar</button>
+		    	<div id="duel_reader"></div>
+		    </div>
             <button id="favorito"style="display: none">Favorito</button>
             <div class="star"style="display: none">
                 <p>No favorito</p>

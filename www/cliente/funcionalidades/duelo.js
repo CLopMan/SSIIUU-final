@@ -2,11 +2,15 @@
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
 
-// QR del duelo
+// Generación de QR del duelo
 const qr_duel_div = document.getElementById("qr_duel_div");
 const qr_duel_images = document.getElementById("qr_duel");
 const qr_duel_close_button = document.getElementById("qr_duel_close_button");
 
+// Lectura de QR del duelo
+const qr_duel_scanner_div = document.getElementById("duel_scanner_div");
+const qr_duel_scanner = new Html5QrcodeScanner("duel_reader", {fps: 10, qrbox: 250});
+const qr_close_duel_scanner = document.getElementById("close_duel_scanner");
 
 // Info del oponente
 const op_inventario = document.getElementById("inventario_oponente");
@@ -39,6 +43,12 @@ qr_duel_close_button.addEventListener("touchend", () => {
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
 });
+qr_close_duel_scanner.addEventListener("touchend", () => {
+	qr_duel_scanner_div.style.display = "none";
+	qr_duel_scanner.clear();
+})
+
+// Posición
 window.addEventListener("deviceorientation", handle_pos);
 
 export function init_duel(timer, name, op_name) {
@@ -300,6 +310,15 @@ export function gen_duel_qr(id, name) {
 	qr_duel_div.style.display = "grid";
 }
 
-export function scan_duel_qr() {
-	
+export function start_duel_scanning() {
+	qr_duel_scanner_div.style.display = "block";
+	qr_duel_scanner.render(scan_duel_success, scan_duel_error);
+}
+
+function scan_duel_success(qrCodeMssg) {
+	console.log(qrCodeMssg);
+}
+
+function scan_duel_error(err) {
+	console.log(err);
 }
