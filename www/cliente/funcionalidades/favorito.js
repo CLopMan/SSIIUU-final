@@ -2,7 +2,6 @@
 export var favourite_list = {"clave_del_div":
 	{
 		"favorito": 0,
-		"seleccionado": 0, 
 		"contador": 0,
 		"estrella": "literalmente el objeto";
 	}
@@ -14,12 +13,8 @@ export var div_id;
 // Listener para la ventana
 window.addEventListener("devicemotion", handle_fav_pos);
 
-export function change_fav() {
-	favourite_list[div_id]["seleccionado"] = !favourite_list[div_id]["seleccionado"];
-}
-
 export function handle_fav_pos(ev){
-	if (favourite_list[div_id]["seleccionado"]) { 
+	if (div_id != null) { 
 		if (favourite_list[div_id]["contador"] < 50) {
 			if (Math.abs(ev.rotationRate.alpha) > 200) {
 				favourite_list[div_id]["contador"] += 1;
@@ -27,7 +22,7 @@ export function handle_fav_pos(ev){
 		}
 		else {
 			change_obj_fav(div_id);
-			favourite_list[div_id]["seleccionado"] =  0;
+			div_id = null;
 			favourite_list[div_id]["contador"] = 0;
 		}
 	}
