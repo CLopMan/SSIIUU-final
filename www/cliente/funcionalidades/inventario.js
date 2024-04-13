@@ -86,6 +86,10 @@ function colocarBloque() {
     figura_actual.color = "#7273b8";
     window.navigator.vibrate(100);
 
+    // *************************** AQUI ESTÁ MANU ****************
+    let figura_seleccionada;
+    // *************************** AQUI ESTÁ MANU ****************
+
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
     let index_bottom_right =
         (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
@@ -113,14 +117,16 @@ function colocarBloque() {
     document.body.appendChild(div_figura);
     div_figura.addEventListener("touchstart", () => {
         {
-            div_figura.style.backgroundColor = "red";
+            // Si se vuelve a tocar la misma se deselecciona
+            if (figura_seleccionada === div_figura) {
+                figura_seleccionada = null;
+                // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
+            } else {
+                figura_seleccionada = div_figura;
+            }
         }
     });
-    div_figura.addEventListener("touchend", () => {
-        {
-            div_figura.style.backgroundColor = "transparent";
-        }
-    });
+
     div_figuras.push({ div_figura, figura_actual });
 
     dibujarFiguraEnMatriz();
@@ -269,7 +275,9 @@ function dibujar_figuras() {
         }
     }
 }
-
+if (window.screen.orientation) {
+    window.screen.orientation.lock("portrait");
+}
 setInterval(dibujar_figuras, 100);
 generar_bloque();
 setInterval(moverFiguraAbajo, 3000);
