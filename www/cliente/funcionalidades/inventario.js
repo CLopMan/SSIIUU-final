@@ -49,14 +49,19 @@ function printMatrix(matrix) {
 }
 
 function dibujarFiguraEnMatriz() {
-    //console.log(figura_actual.x, figura_actual.y);
-    //console.log(figura_actual.height, figura_actual.width);
     for (let i = 0; i < figura_actual.height; i++) {
         for (let j = 0; j < figura_actual.width; j++) {
             matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 1;
         }
     }
-    //console.log(matriz_figuras);
+}
+
+function borrarFiguraEnMatriz() {
+    for (let i = 0; i < figura_actual.height; i++) {
+        for (let j = 0; j < figura_actual.width; j++) {
+            matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 0;
+        }
+    }
 }
 
 function moverFiguraIzquierda() {
@@ -73,21 +78,15 @@ function moverFiguraIzquierda() {
         }
         if (!colision) {
             figura_actual.x++;
-            window.navigator.vibrate(200);
         }
     }
 }
 
 function colocarBloque() {
+    figura_actual.color = "#7273b8";
+    window.navigator.vibrate(100);
+
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
-    let index_top_right =
-        figura_actual.y * COLUMNAS_MATRIZ +
-        figura_actual.x +
-        figura_actual.width -
-        1;
-    let index_bottom_left =
-        (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
-        figura_actual.x;
     let index_bottom_right =
         (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
         figura_actual.x +
@@ -95,13 +94,9 @@ function colocarBloque() {
         1;
 
     let celda_top_left = cells[index_top_left];
-    let celda_top_right = cells[index_top_right];
-    let celda_bottom_left = cells[index_bottom_left];
     let celda_bottom_right = cells[index_bottom_right];
 
     let rect_top_left = celda_top_left.getBoundingClientRect();
-    let rect_top_right = celda_top_right.getBoundingClientRect();
-    let rect_bottom_left = celda_bottom_left.getBoundingClientRect();
     let rect_bottom_right = celda_bottom_right.getBoundingClientRect();
 
     let div_figura = document.createElement("div");
@@ -114,9 +109,24 @@ function colocarBloque() {
     div_figura.style.top = rect_top_left.top + "px";
     div_figura.style.width = width + "px";
     div_figura.style.height = height + "px";
-    div_figura.style.backgroundColor = "red";
 
     document.body.appendChild(div_figura);
+    div_figura.addEventListener("touchstart", () => {
+        {
+            div_figura.style.backgroundColor = "red";
+        }
+    });
+    div_figura.addEventListener("touchend", () => {
+        {
+            div_figura.style.backgroundColor = "transparent";
+        }
+    });
+    div_figuras.push({ div_figura, figura_actual });
+
+    dibujarFiguraEnMatriz();
+
+    /* Aquí habría que comprobar que se puede generar bloque */
+    generar_bloque();
 }
 
 function moverFiguraDerecha() {
@@ -131,7 +141,6 @@ function moverFiguraDerecha() {
         }
         if (!colision) {
             figura_actual.x--;
-            window.navigator.vibrate(200);
         }
     }
 }
@@ -139,13 +148,10 @@ function moverFiguraDerecha() {
 function moverFiguraAbajo() {
     if (!colisionAbajo()) {
         figura_actual.y++;
-        window.navigator.vibrate(200);
         // Actualizar visualización o lógica relacionada con el movimiento
     } else {
         // La figura ha llegado al final, puedes hacer algo aquí como colocarla o generar una nueva figura.
         colocarBloque();
-        dibujarFiguraEnMatriz();
-        generar_bloque();
     }
 }
 
@@ -189,7 +195,6 @@ function rotarFiguraDerecha() {
                     nuevaMatriz[i][j];
             }
         }
-        window.navigator.vibrate(200);
     }
 }
 
@@ -216,7 +221,6 @@ function rotarFiguraIzquierda() {
                     nuevaMatriz[i][j];
             }
         }
-        window.navigator.vibrate(200);
     }
 }
 
@@ -266,7 +270,7 @@ function dibujar_figuras() {
     }
 }
 
-setInterval(dibujar_figuras, 1000);
+setInterval(dibujar_figuras, 100);
 generar_bloque();
 setInterval(moverFiguraAbajo, 3000);
 let startAngle = {};
