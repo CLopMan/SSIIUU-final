@@ -1,4 +1,5 @@
 // Divs de registro
+const inventario = document.getElementById("inventario");
 const register = document.getElementById("register");
 const log_in = document.getElementById("log-in");
 const sign_up = document.getElementById("sign-up");
@@ -99,6 +100,7 @@ function sign_up_to_log_in(ev) {
 export function register_effective() {
     register.style.animation = "registered 0.6s 1";
     register.style.marginTop = "-100vh";
+    inventario.style.display = "block";
 
     window.setTimeout(() => {
         page = 0;
@@ -106,6 +108,8 @@ export function register_effective() {
         sign_up.style.animation = "";
         log_in.style.marginLeft = "0vw";
         sign_up.style.marginLeft = "100vw";
+        log_out_button.style.display = "block";
+        register.style.display = "none";
     }, 600);
 
     let name;
@@ -138,8 +142,14 @@ export function register_error(error, id) {
 }
 
 function log_out() {
+	register.style.display = "block";
     register.style.animation = "log_out 0.6s 1";
     register.style.marginTop = "0vh";
+    log_out_button.style.display = "none";
+	
+	window.setTimeout(()=> {
+		inventario.style.display = "none";
+	}, 600);
 }
 
 function handle_pos(ev) {

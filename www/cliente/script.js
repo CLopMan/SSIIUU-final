@@ -1,61 +1,31 @@
+// Imports de otros js
 import { init_minigame } from "./funcionalidades/minijuego.js";
 import { change_fav } from "./funcionalidades/favorito.js";
-import {
-    check_log_in,
-    check_sign_up,
-    register_effective,
-    register_error,
-} from "./funcionalidades/registro.js";
-import {
-    appear_duel_symbol,
-    init_duel,
-    get_duel_done,
-    display_duel_outcome,
-    get_stolen_object,
-    display_object_lost,
-} from "./funcionalidades/duelo.js";
+import { check_log_in, check_sign_up, register_effective, register_error } from "./funcionalidades/registro.js";
+import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost, gen_duel_qr, start_duel_scanning} from "./funcionalidades/duelo.js";
 
-var opponent_id;
-var opponent_name;
+// Socket
+const socket = io();
 var id;
 var name;
 
-if ("NDEFReader" in window) {
-    navigator.permissions
-        .query({ name: "nfc" })
-        .then((permission_status) => {
-            if (permission_status.state == "granted") {
-                const reader = new NDEFReader();
-                const writer = new NDEFWriter();
+// Botones del menú
+const qr_duel_button = document.getElementById("qr_duel_button"); 
+const add_button = document.getElementById("add_button");
+const scan_duel_button = document.getElementById("scan_duel_button");
 
-                write_hello(writer, reader);
+// Listeners para los botones
+qr_duel_button.addEventListener("touchend", () => {
+	gen_duel_qr(id, name); 
+});
 
-                reader.on("read", (tag) => {
-                    const message = NdefParser.parse(tag);
-                    if (message == "hello") {
-                        appear_duel_symbol();
-                    } else {
-                        let pos = message.indexOf(":");
-                        let substr = message.substring(0, pos);
+add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
+scan_duel_button.addEventListener("touchend", start_duel_scanning);
 
-                        if (substr == "Petition") {
-                            appear_duel_petition();
-                        }
 
-                        if (substr == "Accepted") {
-                            let pos_id = message.indexOf(",");
-                            opponent_id = message.substring(pos + 1, pos_id);
-                            opponent_name = message.substring(pos_id + 1);
-                            socket.emit("TRIGGER_DUEL", opponent_id);
-                        }
-                    }
-                });
-            }
-        })
-        .catch(() => {
-            "NDEFReader not in browser";
-        });
-}
+// Variables para el duelo
+var opponent_id;
+var opponent_name;
 
 function add() {
     console.log("add");
@@ -89,11 +59,10 @@ async function duel(timer) {
     socket.emit("DUEL_FINISHED", opponent_id, id);
 }
 
-const socket = io();
-
 socket.on("connect", () => {
     socket.emit("CLIENT_CONNECTED");
-
+	id = socket.id;
+	
     socket.on("ACK_CONNECTION", () => {
         console.log("Cliente conectado");
     });
@@ -155,36 +124,32 @@ socket.on("connect", () => {
     });
 });
 
-document
-    .getElementById("add_button")
-    .addEventListener("touch", () => socket.emit("TRIGGER_ADD"));
-document
-    .getElementById("favorito")
-    .addEventListener("click", () => socket.emit("TRIGGER_FAVOURITE"));
-document
-    .getElementById("minigame_button")
-    .addEventListener("click", () => socket.emit("TRIGGER_MINIGAME"));
-document.getElementById("log-in_register").addEventListener("click", (ev) => {
+
+document.getElementById("log-in_register").addEventListener("touchend", (ev) => {
     let data = check_log_in(ev);
     if (data != null) {
         socket.emit("LOG_IN", data);
     }
 });
 
-document.getElementById("sign-up_register").addEventListener("click", (ev) => {
+document.getElementById("sign-up_register").addEventListener("touchend", (ev) => {
     let data = check_sign_up(ev);
     if (data != null) {
         socket.emit("SIGN_UP", data);
     }
 });
 
-document.getElementById("duel_1").addEventListener("click", (ev) => {
+
+// Elementos que sirven para triggerear los eventos, eliminar cuando se puedan lanzar por el flujo esperado de la aplicación
+document.getElementById("favorito").addEventListener("touchend", () => socket.emit("TRIGGER_FAVOURITE"));
+document.getElementById("minigame_button").addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
+document.getElementById("duel_1").addEventListener("touchend", (ev) => {
     id = 1;
     opponent_id = 2;
     socket.emit("TRIGGER_DUEL", 2, 1);
 });
 
-document.getElementById("duel_2").addEventListener("click", (ev) => {
+document.getElementById("duel_2").addEventListener("touchend", (ev) => {
     id = 2;
     opponent_id = 1;
     socket.emit("TRIGGER_DUEL", 1, 2);

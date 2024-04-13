@@ -1,65 +1,55 @@
+// Páginas que cambiar
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
+
+// Generación de QR del duelo
+const qr_duel_div = document.getElementById("qr_duel_div");
+const qr_duel_images = document.getElementById("qr_duel");
+const qr_duel_close_button = document.getElementById("qr_duel_close_button");
+
+// Lectura de QR del duelo
+const qr_duel_scanner_div = document.getElementById("duel_scanner_div");
+const qr_duel_scanner = new Html5QrcodeScanner("duel_reader", {fps: 10, qrbox: 250});
+const qr_close_duel_scanner = document.getElementById("close_duel_scanner");
+
+// Info del oponente
 const op_inventario = document.getElementById("inventario_oponente");
-
 const h1_op_inv = document.getElementById("h1_op_inv");
-const conf = document.getElementById("confirmation")
-let conf_div;
-const wait_msg = document.getElementById("wait_msg");
 
+// Elementos de robo
+const conf = document.getElementById("confirmation")
+const wait_msg = document.getElementById("wait_msg");
+const object_lost = document.getElementById("object_lost");
+let conf_div;
+
+// Banners del inicio
 const user_banner = document.getElementById("banner_user");
 const op_banner = document.getElementById("banner_opponent");
 
+// Warning del duelo 
 const duel_warning = document.getElementById("duel_warning");
-const object_lost = document.getElementById("object_lost");
 
+// Variables del duelo
 let done = false;
 let loss_id;
 var stolen_object;
 let beta;
 let duel_start = false;
 
-duel_warning.addEventListener("click", register_done);
+// Listeners de botones
+duel_warning.addEventListener("touchend", register_done);
+qr_duel_close_button.addEventListener("touchend", () => {
+	qr_duel_div.style.display = "none";
+	qr_duel_images.removeChild(qr_duel_images.children[0]);
+	qr_duel_images.removeChild(qr_duel_images.children[0]);
+});
+qr_close_duel_scanner.addEventListener("touchend", () => {
+	qr_duel_scanner_div.style.display = "none";
+	qr_duel_scanner.clear();
+})
+
+// Posición
 window.addEventListener("deviceorientation", handle_pos);
-
-export async function write_duel_petition() {
-	Nfc.write("Petition: " + socket.id + "," + name)
-	.then(() => {
-		console.log("Petición de duelo enviada");
-	})
-	.catch((err) => {
-		console.log("Error al escribir en etiqueta NFC:", error);
-	});
-}
-
-export async function write_hello(writer, reader) {
-	const message = new NDEFMessage([
-		new NDEFRecord({
-			recordType: "text",
-			mediaType: "text/plan",
-			data: "hello there"
-		})
-	]);
-	
-	writer.write(message)
-	.then(() => {
-		console.log("Mensaje de hola escrito");
-		reader.scan()
-		.then(() => {
-			console.log("Escaneo NFC iniciado");
-		})
-		.catch(err => {
-			console.log(err);
-		});
-	})
-	.catch((err) => {
-		console.log("Error al escribir en etiqueta NFC:", error);
-	})
-}
-
-export function appear_duel_symbol() {
-	
-}
 
 export function init_duel(timer, name, op_name) {
 	// Reinicia variables
@@ -73,12 +63,6 @@ export function init_duel(timer, name, op_name) {
 	// Guarda el nombre en el banner
 	user_banner.innerHTML = name;
 	op_banner.innerHTML = op_name;
-
-	// Cambia el color del banner	
-	user_banner.style.backgroundColor = "blue";
-	user_banner.style.border = "5px solid blue";
-	op_banner.style.backgroundColor = "red";
-	op_banner.style.border = "5px solid red";
 
 	// Reinicia el mensaje de espera y del duelo
 	wait_msg.style.animation = "";
@@ -141,16 +125,10 @@ function display_win(objects) {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Ganador: " + user;
-	user_banner.style.backgroundColor = "yellow";
-	user_banner.style.border = "5px solid yellow";
-	user_banner.style.color = "black";
 	
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Perdedor: " + op;
-	op_banner.style.backgroundColor = "purple";
-	op_banner.style.border = "5px solid purple";
-	op_banner.style.color = "black";
 	
 	// Aparecen los banners
 	user_banner.style.animation = "appear_banner_left 1s 1";
@@ -178,16 +156,10 @@ function display_loss() {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Perdedor: " + user;
-	user_banner.style.backgroundColor = "purple";
-	user_banner.style.border = "5px solid purple";
-	user_banner.style.color = "black";
-
+	
 	// Cambia el estilo del oponente
 	let op = op_banner.innerHTML;
 	op_banner.innerHTML = "Ganador: " + op;
-	op_banner.style.backgroundColor = "yellow";
-	op_banner.style.border = "5px solid yellow";
-	op_banner.style.color = "black";
 	
 	// Aparecen los banners
 	user_banner.style.animation = "appear_banner_left 1s 1";
@@ -228,7 +200,7 @@ function duel_aftermath(objects) {
 		p.innerHTML = item;
 		p.setAttribute("class", "item_p");
 		
-		p.addEventListener("click", confirmation);
+		p.addEventListener("tocuhend", confirmation);
 		
 		div.appendChild(p);
 		
@@ -251,8 +223,8 @@ function duel_aftermath(objects) {
 		button_yes.innerHTML = "SI";
 		button_no.innerHTML = "NO";
 		
-		button_yes.addEventListener("click", confirmation_yes);
-		button_no.addEventListener("click", confirmation_no);
+		button_yes.addEventListener("touchend", confirmation_yes);
+		button_no.addEventListener("touchend", confirmation_no);
 		
 		confirmation_div.appendChild(button_yes);
 		confirmation_div.appendChild(button_no);
@@ -324,4 +296,29 @@ function handle_pos(ev) {
 	else {
 		beta = ev.beta;
 	}
+}
+
+export function gen_duel_qr(id, name) {
+	const duel_qr = new QRCode("qr_duel", {
+		text: id + "," + name,
+		width: 512,
+		height: 512,
+		colorDark: "#000000",
+		colorLight: "#FFFFFF",
+		correctLevel: QRCode.CorrectLevel.H
+	});
+	qr_duel_div.style.display = "grid";
+}
+
+export function start_duel_scanning() {
+	qr_duel_scanner_div.style.display = "block";
+	qr_duel_scanner.render(scan_duel_success, scan_duel_error);
+}
+
+function scan_duel_success(qrCodeMssg) {
+	console.log(qrCodeMssg);
+}
+
+function scan_duel_error(err) {
+	console.log(err);
 }

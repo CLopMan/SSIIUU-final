@@ -25,13 +25,11 @@ var capturado = false;
 var capturable = false;
 var beta;
 
-////////CAMBIAR LOS CLICKS POR TOUCH CUANDO ACABE DE DEBUGGEAR
-
 // Listener para la pesca por movimiento
 window.addEventListener("deviceorientation", handle_pos);
 
 ////////QUITAR ESTO CUANDO ACABE DE DEBUGGEAR
-shadow.addEventListener("click", () => {
+shadow.addEventListener("touchend", () => {
 	window.clearTimeout(tries_id);
 	window.clearTimeout(next_try_id);
 	window.setTimeout(trigger_win, 350);
@@ -226,13 +224,13 @@ function trigger_win() {
 }
 
 // Añade el listener al botón de reglas	
-boton_reglas.addEventListener("click", () => {
+boton_reglas.addEventListener("touchend", () => {
 	reglas.style.display = "none"
 	start_minigame_round(3);		
 });
 
 // Añade el listener al botón de cerrar
-boton_cerrar.addEventListener("click", () => {
+boton_cerrar.addEventListener("touchend", () => {
 	inventario.style.display = "block";
 	minijuego.style.display = "none";
 });
