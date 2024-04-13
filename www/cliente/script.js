@@ -2,10 +2,10 @@
 import { init_minigame } from "./funcionalidades/minijuego.js";
 import { change_fav } from "./funcionalidades/favorito.js";
 import { check_log_in, check_sign_up, register_effective, register_error } from "./funcionalidades/registro.js";
-import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost, gen_duel_qr, start_duel_scanning} from "./funcionalidades/duelo.js";
+import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost, gen_duel_qr, start_duel_scanning, hide_duel_qr} from "./funcionalidades/duelo.js";
 
 // Socket
-const socket = io();
+export const socket = io();
 var id;
 var name;
 
@@ -16,9 +16,9 @@ const scan_duel_button = document.getElementById("scan_duel_button");
 
 // Listeners para los botones
 qr_duel_button.addEventListener("touchend", () => {
-	gen_duel_qr(id, name); 
+	gen_duel_qr(id); 
+	socket.emit("REGISTER_DUEL");
 });
-
 add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
 scan_duel_button.addEventListener("touchend", start_duel_scanning);
 
@@ -36,7 +36,6 @@ function del() {
 }
 
 function fav() {
-    console.log("Doing client fav");
     change_fav();
 }
 
@@ -99,13 +98,15 @@ socket.on("connect", () => {
 
     socket.on("TRIGGER_MINIGAME", minigame);
 
+	socket.on("REGISTER_DUEL", (op_id) => {
+		opponent_id = op_id;
+		hide_duel_qr();
+		socket.emit("TRIGGER_DUEL", opponent_id);
+	})
+
     socket.on("TRIGGER_DUEL", (timer, op_name) => {
         opponent_name = op_name;
         duel(timer);
-    });
-
-    socket.on("TIME_NOT_NULL", () => {
-        socket.emit("CHECK_TIME", id, opponent_id);
     });
 
     socket.on("DUEL_WON", async (objects) => {
@@ -141,7 +142,7 @@ document.getElementById("sign-up_register").addEventListener("touchend", (ev) =>
 
 
 // Elementos que sirven para triggerear los eventos, eliminar cuando se puedan lanzar por el flujo esperado de la aplicación
-document.getElementById("favorito").addEventListener("touchend", () => socket.emit("TRIGGER_FAVOURITE"));
+document.getElementById("favorito").addEventListener("touchend", fav);
 document.getElementById("minigame_button").addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
 document.getElementById("duel_1").addEventListener("touchend", (ev) => {
     id = 1;

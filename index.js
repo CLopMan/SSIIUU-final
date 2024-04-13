@@ -9,9 +9,10 @@ const crypto = require("crypto");
 app.use('/', express.static(path.join(__dirname, 'www')));
 
 let cashierSocket;
+let registro_duelos = {};
 let duelos = {};
 let objects_lost = {};
-let socket_name = {1: "manu", 2: "cesar"};
+let socket_name = {};
 var keys;
 
 
@@ -115,6 +116,14 @@ function del_object(object, username) {
 	
 }
 
+async function wait_register(id) {
+	while (registro_duelos[id] == null) {
+		await new Promise(resolve => setTimeout(resolve, 50));
+	}
+	
+	return ;
+}
+
 async function wait_duel(opponent_id){
 	while (duelos[opponent_id] == null) { 
   		await new Promise(resolve => setTimeout(resolve, 50)); 
@@ -147,12 +156,18 @@ io.on('connection', (socket) => {
   	socket.emit("TRIGGER_MINIGAME");
   })
   
-  socket.on("TRIGGER_DUEL", async (op_id, id) => {
-  	// Triger de duel, recibe id del oponente. id es opcional, puesto ahí para usar botones
-  	if (id == null) {
-  		let id = socket.id;
+  socket.on("REGISTER_DUEL", async (op_id) => {
+  	if (op_id != null) {
+  		registro_duelos[socket.id] = op_id;
+  		registro_duelos[op_id] = socket.id;
   	}
   	
+  	await wait_register(socket.id);
+  	socket.emit("REGISTER_DUEL", registro_duelos[socket.id]);
+  })
+  
+  socket.on("TRIGGER_DUEL", async (op_id) => {
+  	// Triger de duel, recibe id del oponente
   	let timer;
   	
   	if (duelos[op_id] != null) {
@@ -162,50 +177,45 @@ io.on('connection', (socket) => {
   		timer = Math.random()*3000 + 3000; // Entre 3 y 6 segundos
   	}
   	
-  	duelos[id] = {"opponent": op_id, "timer": timer, "done": null};
+  	duelos[socket.id] = {"opponent": op_id, "timer": timer, "done": null};
   	
   	await wait_duel(op_id);
   	socket.emit("TRIGGER_DUEL", timer, socket_name[op_id]);
   })
   
-  socket.on("DUEL_FINISHED", async (op_id, id) => {
+  socket.on("DUEL_FINISHED", async (op_id) => {
   	// Función que registra el ganador del duelo
-  	if (id == null) {
-  		let id = socket.id;
-  	}
   	
   	// Registra fin del duelo
-  	duelos[id]["done"] = true;
+  	duelos[socket.id]["done"] = true;
   	
   	// Si el otro no ha registrado el fin, gana
   	if (duelos[op_id]["done"] == null) {
-	  	let objects = {"pipas": "1€", "jamón": "5€", "pimientos": "2€", "fanta": "1€", "chorizo": "2.5€", "patatas": ".8€", "sandía": "5€", "solomillo": "20€", "ramón bilbao": "4.7€", "pescaito": "1.9€", "chicles": "2€", "iphone": "1200€", "portátil": "1500€", "silla": "50€"}; // read_objects[username];
+	  	let objects = {"pipas": "5€"}; // read_objects[username];
   		socket.emit("DUEL_WON", objects);
   	}
   	else {
-  		duelos[id] = null;
+  		duelos[socket.id] = null;
   		duelos[op_id] = null;
   		socket.emit("DUEL_LOST", null);
   	}
   });
   
-  socket.on("DUEL_OBJECT", async(object, op_id, id) => {
-  	if (id == null) {
-  		id = socket.id;
-  	}
-  	
+  socket.on("DUEL_OBJECT", async(object, op_id) => {
   	if (object == null) {
-  		await wait_object(id);
+  		await wait_object(socket.id);
   		
-  		socket.emit("OBJECT_LOST", objects_lost[id]);
+  		socket.emit("OBJECT_LOST", objects_lost[socket.id]);
   		//del_object(objects_lost[id], socket_name[id]);
-  		duelos[id] = null;
-  		objects_lost[id] = null;
+  		duelos[socket.id] = null;
+  		objects_lost[socket.id] = null;
+  		registro_duelos[socket.id] = null;
   	}
   	
   	objects_lost[op_id] = object;
-  	duelos[id] = null;
-  	objects_lost[id] = null;
+  	duelos[socket.id] = null;
+  	objects_lost[socket.id] = null;
+  	registro_duelos[socket.id] = null;
   	//add_object(object, socket_name[id]);
   });
   

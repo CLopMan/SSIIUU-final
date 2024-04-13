@@ -1,3 +1,5 @@
+import { socket } from "../script.js";
+
 // Páginas que cambiar
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
@@ -42,6 +44,7 @@ qr_duel_close_button.addEventListener("touchend", () => {
 	qr_duel_div.style.display = "none";
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
 	qr_duel_images.removeChild(qr_duel_images.children[0]);
+	
 });
 qr_close_duel_scanner.addEventListener("touchend", () => {
 	qr_duel_scanner_div.style.display = "none";
@@ -200,7 +203,7 @@ function duel_aftermath(objects) {
 		p.innerHTML = item;
 		p.setAttribute("class", "item_p");
 		
-		p.addEventListener("tocuhend", confirmation);
+		p.addEventListener("touchend", confirmation);
 		
 		div.appendChild(p);
 		
@@ -298,9 +301,9 @@ function handle_pos(ev) {
 	}
 }
 
-export function gen_duel_qr(id, name) {
+export function gen_duel_qr(id) {
 	const duel_qr = new QRCode("qr_duel", {
-		text: id + "," + name,
+		text: id,
 		width: 512,
 		height: 512,
 		colorDark: "#000000",
@@ -310,13 +313,20 @@ export function gen_duel_qr(id, name) {
 	qr_duel_div.style.display = "grid";
 }
 
+export function hide_duel_qr() {
+	qr_duel_div.style.display = "none";
+}
+
 export function start_duel_scanning() {
 	qr_duel_scanner_div.style.display = "block";
 	qr_duel_scanner.render(scan_duel_success, scan_duel_error);
 }
 
 function scan_duel_success(qrCodeMssg) {
-	console.log(qrCodeMssg);
+	qr_duel_scanner_div.style.display = "";
+	qr_duel_scanner.clear();
+	socket.emit("REGISTER_DUEL", qrCodeMssg);
+	
 }
 
 function scan_duel_error(err) {
