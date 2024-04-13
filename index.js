@@ -16,29 +16,40 @@ let socket_name = {};
 var keys;
 
 
-read_keys();
+read_keys()
+.then((res) => {
+	keys = res;
+})
+.catch((err) => {
+	console.log(err);
+});
 
 function read_keys() {
-	fs.readFile("./data_user/keys.json", "utf-8", (err, data) => {
-		if (err) {
-			console.log(err);
-		}
-		else {
-			keys = JSON.parse(data);
-		}
+	return new Promise((resolve, reject) => {
+		fs.readFile("./data_user/keys.json", "utf-8", (err, data) => {
+			if (err) {
+				reject(err);
+			}
+			else {
+				let res = JSON.parse(data);
+				resolve(res);
+			}
+		});
 	});
 }
 
 function read_objects() {
-	fs.readFile("./data_user/items.json", "utf-8", (err, data) => {
-		if (err) {
-			console.log(err);
-		}
-		else {
-			let items = JSON.parse(data);
-			return items;
-		}
-	})
+	return new Promise((resolve, reject) => {
+		fs.readFile("./data_user/items.json", "utf-8", (err, data) => {
+			if (err) {
+				reject(err);
+			}
+			else {
+				let res = JSON.parse(data);
+				resolve(res);
+			}
+		});
+	});
 }
 
 function write_keys() {
@@ -96,24 +107,35 @@ function add_user(socket, data) {
 }
 
 function add_object(object, username) {
-	let data = read_objects();
-	data[username][object] = "añadido";
-	write_objects(data);
+	read_objects()
+	.then ((data) => {
+		data[username][object] = "añadido";
+		write_objects(data);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
 }
 
 function del_object(object, username) {
-	let data = read_objects();
-	let data_user = {};
-	
-	Object.keys(data[username]).forEach((item) => {
-		if (item != object) {
-			data_user[username][item] = data[username][item];
-		}
+	read_objects()
+	.then((data) => {
+		let data_user = {};
+		data_user[username] = {};
+		let i = 0;
+		for (let elem in data[username]) {
+			if (object != data[username][elem]["tipo"]) {
+				data_user[username][i] = data[username][elem];
+				i += 1;
+			}
+		};
+		data[username] = data_user[username];
+		write_objects(data_user);
+		
+	})
+	.catch((err) => {
+		console.log(err);
 	});
-	
-	data[username] = data_user[username];
-	write_object(data);
-	
 }
 
 async function wait_register(id) {
@@ -201,8 +223,13 @@ io.on('connection', (socket) => {
   	
   	// Si el otro no ha registrado el fin, gana
   	if (duelos[op_id]["done"] == null) {
-	  	let objects = {"pipas": "5€"}; // read_objects[username];
-  		socket.emit("DUEL_WON", objects);
+	  	read_objects()
+	  	.then((objects) => {
+	  		socket.emit("DUEL_WON", objects[socket_name[op_id]]);	  	
+	  	})
+	  	.catch ((err) => {
+	  		console.log(err);
+  		});
   	}
   	else {
   		duelos[socket.id] = null;
@@ -216,16 +243,16 @@ io.on('connection', (socket) => {
   		await wait_object(socket.id);
   		
   		socket.emit("OBJECT_LOST", objects_lost[socket.id]);
-  		//del_object(objects_lost[id], socket_name[id]);
+  		del_object(objects_lost[socket.id], socket_name[socket.id]);
   		duelos[socket.id] = null;
   		objects_lost[socket.id] = null;
   		registro_duelos[socket.id] = null;
+		duelos[op_id] = null;
+		objects_lost[op_id] = null;
+		registro_duelos[op_id] = null;
   	}
   	
   	objects_lost[op_id] = object;
-  	duelos[socket.id] = null;
-  	objects_lost[socket.id] = null;
-  	registro_duelos[socket.id] = null;
   	//add_object(object, socket_name[id]);
   });
   

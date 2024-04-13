@@ -110,13 +110,13 @@ socket.on("connect", () => {
     });
 
     socket.on("DUEL_WON", async (objects) => {
-        display_duel_outcome(objects);
+        display_duel_outcome(objects, 1);
         let object = await get_stolen_object();
         socket.emit("DUEL_OBJECT", object, opponent_id, id);
     });
 
     socket.on("DUEL_LOST", (objects) => {
-        display_duel_outcome(objects);
+        display_duel_outcome(objects, 0);
         socket.emit("DUEL_OBJECT", null, opponent_id, id);
     });
 

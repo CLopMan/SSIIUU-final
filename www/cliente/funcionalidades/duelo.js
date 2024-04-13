@@ -115,16 +115,16 @@ function register_done() {
 	window.clearTimeout(loss_id);
 }
 
-export function display_duel_outcome(objects) {
-	if (objects != null) {
-		display_win(objects);
+export function display_duel_outcome(objects, win) {
+	if (win == 1) {
+		display_win(objects, win);
 	}
 	else {
-		display_loss(objects);
+		display_loss(objects, win);
 	}
 }
 
-function display_win(objects) {
+function display_win(objects, win) {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
 	user_banner.innerHTML = "Ganador: " + user;
@@ -146,12 +146,12 @@ function display_win(objects) {
 		user_banner.style.marginLeft = "-85vw";
 		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			duel_aftermath(objects);
+			duel_aftermath(objects, win);
 		})
 	}, 2000);
 }
 
-function display_loss() {
+function display_loss(object, win) {
 	// Esconde el warning de duelo
 	duel_warning.style.display = "none";
 	window.clearTimeout(loss_id);
@@ -177,14 +177,14 @@ function display_loss() {
 		user_banner.style.marginLeft = "-85vw";
 		op_banner.style.marginLeft = "105vw";
 		window.setTimeout(() => {
-			duel_aftermath(null);
+			duel_aftermath(object, win);
 		})
 	}, 2000);
 }
 
-function duel_aftermath(objects) {
+function duel_aftermath(objects, win) {
 	
-	if (objects != null) {
+	if (win == 1) {
 		h1_op_inv.innerHTML = "ROBA UN OBJETO";	
 		op_inventario.style.display = "block";
 		inventario.style.display = "block";
@@ -207,7 +207,7 @@ function duel_aftermath(objects) {
 		
 		// Nombre del objeto
 		let p = document.createElement("p")
-		p.innerHTML = item;
+		p.innerHTML = objects[item]["tipo"];
 		p.setAttribute("class", "item_p");
 		
 		p.addEventListener("touchend", confirmation);
@@ -342,5 +342,5 @@ function scan_duel_success(qrCodeMssg) {
 }
 
 function scan_duel_error(err) {
-	console.log(err);
+
 }
