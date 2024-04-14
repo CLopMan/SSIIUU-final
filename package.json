@@ -1,7 +1,12 @@
 {
   "dependencies": {
+    "@taptrack/ndef": "^1.0.3",
     "express": "^4.19.2",
+    "http-server": "^14.1.1",
+    "ndef": "^0.2.0",
+    "npx": "^10.2.2",
     "qrcode": "^1.5.3",
     "socket.io": "^4.7.5"
-  }
+  },
+  "devDependencies": {}
 }

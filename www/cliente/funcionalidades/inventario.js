@@ -49,14 +49,19 @@ function printMatrix(matrix) {
 }
 
 function dibujarFiguraEnMatriz() {
-    //console.log(figura_actual.x, figura_actual.y);
-    //console.log(figura_actual.height, figura_actual.width);
     for (let i = 0; i < figura_actual.height; i++) {
         for (let j = 0; j < figura_actual.width; j++) {
             matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 1;
         }
     }
-    //console.log(matriz_figuras);
+}
+
+function borrarFiguraEnMatriz() {
+    for (let i = 0; i < figura_actual.height; i++) {
+        for (let j = 0; j < figura_actual.width; j++) {
+            matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 0;
+        }
+    }
 }
 
 function moverFiguraIzquierda() {
@@ -73,28 +78,61 @@ function moverFiguraIzquierda() {
         }
         if (!colision) {
             figura_actual.x++;
-            window.navigator.vibrate(200);
         }
     }
 }
 
 function colocarBloque() {
+    figura_actual.color = "#7273b8";
+    window.navigator.vibrate(100);
+
+    let figura_seleccionada;
+    
+    let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
+    let index_bottom_right =
+        (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
+        figura_actual.x +
+        figura_actual.width -
+        1;
+
+    let celda_top_left = cells[index_top_left];
+    let celda_bottom_right = cells[index_bottom_right];
+
+    let rect_top_left = celda_top_left.getBoundingClientRect();
+    let rect_bottom_right = celda_bottom_right.getBoundingClientRect();
+
     let div_figura = document.createElement("div");
 
-    let x = figura_actual.x;
-    let y = figura_actual.y;
-    let index_width = figura_actual.x + figura_actual.width;
-    let index_height =
-        (figura_actual.y + figura_actual.height) * COLUMNAS_MATRIZ;
-    let celda_width = cells[index_width];
-    let celda_height = cells[index_height];
+    let width = rect_bottom_right.right - rect_top_left.left;
+    let height = rect_bottom_right.bottom - rect_top_left.top;
 
-    /* for (let i = 0; i < figura_actual.height; i++) {
-        for (let j = 0; j < figura_actual.width; j++) {
-            const index =
-                (figura_actual.y + i) * COLUMNAS_MATRIZ + (figura_actual.x + j);
+    div_figura.style.position = "absolute";
+    div_figura.style.left = rect_top_left.left + "px";
+    div_figura.style.top = rect_top_left.top + "px";
+    div_figura.style.width = width + "px";
+    div_figura.style.height = height + "px";
+
+    document.body.appendChild(div_figura);
+    div_figura.addEventListener("touchend", () => {
+        {
+            // Si se vuelve a tocar la misma se deselecciona
+            if (figura_seleccionada === div_figura) {
+            	console.log(figura_seleccionada);
+                figura_seleccionada = null;
+                // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
+            } else {
+                figura_seleccionada = div_figura;
+                
+            }
         }
-    } */
+    });
+
+    div_figuras.push({ div_figura, figura_actual });
+
+    dibujarFiguraEnMatriz();
+
+    /* Aquí habría que comprobar que se puede generar bloque */
+    generar_bloque();
 }
 
 function moverFiguraDerecha() {
@@ -109,7 +147,6 @@ function moverFiguraDerecha() {
         }
         if (!colision) {
             figura_actual.x--;
-            window.navigator.vibrate(200);
         }
     }
 }
@@ -117,13 +154,10 @@ function moverFiguraDerecha() {
 function moverFiguraAbajo() {
     if (!colisionAbajo()) {
         figura_actual.y++;
-        window.navigator.vibrate(200);
         // Actualizar visualización o lógica relacionada con el movimiento
     } else {
         // La figura ha llegado al final, puedes hacer algo aquí como colocarla o generar una nueva figura.
         colocarBloque();
-        dibujarFiguraEnMatriz();
-        generar_bloque();
     }
 }
 
@@ -167,7 +201,6 @@ function rotarFiguraDerecha() {
                     nuevaMatriz[i][j];
             }
         }
-        window.navigator.vibrate(200);
     }
 }
 
@@ -194,7 +227,6 @@ function rotarFiguraIzquierda() {
                     nuevaMatriz[i][j];
             }
         }
-        window.navigator.vibrate(200);
     }
 }
 
@@ -243,8 +275,10 @@ function dibujar_figuras() {
         }
     }
 }
-
-setInterval(dibujar_figuras, 1000);
+if (window.screen.orientation) {
+    window.screen.orientation.lock("portrait");
+}
+setInterval(dibujar_figuras, 100);
 generar_bloque();
 setInterval(moverFiguraAbajo, 3000);
 let startAngle = {};

@@ -1,55 +1,49 @@
-// Variable para ver si hay un objeto para hacer el favorito
-var favorito = false;
-var contador = 0;
-var obj_fav = false;
-const star = document.getElementsByClassName("star")[0];
-const text_fav = star.children[0];
-
-// Listener para el favorito
-window.addEventListener("devicemotion", handle_pos);
-star.addEventListener("click", change_obj_fav);
-export function change_fav() {
-	favorito = !favorito;
+// Lista con divs, claves = id del div
+export var favourite_list = {"clave_del_div":
+	{
+		"favorito": 0,
+		"contador": 0,
+		"estrella": "literalmente el objeto"
+	}
 }
 
-function handle_pos(ev){
-	if (favorito) { 
-		if (contador < 50) {
+// Valor del id div seleccionado
+export var div_id;
+
+// Listener para la ventana
+window.addEventListener("devicemotion", handle_fav_pos);
+
+function handle_fav_pos(ev){
+	if (div_id != null) { 
+		if (favourite_list[div_id]["contador"] < 50) {
 			if (Math.abs(ev.rotationRate.alpha) > 200) {
-				contador += 1;
+				favourite_list[div_id]["contador"] += 1;
 			}
 		}
 		else {
-			change_obj_fav();
-			contador = 0;
-			favorito = 0;
+			change_obj_fav(div_id);
+			div_id = null;
+			favourite_list[div_id]["contador"] = 0;
 		}
 	}
 }
 
 function change_obj_fav() {
-	if (!obj_fav) {
-		trigger_star_appearing();
+	if (!favourite_list[div_id]["favorito"]) {
+		trigger_star_appearing(div_id);
 	}
 	else {
-		trigger_star_disappearing();
+		trigger_star_disappearing(div_id);
 	}
-	obj_fav = !obj_fav;
+	favourite_list[div_id]["favorito"] = !favourite_list[div_id]["favorito"];
 }
 
 function trigger_star_appearing() {
-	star.style.animation = "appear_star 1s 1";
-	window.setTimeout(() =>{
-		star.style.backgroundColor = "yellow";
-		text_fav.innerHTML = "Favorito";
-	}, 990);
+	favourite_list[div_id]["estrella"].style.animation = "appear_star 1s 1";
+	favourite_list[div_id]["estrella"].style.backgroundColor = "yellow";
 }
 
 function trigger_star_disappearing() {
-	star.style.animation = "disappear_star 1s 1";
-	window.setTimeout(() => {
-		star.style.backgroundColor = "transparent";
-		text_fav.innerHTML = "No favorito";
-		
-	}, 990);
+	favourite_list[div_id]["estrella"].style.animation = "disappear_star 1s 1";
+	favourite_list[div_id]["estrella"].style.backgroundColor = "transparent";
 }
