@@ -57,11 +57,6 @@ async function duel(timer) {
     socket.emit("DUEL_FINISHED", opponent_id, id);
 }
 
-export const socket = io();
-
-
-
-
 socket.on("connect", () => {
     socket.emit("CLIENT_CONNECTED");
 	id = socket.id;
