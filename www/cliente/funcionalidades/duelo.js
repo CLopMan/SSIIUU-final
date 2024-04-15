@@ -311,7 +311,7 @@ function handle_pos(ev) {
 export function gen_duel_qr(id) {	
 	if (qr_duel_images.children.length > 0) {
 		qr_duel_images.removeChild(qr_duel_images.children[0]);
-		qr_duel_images.removeChild(qr_duel_images.children[0])
+		qr_duel_images.removeChild(qr_duel_images.children[0]);
 	}
 	
 	const duel_qr = new QRCode("qr_duel", {
@@ -322,7 +322,10 @@ export function gen_duel_qr(id) {
 		colorLight: "#FFFFFF",
 		correctLevel: QRCode.CorrectLevel.H
 	});
-	qr_duel_div.style.display = "grid";
+	
+	window.setTimeout(() => {
+		qr_duel_div.style.display = "grid";
+	}, 100);
 }
 
 export function hide_duel_qr() {

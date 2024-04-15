@@ -210,7 +210,7 @@ function trigger_win() {
 
 			window.setTimeout( () => {
 				// En 1.5s se enseña el mensaje de ganar
-				warning.innerHTML = `¡Enhorabuena! Has conseguido un ${last_predict}`;
+				warning.innerHTML = `¡Enhorabuena! Has conseguido: ${last_predict}`;
 				warning.style.color = "green";
 				warning.style.animation = "appear_aviso 0.35s 1";
 				warning.style.marginLeft = "0";
