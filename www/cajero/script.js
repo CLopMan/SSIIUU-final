@@ -15,11 +15,11 @@ socket.on("connect", () => {
     console.log("ACK");
   });
 // Escuchar el evento 'jsonData' del servidor
-socket.on('jsonData', (data) => {
+socket.on('jsonData', (data, name) => {
   console.log("Datos JSON recibidos del servidor:", data );
   
   document.getElementById("qrcode").style.display="none";
-  mostrarInformacion(data, "manu")
+  mostrarInformacion(data, name)
 
 });
 

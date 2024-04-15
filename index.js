@@ -268,7 +268,7 @@ io.on('connection', (socket) => {
   socket.on("SIGN_UP", (data) => {
   	add_user(socket, data);
   })
-  socket.on('PAGO', () => {
+  socket.on('PAGO', (name) => {
     console.log('Mensaje "PAGO" recibido desde el cliente');
 
     // Cargar el archivo JSON que deseas enviar al cliente
@@ -280,7 +280,7 @@ io.on('connection', (socket) => {
         }
 
         // Enviar el archivo JSON al cliente
-        cashierSocket.emit('jsonData', JSON.parse(data));
+        cashierSocket.emit('jsonData', JSON.parse(data), name);
         console.log(JSON.parse(data))
         console.log('Archivo JSON enviado al cliente');
     });

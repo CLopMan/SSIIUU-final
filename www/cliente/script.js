@@ -6,7 +6,7 @@ import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, disp
 // Socket
 export const socket = io();
 var id;
-var name;
+export var name;
 
 // Botones del menú
 const qr_duel_button = document.getElementById("qr_duel_button"); 

@@ -1,4 +1,5 @@
-import {socket} from "../script.js"
+import {socket} from "../script.js";
+import {name} from "../script.js";
 
 let scanButton = document.getElementById("Scan");
 let inventario = document.getElementById("inventario");
@@ -46,7 +47,7 @@ function onScanSuccess(decodedText, decodedResult) {
     if (decodedText === "PAGO") {
         navigator.vibrate([200, 50, 200]);
         beep(0.2);
-        socket.emit("PAGO")
+        socket.emit("PAGO", name);
         html5QrcodeScanner.clear();
     }
   }
