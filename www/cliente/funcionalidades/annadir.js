@@ -16,7 +16,7 @@ const constraints = {
 };
 
 captureButton.addEventListener('touchend', () => { // hacer foto
-    canvas_cont.style.display = "flex"
+    canvas_cont.style.display = "flex";
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
     fotico = true;
 });
@@ -78,7 +78,13 @@ window.addEventListener('deviceorientation', handleOrientation);
 
 const annadir_div = document.getElementById("annadir");
 const inventario = document.getElementById("inventario");
-document.getElementById("add_button").addEventListener("touchend", () => {init(); inventario.style.display = "none"; annadir_div.style.display="flex";
+document.getElementById("add_button").addEventListener("touchend", () => {
+    canvas_cont.style.display = "none";
+    init(); 
+    inventario.style.display = "none";
+    annadir_div.style.display="flex";
+    fotico = false;
+
 
     // mostrar foto
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
