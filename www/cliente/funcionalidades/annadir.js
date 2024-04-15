@@ -47,6 +47,7 @@ function handleOrientation(event) {
                 tr[0].stop();
                 predict();
                 init_minigame() // ir al minijuego
+                fotico = false; 
                 startGamma = null;
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
