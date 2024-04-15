@@ -16,20 +16,20 @@
 }
 
 #capture {
-    position: absolute;
     bottom: 3%;
     width: 20vw;
     height: 20vw;
-    border: none;
-    border-radius: 50%; /* Forma circular */
-    background-color: #6ab04c; /* Color de botón pastel */
-    color: #ffffff; /* Color de texto */
-    font-size: 1.2em; /* Tamaño de fuente */
-    cursor: pointer;
-    outline: none;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+#capture > img {
+    width: 70%;
 }
 
 
