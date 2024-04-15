@@ -1,7 +1,13 @@
+import { favorito } from "./favorito.js";
+
 const ANCHO_FIGURA = 2;
 const ALTURA_FIGURA = 3;
-const FILAS_MATRIZ = 8;
-const COLUMNAS_MATRIZ = 6;
+const FILAS_MATRIZ = 10;
+const COLUMNAS_MATRIZ = 8;
+const COLOR_FIGURAS = "#8f90b5";
+const COLOR_FIGURAS_COLOCADAS = "#7273b8";
+const COLOR_FIGURA_SELECCIONADA = "red";
+const COLOR_FONDO = "#3c2012";
 
 class Figura {
     constructor(x, y, color) {
@@ -17,34 +23,21 @@ class Figura {
 
 let lista_figuras = [];
 let div_figuras = [];
-let i_figura = -1;
-const matriz_figuras = [
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-];
+const matriz_figuras = [];
+for (let i = 0; i < FILAS_MATRIZ; i++) {
+    matriz_figuras.push(new Array(COLUMNAS_MATRIZ).fill(0));
+}
 let figura_actual;
-
+let figura_seleccionada;
 // Generar las celdas del juego de Tetris
 const grid = document.getElementById("grid");
 let cells = [];
-for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 6; j++) {
+for (let i = 0; i < FILAS_MATRIZ; i++) {
+    for (let j = 0; j < COLUMNAS_MATRIZ; j++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
         grid.appendChild(cell);
         cells.push(cell);
-    }
-}
-
-function printMatrix(matrix) {
-    for (let i = 0; i < matrix.length; i++) {
-        //console.log(matrix[i].join(" "));
     }
 }
 
@@ -56,10 +49,10 @@ function dibujarFiguraEnMatriz() {
     }
 }
 
-function borrarFiguraEnMatriz() {
-    for (let i = 0; i < figura_actual.height; i++) {
-        for (let j = 0; j < figura_actual.width; j++) {
-            matriz_figuras[figura_actual.y + i][figura_actual.x + j] = 0;
+function borrarFiguraEnMatriz(figura) {
+    for (let i = 0; i < figura.height; i++) {
+        for (let j = 0; j < figura.width; j++) {
+            matriz_figuras[figura.y + i][figura.x + j] = 0;
         }
     }
 }
@@ -83,11 +76,9 @@ function moverFiguraIzquierda() {
 }
 
 function colocarBloque() {
-    figura_actual.color = "#7273b8";
+    figura_actual.color = COLOR_FIGURAS_COLOCADAS;
     window.navigator.vibrate(100);
 
-    let figura_seleccionada;
-    
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
     let index_bottom_right =
         (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
@@ -113,35 +104,71 @@ function colocarBloque() {
     div_figura.style.height = height + "px";
 
     document.body.appendChild(div_figura);
+    div_figuras.push({ div_figura, figura_actual });
     div_figura.addEventListener("touchend", () => {
         {
+            let par_figura_div;
             // Si se vuelve a tocar la misma se deselecciona
             if (figura_seleccionada === div_figura) {
-            	console.log(figura_seleccionada);
+                par_figura_div = div_figuras.find(
+                    (elemento) => elemento.div_figura === div_figura
+                );
+                par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
                 figura_seleccionada = null;
+
                 // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
             } else {
+                par_figura_div = div_figuras.find(
+                    (elemento) => elemento.div_figura === div_figura
+                );
+                par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
                 figura_seleccionada = div_figura;
-                
+                favorito.div_id = figura_seleccionada.id;
             }
         }
     });
 
-    div_figuras.push({ div_figura, figura_actual });
+    let div_fav = divFavorito(div_figura);
 
     dibujarFiguraEnMatriz();
 
-    /* Aquí habría que comprobar que se puede generar bloque */
     generar_bloque();
+}
+
+function divFavorito(div_figura) {
+    let div_pequeno = document.createElement("div");
+
+    div_pequeno.style.position = "absolute";
+    div_pequeno.style.right = "0px";
+    div_pequeno.style.top = "0px";
+    div_pequeno.style.width = "20px";
+    div_pequeno.style.height = "20px";
+    div_pequeno.style.backgroundColor = "red";
+
+    div_figura.appendChild(div_pequeno);
+
+    return div_pequeno;
+}
+
+function eliminarFigura() {
+    if (!figura_seleccionada) {
+        return;
+    }
+
+    let par_figura_div = div_figuras.find(
+        (elemento) => elemento.div_figura === figura_seleccionada
+    );
+    par_figura_div.div_figura.parentNode.removeChild(par_figura_div.div_figura);
+    figura_seleccionada = null;
+    par_figura_div.figura_actual.color = COLOR_FONDO;
+    borrarFiguraEnMatriz(par_figura_div.figura_actual);
 }
 
 function moverFiguraDerecha() {
     if (figura_actual.x > 0) {
         let colision = false;
         for (let i = 0; i < figura_actual.height && !colision; i++) {
-            if (
-                matriz_figuras[figura_actual.y + i][figura_actual.x - 1] === 1
-            ) {
+            if (matriz_figuras[figura_actual.y + i][figura_actual.x - 1] === 1) {
                 colision = true;
             }
         }
@@ -239,8 +266,7 @@ function hayColision(nuevaMatriz) {
                     figura_actual.x + j >= COLUMNAS_MATRIZ ||
                     figura_actual.y + i < 0 ||
                     figura_actual.x + j < 0 ||
-                    matriz_figuras[figura_actual.y + i][figura_actual.x + j] ===
-                        1)
+                    matriz_figuras[figura_actual.y + i][figura_actual.x + j] === 1)
             ) {
                 return true;
             }
@@ -250,13 +276,13 @@ function hayColision(nuevaMatriz) {
 }
 
 function generar_bloque() {
-    figura_actual = new Figura(0, 0, "#8f90b5");
+    figura_actual = new Figura(2, 0, COLOR_FIGURAS);
     lista_figuras.push(figura_actual);
 }
 
 function dibujar_figuras() {
     for (let cell of cells) {
-        cell.style.backgroundColor = "#3c2012";
+        cell.style.backgroundColor = COLOR_FONDO;
     }
     for (let figura of lista_figuras) {
         for (let i = 0; i < figura.height; i++) {
@@ -267,105 +293,116 @@ function dibujar_figuras() {
                     figura.x + j >= 0 &&
                     figura.x + j < COLUMNAS_MATRIZ
                 ) {
-                    const index =
-                        (figura.y + i) * COLUMNAS_MATRIZ + (figura.x + j);
+                    const index = (figura.y + i) * COLUMNAS_MATRIZ + (figura.x + j);
                     cells[index].style.backgroundColor = figura.color;
                 }
             }
         }
     }
 }
-if (window.screen.orientation) {
-    window.screen.orientation.lock("portrait");
-}
-setInterval(dibujar_figuras, 100);
-generar_bloque();
-setInterval(moverFiguraAbajo, 3000);
-let startAngle = {};
-let startTime = null;
-let isLocked = false; // nuevo estado de bloqueo
-const lockTimeMS = 500; // tiempo de bloqueo después de detectar un giro
-window.addEventListener("deviceorientation", handleOrientation, true);
-function handleOrientation(event) {
-    if (isLocked) return;
-    const currentAngle = {
-        alpha: event.alpha,
-        beta: event.beta,
-        gamma: event.gamma,
-    };
-    const minRotacionAlpha = 30;
-    const minRotacionGamma = 50;
 
-    const movementTimeMS = 300;
+function set_up() {
+    setInterval(dibujar_figuras, 100);
+    setInterval(moverFiguraAbajo, 3000);
+    let startAngle = {};
+    let startTime = null;
+    let isLocked = false; // nuevo estado de bloqueo
+    const lockTimeMS = 500; // tiempo de bloqueo después de detectar un giro
+    window.addEventListener("deviceorientation", handleOrientation, true);
+    function handleOrientation(event) {
+        if (isLocked) return;
+        const currentAngle = {
+            alpha: event.alpha,
+            beta: event.beta,
+            gamma: event.gamma,
+        };
+        if (
+            (currentAngle.beta > 160 && currentAngle.beta < 190) ||
+            (currentAngle.beta < -160 && currentAngle.beta > -190)
+        ) {
+            eliminarFigura();
+        }
+        const minRotacionAlpha = 30;
+        const minRotacionGamma = 50;
 
-    const currentTime = new Date().getTime();
+        const movementTimeMS = 300;
 
-    if (startTime === null) {
-        // inicializar
-        startAngle = { ...currentAngle };
-        startTime = currentTime;
-    } else {
-        const AngleDiff = {};
-        AngleDiff.alpha = currentAngle.alpha - startAngle.alpha;
-        AngleDiff.beta = currentAngle.beta - startAngle.beta;
-        AngleDiff.gamma = currentAngle.gamma - startAngle.gamma;
+        const currentTime = new Date().getTime();
 
-        const timeDiff = currentTime - startTime;
-
-        if (AngleDiff.alpha >= minRotacionAlpha && timeDiff <= movementTimeMS) {
-            // derecha
-            moverFiguraDerecha();
-            dibujar_figuras();
-
-            isLocked = true; // bloquear la detección de giros
-            setTimeout(() => {
-                isLocked = false; // desbloquear después de lockTimeMS
-            }, lockTimeMS);
+        if (startTime === null) {
+            // inicializar
             startAngle = { ...currentAngle };
             startTime = currentTime;
-        } else if (
-            AngleDiff.alpha < -minRotacionAlpha &&
-            timeDiff <= movementTimeMS
-        ) {
-            // izquierda
-            moverFiguraIzquierda();
-            dibujar_figuras();
+        } else {
+            const AngleDiff = {};
+            AngleDiff.alpha = currentAngle.alpha - startAngle.alpha;
+            AngleDiff.beta = currentAngle.beta - startAngle.beta;
+            AngleDiff.gamma = currentAngle.gamma - startAngle.gamma;
 
-            isLocked = true; // bloquear la detección de giros
-            setTimeout(() => {
-                isLocked = false; // desbloquear después de lockTimeMS
-            }, lockTimeMS);
-            startAngle = { ...currentAngle };
-            startTime = currentTime;
-        } else if (
-            AngleDiff.gamma >= minRotacionGamma &&
-            timeDiff <= movementTimeMS
-        ) {
-            // rotar derecha
-            rotarFiguraDerecha();
-            dibujar_figuras();
+            const timeDiff = currentTime - startTime;
 
-            isLocked = true; // bloquear la detección de giros
-            setTimeout(() => {
-                isLocked = false; // desbloquear después de lockTimeMS
-            }, lockTimeMS);
-            startAngle = { ...currentAngle };
-        } else if (
-            AngleDiff.gamma < -minRotacionGamma &&
-            timeDiff <= movementTimeMS
-        ) {
-            //rotar izquierda
-            rotarFiguraIzquierda();
-            dibujar_figuras();
-            isLocked = true; // bloquear la detección de giros
-            setTimeout(() => {
-                isLocked = false; // desbloquear después de lockTimeMS
-            }, lockTimeMS);
-            startAngle = { ...currentAngle };
-        } else if (timeDiff > movementTimeMS) {
-            // se ha pasado el tiempo
-            startAngle = { ...currentAngle };
-            startTime = currentTime;
+            if (AngleDiff.alpha >= minRotacionAlpha && timeDiff <= movementTimeMS) {
+                // derecha
+                moverFiguraDerecha();
+                dibujar_figuras();
+
+                isLocked = true; // bloquear la detección de giros
+                setTimeout(() => {
+                    isLocked = false; // desbloquear después de lockTimeMS
+                }, lockTimeMS);
+                startAngle = { ...currentAngle };
+                startTime = currentTime;
+            } else if (
+                AngleDiff.alpha < -minRotacionAlpha &&
+                timeDiff <= movementTimeMS
+            ) {
+                // izquierda
+                moverFiguraIzquierda();
+                dibujar_figuras();
+
+                isLocked = true; // bloquear la detección de giros
+                setTimeout(() => {
+                    isLocked = false; // desbloquear después de lockTimeMS
+                }, lockTimeMS);
+                startAngle = { ...currentAngle };
+                startTime = currentTime;
+            } else if (
+                AngleDiff.gamma >= minRotacionGamma &&
+                timeDiff <= movementTimeMS
+            ) {
+                // rotar derecha
+                rotarFiguraDerecha();
+                dibujar_figuras();
+
+                isLocked = true; // bloquear la detección de giros
+                setTimeout(() => {
+                    isLocked = false; // desbloquear después de lockTimeMS
+                }, lockTimeMS);
+                startAngle = { ...currentAngle };
+            } else if (
+                AngleDiff.gamma < -minRotacionGamma &&
+                timeDiff <= movementTimeMS
+            ) {
+                //rotar izquierda
+                rotarFiguraIzquierda();
+                dibujar_figuras();
+                isLocked = true; // bloquear la detección de giros
+                setTimeout(() => {
+                    isLocked = false; // desbloquear después de lockTimeMS
+                }, lockTimeMS);
+                startAngle = { ...currentAngle };
+            } else if (timeDiff > movementTimeMS) {
+                // se ha pasado el tiempo
+                startAngle = { ...currentAngle };
+                startTime = currentTime;
+            }
         }
     }
 }
+function inventory() {
+    if (!figura_actual) {
+        set_up();
+    }
+    generar_bloque();
+}
+inventory();

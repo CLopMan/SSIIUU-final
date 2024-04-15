@@ -1,7 +1,21 @@
 // Imports de otros js
 import { init_minigame } from "./funcionalidades/minijuego.js";
-import { check_log_in, check_sign_up, register_effective, register_error } from "./funcionalidades/registro.js";
-import { init_duel, get_duel_done, display_duel_outcome, get_stolen_object, display_object_lost, gen_duel_qr, start_duel_scanning, hide_duel_qr} from "./funcionalidades/duelo.js";
+import {
+    check_log_in,
+    check_sign_up,
+    register_effective,
+    register_error,
+} from "./funcionalidades/registro.js";
+import {
+    init_duel,
+    get_duel_done,
+    display_duel_outcome,
+    get_stolen_object,
+    display_object_lost,
+    gen_duel_qr,
+    start_duel_scanning,
+    hide_duel_qr,
+} from "./funcionalidades/duelo.js";
 
 // Socket
 export const socket = io();
@@ -9,18 +23,17 @@ var id;
 var name;
 
 // Botones del menú
-const qr_duel_button = document.getElementById("qr_duel_button"); 
+const qr_duel_button = document.getElementById("qr_duel_button");
 const add_button = document.getElementById("add_button");
 const scan_duel_button = document.getElementById("scan_duel_button");
 
 // Listeners para los botones
 qr_duel_button.addEventListener("touchend", () => {
-	gen_duel_qr(id); 
-	socket.emit("REGISTER_DUEL");
+    gen_duel_qr(id);
+    socket.emit("REGISTER_DUEL");
 });
 add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
 scan_duel_button.addEventListener("touchend", start_duel_scanning);
-
 
 // Variables para el duelo
 var opponent_id;
@@ -34,9 +47,7 @@ function del() {
     console.log("del");
 }
 
-function fav() {
-    
-}
+function fav() {}
 
 function inventory() {
     console.log("inventory");
@@ -59,8 +70,8 @@ async function duel(timer) {
 
 socket.on("connect", () => {
     socket.emit("CLIENT_CONNECTED");
-	id = socket.id;
-	
+    id = socket.id;
+
     socket.on("ACK_CONNECTION", () => {
         console.log("Cliente conectado");
     });
@@ -97,11 +108,11 @@ socket.on("connect", () => {
 
     socket.on("TRIGGER_MINIGAME", minigame);
 
-	socket.on("REGISTER_DUEL", (op_id) => {
-		opponent_id = op_id;
-		hide_duel_qr();
-		socket.emit("TRIGGER_DUEL", opponent_id);
-	})
+    socket.on("REGISTER_DUEL", (op_id) => {
+        opponent_id = op_id;
+        hide_duel_qr();
+        socket.emit("TRIGGER_DUEL", opponent_id);
+    });
 
     socket.on("TRIGGER_DUEL", (timer, op_name) => {
         opponent_name = op_name;
@@ -124,7 +135,6 @@ socket.on("connect", () => {
     });
 });
 
-
 document.getElementById("log-in_register").addEventListener("touchend", (ev) => {
     let data = check_log_in(ev);
     if (data != null) {
@@ -139,7 +149,8 @@ document.getElementById("sign-up_register").addEventListener("touchend", (ev) =>
     }
 });
 
-
 // Elementos que sirven para triggerear los eventos, eliminar cuando se puedan lanzar por el flujo esperado de la aplicación
 document.getElementById("favorito").addEventListener("touchend", fav);
-document.getElementById("minigame_button").addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
+document
+    .getElementById("minigame_button")
+    .addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
