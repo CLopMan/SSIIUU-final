@@ -119,6 +119,32 @@ function colocarBloque() {
     figura_actual.color = COLOR_FIGURAS_COLOCADAS;
     window.navigator.vibrate(100);
 
+    let div_figura = divFigura();
+
+    let div_fav = divFavorito(div_figura);
+
+    favorito[div_figura.id] = {
+        favorito: 0,
+        contador: 0,
+        estrella: div_fav,
+    };
+    console.log(favorito);
+
+    dibujarFiguraEnMatriz();
+
+    json[figura_actual.id] = {
+        tipo: figura_actual.tipo,
+        fav: 0,
+        x: figura_actual.x,
+        y: figura_actual.y,
+        height: figura_actual.height,
+        width: figura_actual.width,
+    };
+    escribir_estado();
+    figura_actual = null;
+}
+
+function divFigura() {
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
     let index_bottom_right =
         (figura_actual.y + figura_actual.height - 1) * COLUMNAS_MATRIZ +
@@ -137,11 +163,14 @@ function colocarBloque() {
     let width = rect_bottom_right.right - rect_top_left.left;
     let height = rect_bottom_right.bottom - rect_top_left.top;
 
+    div_figura.id = figura_actual.id;
+
     div_figura.style.position = "absolute";
     div_figura.style.left = rect_top_left.left + "px";
     div_figura.style.top = rect_top_left.top + "px";
     div_figura.style.width = width + "px";
     div_figura.style.height = height + "px";
+
     document.body.appendChild(div_figura);
     div_figuras.push({ div_figura, figura_actual });
     div_figura.addEventListener("touchend", () => {
@@ -154,6 +183,7 @@ function colocarBloque() {
                 );
                 par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
                 figura_seleccionada = null;
+                favorito.div_id = null;
 
                 // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
             } else {
@@ -166,21 +196,7 @@ function colocarBloque() {
             }
         }
     });
-
-    let div_fav = divFavorito(div_figura);
-
-    dibujarFiguraEnMatriz();
-
-    json[figura_actual.id] = {
-        tipo: figura_actual.tipo,
-        fav: 0,
-        x: figura_actual.x,
-        y: figura_actual.y,
-        height: figura_actual.height,
-        width: figura_actual.width,
-    };
-    escribir_estado();
-    figura_actual = null;
+    return div_figura;
 }
 
 function divFavorito(div_figura) {
