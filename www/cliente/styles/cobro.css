@@ -1,7 +1,9 @@
 #cobro{
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(rgba(255, 150, 0, 0.5), rgba(255, 0, 150, 0.5)); /* Fondo vistoso */
+    /*background: linear-gradient(rgba(255, 150, 0, 0.5), rgba(255, 0, 150, 0.5));  Fondo vistoso */
+    background-image: url("../imagenes/fondo.png");
+
     display: none;
 }
 

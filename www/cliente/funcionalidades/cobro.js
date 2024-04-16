@@ -42,7 +42,7 @@ function beep(durationInSeconds) {
 }
 
 
-function onScanSuccess(decodedText, decodedResult) {
+const qrCodeSuccessCallback = (decodedText, decodedResult) => {
     // handle the scanned code as you like, for example:
     if (decodedText === "PAGO") {
         navigator.vibrate([200, 50, 200]);
@@ -56,14 +56,15 @@ function onScanFailure(error) {
     
 }
   
-const config = { fps: 10, qrbox: { width: 600, height: 600 } };
-let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);
+const config = { fps: 10, qrbox: { width: 600, height: 600 }, rememberLastUsedCamera: false, supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]};
+const html5QrCode = new Html5Qrcode(
+    "reader", { formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ] });
 
 scanButton.addEventListener("touchend", () => {
     inventario.style.display = "none";
     cobro.style.display = "flex";
 
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
     let toDelete = document.getElementById("reader__dashboard_section_csr");
-    toDelete.style.display="none"
+    toDelete.style.display="none";
 });
