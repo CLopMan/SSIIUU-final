@@ -181,6 +181,7 @@ function divFigura() {
                 par_figura_div = div_figuras.find(
                     (elemento) => elemento.div_figura === div_figura
                 );
+
                 par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
                 figura_seleccionada = null;
                 favorito.div_id = null;
@@ -190,10 +191,17 @@ function divFigura() {
                 par_figura_div = div_figuras.find(
                     (elemento) => elemento.div_figura === div_figura
                 );
+                if (figura_seleccionada) {
+                    let par_figura_div_select = div_figuras.find(
+                        (elemento) => elemento.div_figura === figura_seleccionada
+                    );
+                    par_figura_div_select.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+                }
                 par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
                 figura_seleccionada = div_figura;
                 favorito.div_id = figura_seleccionada.id;
             }
+            console.log(figura_seleccionada);
         }
     });
     return div_figura;
