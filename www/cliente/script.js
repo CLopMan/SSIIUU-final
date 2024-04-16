@@ -39,6 +39,10 @@ scan_duel_button.addEventListener("touchend", start_duel_scanning);
 var opponent_id;
 var opponent_name;
 
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function add() {
     console.log("add");
 }
@@ -121,7 +125,9 @@ socket.on("connect", () => {
     });
 
     socket.on("STATE_LOADED", (data) => {
-        cargar_estado(data);
+        sleep(500).then(() => {
+            cargar_estado(data);
+        });
     });
 
     socket.on("DUEL_WON", async (objects) => {

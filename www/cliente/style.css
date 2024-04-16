@@ -5,6 +5,10 @@
     overflow: hidden;
 }
 
+body {
+    touch-action: none;
+}
+
 #inventario {
     background-image: url("imagenes/fondo.png");
     background-repeat: no-repeat;

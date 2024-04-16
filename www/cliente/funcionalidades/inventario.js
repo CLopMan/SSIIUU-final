@@ -11,20 +11,24 @@ const COLOR_FIGURA_SELECCIONADA = "red";
 const COLOR_FONDO = "#3c2012";
 
 class Figura {
-    constructor(x, y, color) {
-        this.height = ALTURA_FIGURA;
-        this.width = ANCHO_FIGURA;
+    constructor(id, x, y, height, width, color, tipo) {
+        this.id = id;
+        this.height = height;
+        this.width = width;
         this.orientacion = 0;
         this.x = x;
         this.y = y;
         this.colocada = false;
         this.color = color;
+        this.tipo = tipo;
     }
 }
 
 let lista_figuras = [];
 let div_figuras = [];
 const matriz_figuras = [];
+let id_actual = 0;
+let json;
 for (let i = 0; i < FILAS_MATRIZ; i++) {
     matriz_figuras.push(new Array(COLUMNAS_MATRIZ).fill(0));
 }
@@ -42,12 +46,39 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
     }
 }
 
-function leer_estado() {
+export function leer_estado() {
+    console.log("Envío el mensaje LOAD_STATE");
     socket.emit("LOAD_STATE");
 }
 export function cargar_estado(data) {
-    // Añadir persona
-    //
+    set_up();
+    for (let i = 0; i < FILAS_MATRIZ; i++) {
+        matriz_figuras[i].fill(0);
+    }
+    lista_figuras = [];
+    div_figuras = [];
+    let key_id = 0;
+    json = data;
+    Object.keys(data).forEach((key) => {
+        key_id = key;
+        figura_actual = new Figura(
+            key,
+            data[key].x,
+            data[key].y,
+            data[key].height,
+            data[key].width,
+            COLOR_FIGURAS,
+            data[key.tipo]
+        );
+        lista_figuras.push(figura_actual);
+        colocarBloque();
+    });
+    id_actual = Number(key_id) + 1;
+
+    generar_bloque();
+}
+export function escribir_estado() {
+    socket.emit("STORE_STATE", json);
 }
 
 function dibujarFiguraEnMatriz() {
@@ -111,7 +142,6 @@ function colocarBloque() {
     div_figura.style.top = rect_top_left.top + "px";
     div_figura.style.width = width + "px";
     div_figura.style.height = height + "px";
-
     document.body.appendChild(div_figura);
     div_figuras.push({ div_figura, figura_actual });
     div_figura.addEventListener("touchend", () => {
@@ -140,6 +170,16 @@ function colocarBloque() {
     let div_fav = divFavorito(div_figura);
 
     dibujarFiguraEnMatriz();
+
+    json[figura_actual.id] = {
+        tipo: figura_actual.tipo,
+        fav: 0,
+        x: figura_actual.x,
+        y: figura_actual.y,
+        height: figura_actual.height,
+        width: figura_actual.width,
+    };
+    escribir_estado();
     figura_actual = null;
 }
 
@@ -168,8 +208,15 @@ function eliminarFigura() {
     );
     par_figura_div.div_figura.parentNode.removeChild(par_figura_div.div_figura);
     figura_seleccionada = null;
+
     par_figura_div.figura_actual.color = COLOR_FONDO;
     borrarFiguraEnMatriz(par_figura_div.figura_actual);
+
+    let id = par_figura_div.figura_actual.id;
+    if (json[id]) {
+        delete json[id];
+    }
+    escribir_estado();
 }
 
 function moverFiguraDerecha() {
@@ -286,8 +333,17 @@ function hayColision(nuevaMatriz) {
     return false;
 }
 
-function generar_bloque() {
-    figura_actual = new Figura(2, 0, COLOR_FIGURAS);
+function generar_bloque(tipo) {
+    figura_actual = new Figura(
+        id_actual,
+        2,
+        0,
+        ALTURA_FIGURA,
+        ANCHO_FIGURA,
+        COLOR_FIGURAS,
+        tipo
+    );
+    id_actual += 1;
     lista_figuras.push(figura_actual);
 }
 
@@ -340,6 +396,7 @@ function set_up() {
 
         const currentTime = new Date().getTime();
 
+        if (!figura_actual) return;
         if (startTime === null) {
             // inicializar
             startAngle = { ...currentAngle };
@@ -410,10 +467,3 @@ function set_up() {
         }
     }
 }
-function inventory() {
-    if (!figura_actual) {
-        set_up();
-    }
-    generar_bloque();
-}
-inventory();
