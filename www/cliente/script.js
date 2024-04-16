@@ -16,11 +16,11 @@ import {
     start_duel_scanning,
     hide_duel_qr,
 } from "./funcionalidades/duelo.js";
-
+import { leer_estado, cargar_estado } from "./funcionalidades/inventario.js";
 // Socket
 export const socket = io();
 var id;
-var name;
+export var name;
 
 // Botones del menú
 const qr_duel_button = document.getElementById("qr_duel_button");
@@ -83,6 +83,7 @@ socket.on("connect", () => {
             register_error("Contraseña incorrecta", 0);
         } else if (res == 0) {
             register_effective();
+            leer_estado();
             name = username;
         }
     });
@@ -117,6 +118,10 @@ socket.on("connect", () => {
     socket.on("TRIGGER_DUEL", (timer, op_name) => {
         opponent_name = op_name;
         duel(timer);
+    });
+
+    socket.on("STATE_LOADED", (data) => {
+        cargar_estado(data);
     });
 
     socket.on("DUEL_WON", async (objects) => {

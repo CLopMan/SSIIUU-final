@@ -1,4 +1,5 @@
 import { favorito } from "./favorito.js";
+import { socket, name } from "../script.js";
 
 const ANCHO_FIGURA = 2;
 const ALTURA_FIGURA = 3;
@@ -39,6 +40,14 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
         grid.appendChild(cell);
         cells.push(cell);
     }
+}
+
+function leer_estado() {
+    socket.emit("LOAD_STATE");
+}
+export function cargar_estado(data) {
+    // Añadir persona
+    //
 }
 
 function dibujarFiguraEnMatriz() {
@@ -131,8 +140,7 @@ function colocarBloque() {
     let div_fav = divFavorito(div_figura);
 
     dibujarFiguraEnMatriz();
-
-    generar_bloque();
+    figura_actual = null;
 }
 
 function divFavorito(div_figura) {
@@ -179,6 +187,9 @@ function moverFiguraDerecha() {
 }
 
 function moverFiguraAbajo() {
+    if (!figura_actual) {
+        return;
+    }
     if (!colisionAbajo()) {
         figura_actual.y++;
         // Actualizar visualización o lógica relacionada con el movimiento

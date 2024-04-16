@@ -1,1 +1,5 @@
-{"cesar":{"0":{"tipo":"naranja","fav":1,"x":0,"y":0,"height":2,"width":0}}}
+{
+    "cesar": {
+        "0": { "tipo": "naranja", "fav": 1, "x": 0, "y": 0, "height": 2, "width": 0 }
+    }
+}
