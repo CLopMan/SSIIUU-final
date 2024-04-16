@@ -123,12 +123,11 @@ function colocarBloque() {
 
     let div_fav = divFavorito(div_figura);
 
-    favorito[div_figura.id] = {
+    favorito["favourite_list"][div_figura.id] = {
         favorito: 0,
         contador: 0,
         estrella: div_fav,
     };
-    console.log(favorito);
 
     dibujarFiguraEnMatriz();
 
@@ -386,7 +385,7 @@ function dibujar_figuras() {
 
 function set_up() {
     setInterval(dibujar_figuras, 100);
-    setInterval(moverFiguraAbajo, 3000);
+    setInterval(moverFiguraAbajo, 100);
     let startAngle = {};
     let startTime = null;
     let isLocked = false; // nuevo estado de bloqueo
