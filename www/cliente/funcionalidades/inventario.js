@@ -385,7 +385,7 @@ function dibujar_figuras() {
 
 function set_up() {
     setInterval(dibujar_figuras, 100);
-    setInterval(moverFiguraAbajo, 100);
+    setInterval(moverFiguraAbajo, 3000);
     let startAngle = {};
     let startTime = null;
     let isLocked = false; // nuevo estado de bloqueo
