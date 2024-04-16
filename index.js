@@ -267,6 +267,9 @@ io.on("connection", (socket) => {
                 console.log(err);
             });
     });
+    socket.on("STORE_STATE", (json_user) => {
+        // *********************** FALTA ESCRIBIR EN EL FICHERO
+    });
 
     socket.on("LOG_IN", (data) => {
         find_in_keys(socket, data);
