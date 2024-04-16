@@ -98,12 +98,23 @@ function add_user(socket, data) {
 		return ;
 	}
 	
-	// Cambiar esta línea para cambiar el JSON
+	// Registra el usuario con el socket
+	socket_name[socket.id] = data["user"];
+	socket.emit("SIGN_UP_RESPONSE", 0, data["user"]);
+	
+	// Escribe el nuevo usuario
 	keys[data["user"]] = crypto.createHash("sha256").update(data["pwd"]).digest("base64");
 	write_keys();
 	
-	socket_name[socket.id] = data["user"];
-	socket.emit("SIGN_UP_RESPONSE", 0, data["user"]);
+	// Reescribe el objeto para guardar los items
+	read_objects()
+	.then((objects) => {
+		objects[data["user"]] = {};
+		write_objects(objects);
+	})
+	.catch((err) =>  {
+		console.log(err);
+	});
 }
 
 function add_object(object, username) {
@@ -268,6 +279,7 @@ io.on('connection', (socket) => {
   socket.on("SIGN_UP", (data) => {
   	add_user(socket, data);
   })
+  
   socket.on('PAGO', (name) => {
     console.log('Mensaje "PAGO" recibido desde el cliente');
 
