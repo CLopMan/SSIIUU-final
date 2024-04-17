@@ -7,6 +7,10 @@
     height: 100vh;
     width: 100vw;
     background-color: #f0f0f0; /* Color de fondo pastel */
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
 }
 
 #player {
@@ -16,7 +20,7 @@
 }
 
 #capture {
-    bottom: 3%;
+    bottom: 12%;
     width: 20vw;
     height: 20vw;
     border: 2px solid #ccc;

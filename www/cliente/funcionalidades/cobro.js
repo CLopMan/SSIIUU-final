@@ -2,6 +2,7 @@ import {socket} from "../script.js";
 import {name} from "../script.js";
 
 let scanButton = document.getElementById("Scan");
+let closeButton = document.getElementById("scan_close_button");
 let inventario = document.getElementById("inventario");
 let cobro = document.getElementById("cobro");
 
@@ -61,10 +62,16 @@ const html5QrCode = new Html5Qrcode(
     "reader", { formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ] });
 
 scanButton.addEventListener("touchend", () => {
-    inventario.style.display = "none";
+    //inventario.style.display = "none";
     cobro.style.display = "flex";
 
     html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
     let toDelete = document.getElementById("reader__dashboard_section_csr");
     toDelete.style.display="none";
+});
+
+closeButton.addEventListener("touchend", () => {
+    //inventario.style.display = "flex";
+    cobro.style.display = "none"; 
+    html5QrCode.stop();
 });

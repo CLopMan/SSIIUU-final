@@ -6,6 +6,7 @@ const canvas_cont = document.getElementById("container")
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const captureButton = document.getElementById('capture');
+const closeButton = document.getElementById('annadir_close_button');
 
 let fotico = false; // controla si ya ha hecho la foto
 
@@ -81,7 +82,7 @@ const inventario = document.getElementById("inventario");
 document.getElementById("add_button").addEventListener("touchend", () => {
     canvas_cont.style.display = "none";
     init(); 
-    inventario.style.display = "none";
+    //inventario.style.display = "none";
     annadir_div.style.display="flex";
     fotico = false;
 
@@ -111,3 +112,9 @@ async function predict() {
     console.log(last_predict);
 }
 
+closeButton.addEventListener("touchend", () => {
+    //inventario.style.display = "flex";
+    annadir_div.style.display = "none"; 
+    var tr = player.srcObject.getTracks();
+    tr[0].stop();
+});

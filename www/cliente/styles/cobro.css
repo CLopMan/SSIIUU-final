@@ -6,6 +6,10 @@
     background-repeat: no-repeat;
     background-size: cover;
     display: none;
+    position:absolute;
+    left: 0;
+    top:0;
+    z-index: 2;
 }
 
 #reader {
