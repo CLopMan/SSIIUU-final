@@ -11,7 +11,9 @@ const qr_duel_close_button = document.getElementById("qr_duel_close_button");
 
 // Lectura de QR del duelo
 const qr_duel_scanner_div = document.getElementById("duel_scanner_div");
-const qr_duel_scanner = new Html5QrcodeScanner("duel_reader", {fps: 10, qrbox: 250});
+const config = {fps: 10, qrbox: { width: 600, height: 600 }, rememberLastUsedCamera: false, supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]};
+const qr_duel_scanner = new Html5Qrcode(
+    "duel_reader", { formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ] });
 const qr_close_duel_scanner = document.getElementById("close_duel_scanner");
 
 // Info del oponente
@@ -48,7 +50,7 @@ qr_duel_close_button.addEventListener("touchend", () => {
 });
 qr_close_duel_scanner.addEventListener("touchend", () => {
 	qr_duel_scanner_div.style.display = "none";
-	qr_duel_scanner.clear();
+	qr_duel_scanner.stop();
 })
 
 // Posición
@@ -334,7 +336,7 @@ export function hide_duel_qr() {
 
 export function start_duel_scanning() {
 	qr_duel_scanner_div.style.display = "block";
-	qr_duel_scanner.render(scan_duel_success, scan_duel_error);
+	qr_duel_scanner.start({facingMode : {exact: "environment"}}, config, scan_duel_success, scan_duel_error);
 }
 
 function scan_duel_success(qrCodeMssg) {

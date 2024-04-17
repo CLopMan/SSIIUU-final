@@ -282,3 +282,13 @@
         margin-left: 100vw;
     }
 }
+
+#duel_reader {
+    width: 90%;
+    top: 12%;
+    height: 1176;
+    margin: auto;
+    position: relative;
+    border-radius: 5%;
+    overflow: hidden;
+}
