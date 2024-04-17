@@ -75,7 +75,7 @@ export function cargar_estado(data) {
     });
     id_actual = Number(key_id) + 1;
 
-    generar_bloque();
+    generar_bloque("Crema");
 }
 export function escribir_estado() {
     socket.emit("STORE_STATE", json);
