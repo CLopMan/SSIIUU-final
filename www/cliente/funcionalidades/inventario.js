@@ -123,12 +123,11 @@ function colocarBloque() {
 
     let div_fav = divFavorito(div_figura);
 
-    favorito[div_figura.id] = {
+    favorito["favourite_list"][div_figura.id] = {
         favorito: 0,
         contador: 0,
         estrella: div_fav,
     };
-    console.log(favorito);
 
     dibujarFiguraEnMatriz();
 

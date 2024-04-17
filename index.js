@@ -258,6 +258,17 @@ io.on("connection", (socket) => {
         //add_object(object, socket_name[id]);
     });
 
+	socket.on("CHANGE_FAV", (id, name) => {
+		read_objects()
+		.then((objects) => {
+			objects[name][id]["fav"] = !objects[name][id]["fav"];
+			write_objects(objects);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+	})
+
     socket.on("LOAD_STATE", () => {
         read_objects()
             .then((objects) => {

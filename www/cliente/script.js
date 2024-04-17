@@ -113,6 +113,12 @@ socket.on("connect", () => {
 
     socket.on("TRIGGER_MINIGAME", minigame);
 
+    socket.on("STATE_LOADED", (data) => {
+        sleep(500).then(() => {
+            cargar_estado(data);
+        });
+    });
+    
     socket.on("REGISTER_DUEL", (op_id) => {
         opponent_id = op_id;
         hide_duel_qr();
@@ -124,11 +130,6 @@ socket.on("connect", () => {
         duel(timer);
     });
 
-    socket.on("STATE_LOADED", (data) => {
-        sleep(500).then(() => {
-            cargar_estado(data);
-        });
-    });
 
     socket.on("DUEL_WON", async (objects) => {
         display_duel_outcome(objects, 1);
