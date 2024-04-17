@@ -118,7 +118,7 @@ socket.on("connect", () => {
             cargar_estado(data);
         });
     });
-    
+
     socket.on("REGISTER_DUEL", (op_id) => {
         opponent_id = op_id;
         hide_duel_qr();
@@ -129,7 +129,6 @@ socket.on("connect", () => {
         opponent_name = op_name;
         duel(timer);
     });
-
 
     socket.on("DUEL_WON", async (objects) => {
         display_duel_outcome(objects, 1);

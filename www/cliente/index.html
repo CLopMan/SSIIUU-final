@@ -6,10 +6,16 @@
         ></script>
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="funcionalidades/minijuego.css" />
-        <link rel="stylesheet" href="funcionalidades/registro.css" />
-        <link rel="stylesheet" href="funcionalidades/duelo.css" />
+        <link rel="stylesheet" href="styles/minijuego.css" />
+        <link rel="stylesheet" href="styles/registro.css" />
+        <link rel="stylesheet" href="styles/duelo.css" />
+        <link rel="stylesheet" href="styles/annadir.css" />
+        <link rel="stylesheet" href="styles/cobro.css" />
         <title>Cliente</title>
     </head>
 
@@ -93,6 +99,7 @@
                 <button id="qr_duel_button">QR de duelo</button>
                 <button id="add_button">+</button>
                 <button id="scan_duel_button">Escanear QR duelo</button>
+                <button id="Scan" style="display: flex">Scan</button>
             </div>
             <div id="qr_duel_div">
                 <button id="qr_duel_close_button">Cerrar</button>
@@ -143,6 +150,16 @@
             <button id="cerrar_minijuego">END</button>
             <div id="wave"></div>
         </div>
+        <div id="annadir">
+            <video id="player" autoplay></video>
+            <button id="capture"></button>
+            <div id="container">
+                <canvas id="canvas" width="320" height="240"></canvas>
+            </div>
+        </div>
+        <div id="cobro">
+            <div id="reader"><div id="qr-overlay"></div></div>
+        </div>
         <!--DUELO-->
         <div id="duelo">
             <p id="banner_user"></p>
@@ -169,5 +186,8 @@
         <script type="module" src="funcionalidades/inventario.js"></script>
         <script type="module" src="funcionalidades/eliminar.js"></script>
         <script type="module" src="script.js"></script>
+        <script type="module" src="funcionalidades/annadir.js"></script>
+        <script type="module" src="funcionalidades/cobro.js"></script>
+        <script src="funcionalidades/inventario.js"></script>
     </body>
 </html>

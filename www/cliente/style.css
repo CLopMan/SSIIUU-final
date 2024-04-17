@@ -107,11 +107,16 @@ h2 {
     font-size: 2rem;
 }
 
-#qr_duel {
+#qr_duel canvas,
+img {
     width: 512px;
-    height: auto;
+    height: 512px;
+    margin: 23vw;
+    margin-top: 5vh;
+}
+
+#qr_duel img {
     margin: auto;
-    margin-top: 5%;
 }
 
 #duel_scanner_div {

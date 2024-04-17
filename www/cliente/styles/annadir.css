@@ -1,0 +1,71 @@
+#annadir {
+    margin: 0;
+    padding: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f0f0f0; /* Color de fondo pastel */
+}
+
+#player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#capture {
+    bottom: 3%;
+    width: 20vw;
+    height: 20vw;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+#capture > img {
+    width: 70%;
+}
+
+
+canvas {
+    display: flex; /* Ocultar el canvas */
+    width: 80vw;
+    height: 80vh;
+    margin-left: 10vw;
+    margin-top: 10vh;
+    position:absolute;
+
+
+}
+
+#container {
+    background-color: black;
+    opacity: 100%;
+    position: absolute;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000000000;
+}
+
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100vw); /* Mueve el div completamente fuera de la pantalla hacia la izquierda */
+    }
+}
+
+.animate-left {
+    animation: slideOutToLeft 0.5s forwards; /* Ajusta la duración según necesites */
+}
+
+
+
