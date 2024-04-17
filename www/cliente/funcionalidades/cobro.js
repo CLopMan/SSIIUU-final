@@ -49,7 +49,7 @@ const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         navigator.vibrate([200, 50, 200]);
         beep(0.2);
         socket.emit("PAGO", name);
-        html5QrcodeScanner.clear();
+        html5QrCode.stop();
     }
   }
   

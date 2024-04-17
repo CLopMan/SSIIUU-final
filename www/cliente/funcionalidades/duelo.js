@@ -340,9 +340,11 @@ export function start_duel_scanning() {
 }
 
 function scan_duel_success(qrCodeMssg) {
+	console.log(qrCodeMssg);
 	qr_duel_scanner_div.style.display = "";
-	qr_duel_scanner.clear();
+	qr_duel_scanner.stop();
 	socket.emit("REGISTER_DUEL", qrCodeMssg);
+	
 	
 }
 
