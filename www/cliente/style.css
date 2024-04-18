@@ -3,6 +3,10 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: "Jacquard 24", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2rem;
 }
 
 body {
@@ -10,13 +14,13 @@ body {
 }
 
 #modal_tetris {
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	z-index: 9999;
-	display: none;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 9999;
+    display: none;
 }
 
 #inventario {
@@ -35,28 +39,28 @@ header {
 
 #log-out {
     position: absolute;
-    background-color: red;
+    background-color: #59301a;
     color: white;
-    top: 5%;
-    left: 5%;
-    border-radius: 50%;
+    top: 15%;
+    left: 34%;
+    border-radius: 35%;
     border: none;
-    width: 5vh;
-    height: 5vh;
+    width: 5.5vh;
+    height: 5.5vh;
     font-size: 1.5rem;
     display: none;
 }
 
 #Scan {
     position: absolute;
-    background-color: green;
+    background-color: #59301a;
     color: white;
-    top: 5%;
-    right: 5%;
-    border-radius: 50%;
+    top: 15%;
+    right: 34%;
+    border-radius: 35%;
     border: none;
-    width: 5vh;
-    height: 5vh;
+    width: 5.5vh;
+    height: 5.5vh;
     font-size: 1.5rem;
     display: none;
     align-items: center;
@@ -65,8 +69,8 @@ header {
 }
 
 h2 {
-    color: #8f90b5;
-    font-size: 4rem;
+    color: #e8e9ff;
+    font-size: 3rem;
     text-align: center;
     padding-top: 5vh;
 }
@@ -74,7 +78,7 @@ h2 {
 #botones {
     width: 100vw;
     height: 10vh;
-    margin-top: 0;
+    margin-top: 10%;
     display: grid;
     grid-template-columns: 2fr 2fr 2fr;
 }
@@ -82,12 +86,13 @@ h2 {
 #qr_duel_button {
     width: 8vh;
     height: 8vh;
-    border-radius: 50%;
+    border-radius: 35%;
     border: none;
-    background-color: red;
+    background-color: #131318;
     color: white;
     font-size: 1.5em;
     margin: auto;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Añade esta línea */
 }
 
 #add_button {
@@ -95,21 +100,23 @@ h2 {
     height: 8vh;
     border-radius: 50%;
     border: none;
-    background-color: green;
-    color: white;
+    background-color: #24242e;
+    color: #caad9e;
     font-size: 2rem;
     margin: auto;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Añade esta línea */
 }
 
 #scan_duel_button {
     width: 8vh;
     height: 8vh;
-    border-radius: 50%;
+    border-radius: 35%;
     border: none;
-    background-color: blue;
+    background-color: #131318;
     color: white;
     font-size: 1.5rem;
     margin: auto;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Añade esta línea */
 }
 
 #qr_duel_div {
@@ -120,7 +127,7 @@ h2 {
     display: none;
     top: 0%;
     grid-template-rows: 1fr 5fr;
-	z-index: 2000;
+    z-index: 2000;
 }
 
 #qr_duel_close_button {

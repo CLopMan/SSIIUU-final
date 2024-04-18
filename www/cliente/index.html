@@ -4,6 +4,13 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
         ></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Jacquard+24&display=swap");
+        </style>
+        <script
+            src="https://kit.fontawesome.com/35eaad193d.js"
+            crossorigin="anonymous"
+        ></script>
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -23,7 +30,7 @@
         <div id="register">
             <!--LOGIN-->
             <div id="log-in">
-                <h1>LOG-IN</h1>
+                <h1>Log-In</h1>
                 <form id="form_log-in">
                     <label for="log-in_username" class="log-in_label"
                         >Nombre de usuario</label
@@ -46,11 +53,11 @@
                         Error: Usuario ya registrado
                     </p>
                 </form>
-                <button id="to_sign-up">SIGN-UP -&gt;</button>
+                <button id="to_sign-up">Sign-Up -&gt;</button>
             </div>
             <!--SIGN UP-->
             <div id="sign-up">
-                <h1>SIGN-UP</h1>
+                <h1>Sign-Up</h1>
                 <form id="form_sign-up">
                     <label for="sign-up_username" class="sign-up_label"
                         >Nombre de usuario</label
@@ -84,7 +91,7 @@
                         Error: Usuario ya registrado
                     </p>
                 </form>
-                <button id="to_log-in">&lt;- LOG-IN</button>
+                <button id="to_log-in">&lt;- Log-In</button>
             </div>
         </div>
         <!--INVENTARIO-->
@@ -94,20 +101,26 @@
             <div id="grid-container">
                 <div id="grid"></div>
             </div>
-            <button id="log-out">Log-out</button>
+            <button id="log-out"><i class="fa-solid fa-power-off"></i></button>
             <button id="minigame_button" style="display: none">Minijuego</button>
             <div id="botones">
-                <button id="qr_duel_button">QR de duelo</button>
-                <button id="add_button">+</button>
-                <button id="scan_duel_button">Escanear QR duelo</button>
-                <button id="Scan" style="display: flex">$</button>
+                <button id="qr_duel_button">
+                    <i class="fa-solid fa-qrcode" style="color: #ffffff"></i>
+                </button>
+                <button id="add_button"><i class="fa-solid fa-cart-plus"></i></button>
+                <button id="scan_duel_button"><i class="fa-solid fa-expand"></i></button>
+                <button id="Scan" style="display: flex">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </button>
             </div>
             <div id="qr_duel_div">
-                <button id="qr_duel_close_button">Cerrar</button>
+                <button id="qr_duel_close_button">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
                 <div id="qr_duel"></div>
             </div>
             <div id="duel_scanner_div">
-                <button id="close_duel_scanner">Cerrar</button>
+                <button id="close_duel_scanner"><i class="fa-solid fa-xmark"></i></button>
                 <div id="duel_reader"></div>
             </div>
             <button id="favorito" style="display: none">Favorito</button>
@@ -157,11 +170,14 @@
             <div id="container">
                 <canvas id="canvas" width="320" height="240"></canvas>
             </div>
-            <button id="annadir_close_button" class="closeButton">Cerrar</button>
-
+            <button id="annadir_close_button" class="closeButton">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
         <div id="cobro">
-            <button id="scan_close_button" class="closeButton">Cerrar</button>
+            <button id="scan_close_button" class="closeButton">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
             <div id="reader"><div id="qr-overlay"></div></div>
         </div>
         <!--DUELO-->
