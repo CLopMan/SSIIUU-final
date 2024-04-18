@@ -123,7 +123,7 @@ function add_object(object, username) {
         });
 }
 
-function del_object(object, username) {
+async function del_object(object, username) {
     read_objects()
         .then((data) => {
             let data_user = {};
@@ -248,9 +248,9 @@ io.on("connection", (socket) => {
     socket.on("DUEL_OBJECT", async (object, op_id) => {
         if (object == null) {
             await wait_object(socket.id);
-
+            await del_object(objects_lost[socket.id], socket_name[socket.id]);
+            
             socket.emit("OBJECT_LOST", objects_lost[socket.id]);
-            del_object(objects_lost[socket.id], socket_name[socket.id]);
             duelos[socket.id] = null;
             objects_lost[socket.id] = null;
             registro_duelos[socket.id] = null;
@@ -260,7 +260,6 @@ io.on("connection", (socket) => {
         }
 
         objects_lost[op_id] = object;
-        //add_object(object, socket_name[id]);
     });
 
     socket.on("CHANGE_FAV", (id, name) => {

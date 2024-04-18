@@ -35,6 +35,10 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
 }
 let figura_actual;
 let figura_seleccionada;
+let draw_id;
+let move_id;
+export let num = {"num": 0};
+
 // Generar las celdas del juego de Tetris
 const grid = document.getElementById("grid");
 let cells = [];
@@ -49,6 +53,7 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
 
 export function leer_estado() {
     console.log("Envío el mensaje LOAD_STATE");
+    reset_inventory();
     socket.emit("LOAD_STATE");
 }
 
@@ -73,11 +78,9 @@ export function cargar_estado(data) {
         colocarBloque();
     });
     id_actual = Number(key_id) + 1;
-
-    generar_bloque("Crema");
 }
 
-export function reset_inventory() {
+function reset_inventory() {
 	// Reinicias el inventario
     for (let i = 0; i < FILAS_MATRIZ; i++) {
         matriz_figuras[i].fill(0);
@@ -88,6 +91,9 @@ export function reset_inventory() {
     }
     
     figura_seleccionada = null;
+    
+    window.clearInterval(draw_id);
+    window.clearInterval(move_id);
     
     lista_figuras = [];
     div_figuras = [];
@@ -159,6 +165,7 @@ function colocarBloque() {
     escribir_estado();
     figura_actual = null;
     modal_tetris.style.display = "none";
+    num["num"] += 1;
 }
 
 function divFigura() {
@@ -244,7 +251,7 @@ function divFavorito(div_figura) {
 }
 
 function eliminarFigura() {
-    if (!figura_seleccionada) {
+	if (!figura_seleccionada || favorito["favourite_list"][figura_seleccionada.id]["favorito"] == 1) {
         return;
     }
 
@@ -269,6 +276,7 @@ function eliminarFigura() {
     })
     console.log(json_copy);
     json = json_copy;
+    num["num"] -= 1;
     escribir_estado();
 }
 
@@ -386,7 +394,7 @@ function hayColision(nuevaMatriz) {
     return false;
 }
 
-function generar_bloque(tipo) {
+export function generar_bloque(tipo) {
 	modal_tetris.style.display = "block";
     figura_actual = new Figura(
         id_actual,
@@ -428,15 +436,17 @@ function dibujar_figuras() {
 }
 
 function set_up() {
-    setInterval(dibujar_figuras, 100);
-    setInterval(moverFiguraAbajo, 100);
+    draw_id = setInterval(dibujar_figuras, 50);
+    move_id = setInterval(moverFiguraAbajo, 1500);
     let startAngle = {};
     let startTime = null;
     let isLocked = false; // nuevo estado de bloqueo
     const lockTimeMS = 500; // tiempo de bloqueo después de detectar un giro
     window.addEventListener("deviceorientation", handleOrientation, true);
+    
     function handleOrientation(event) {
         if (isLocked) return;
+        
         const currentAngle = {
             alpha: event.alpha,
             beta: event.beta,

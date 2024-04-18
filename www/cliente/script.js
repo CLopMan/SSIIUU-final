@@ -16,7 +16,7 @@ import {
     start_duel_scanning,
     hide_duel_qr,
 } from "./funcionalidades/duelo.js";
-import { leer_estado, cargar_estado } from "./funcionalidades/inventario.js";
+import { leer_estado, cargar_estado, generar_bloque, num } from "./funcionalidades/inventario.js";
 
 // Socket
 export const socket = io();
@@ -30,12 +30,19 @@ const scan_duel_button = document.getElementById("scan_duel_button");
 
 // Listeners para los botones
 qr_duel_button.addEventListener("touchend", () => {
-    gen_duel_qr(id);
-    socket.emit("REGISTER_DUEL");
+	console.log(num["num"]);
+	if (num["num"] > 0) {
+		gen_duel_qr(id);
+		socket.emit("REGISTER_DUEL");
+	}
 });
 add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
-scan_duel_button.addEventListener("touchend", start_duel_scanning);
-
+scan_duel_button.addEventListener("touchend", () => {
+	console.log(num["num"]);
+	if (num["num"] > 0) {
+		start_duel_scanning();
+	}
+});
 // Variables para el duelo
 var opponent_id;
 var opponent_name;
@@ -80,6 +87,7 @@ socket.on("connect", () => {
             register_error("EL usuario ya existe", 1);
         } else if (res == 0) {
             register_effective();
+            leer_estado();
             name = username;
         }
     });
@@ -107,6 +115,7 @@ socket.on("connect", () => {
         display_duel_outcome(objects, 1);
         let object = await get_stolen_object();
         socket.emit("DUEL_OBJECT", object, opponent_id);
+       	generar_bloque(objects[object]["tipo"]); 
     });
 
     socket.on("DUEL_LOST", (objects) => {
@@ -116,6 +125,7 @@ socket.on("connect", () => {
 
     socket.on("OBJECT_LOST", (object) => {
         display_object_lost(object);
+        leer_estado();
     });
 });
 

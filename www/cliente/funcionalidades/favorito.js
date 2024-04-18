@@ -1,13 +1,7 @@
 import { socket, name } from "../script.js";
+import { num } from "./inventario.js";
 
 // Lista con divs, claves = id del div
-export var favourite_list = {
-    clave_del_div: {
-        favorito: 0,
-        contador: 0,
-        estrella: "literalmente el objeto",
-    },
-};
 export let favorito = {
     favourite_list: {},
     div_id: null,
@@ -23,8 +17,8 @@ function handle_fav_pos(ev) {
 	if (favorito["div_id"] != null) {
     	div_id = favorito["div_id"];
     	
-    	if (favorito["favourite_list"][div_id]["contador"] < 50) {
-            if (Math.abs(ev.rotationRate.alpha) > 200) {
+    	if (favorito["favourite_list"][div_id]["contador"] < 25) {
+    		if (Math.abs(ev.rotationRate.gamma) > 350) {
                 favorito["favourite_list"][div_id]["contador"] += 1;
             }
         } else {
@@ -49,9 +43,11 @@ function change_obj_fav() {
 function trigger_star_appearing() {
     favorito["favourite_list"][div_id]["estrella"].style.animation = "appear_star 1s 1";
     favorito["favourite_list"][div_id]["estrella"].style.backgroundColor = "yellow";
+    num["num"] -= 1;
 }
 
 function trigger_star_disappearing() {
     favorito["favourite_list"][div_id]["estrella"].style.animation = "disappear_star 1s 1";
     favorito["favourite_list"][div_id]["estrella"].style.backgroundColor = "transparent";
+    num["num"] += 1;
 }

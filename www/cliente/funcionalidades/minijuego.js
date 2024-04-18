@@ -1,4 +1,6 @@
 import { last_predict } from "./annadir.js";
+import { generar_bloque } from "./inventario.js";
+
 // Constantes de las escenas
 const inventario = document.getElementById("inventario");
 const minijuego = document.getElementById("minijuego");
@@ -234,5 +236,8 @@ boton_reglas.addEventListener("touchend", () => {
 boton_cerrar.addEventListener("touchend", () => {
 	inventario.style.display = "block";
 	minijuego.style.display = "none";
+	if (capturado == true) {
+		generar_bloque(last_predict);
+	}
 });
 	
