@@ -1,3 +1,5 @@
+import { reset_inventory } from "./inventario.js"; 
+
 // Divs de registro
 const inventario = document.getElementById("inventario");
 const register = document.getElementById("register");
@@ -142,6 +144,7 @@ export function register_error(error, id) {
 }
 
 function log_out() {
+	reset_inventory();
 	register.style.display = "block";
     register.style.animation = "log_out 0.6s 1";
     register.style.marginTop = "0vh";

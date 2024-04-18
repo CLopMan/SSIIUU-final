@@ -9,6 +9,16 @@ body {
     touch-action: none;
 }
 
+#modal_tetris {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	z-index: 9999;
+	display: none;
+}
+
 #inventario {
     background-image: url("imagenes/fondo.png");
     background-repeat: no-repeat;
@@ -110,6 +120,7 @@ h2 {
     display: none;
     top: 0%;
     grid-template-rows: 1fr 5fr;
+	z-index: 2000;
 }
 
 #qr_duel_close_button {
@@ -143,6 +154,7 @@ img {
     background-color: rgba(255, 255, 255, 0.9);
     display: none;
     top: 0%;
+    z-index: 2000;
 }
 
 #html5-qrcode-button-camera-permission,

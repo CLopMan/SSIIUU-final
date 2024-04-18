@@ -9,6 +9,7 @@ const COLOR_FIGURAS = "#8f90b5";
 const COLOR_FIGURAS_COLOCADAS = "#7273b8";
 const COLOR_FIGURA_SELECCIONADA = "red";
 const COLOR_FONDO = "#3c2012";
+const modal_tetris = document.getElementById("modal_tetris");
 
 class Figura {
     constructor(id, x, y, height, width, color, tipo) {
@@ -50,19 +51,15 @@ export function leer_estado() {
     console.log("Envío el mensaje LOAD_STATE");
     socket.emit("LOAD_STATE");
 }
+
 export function cargar_estado(data) {
     set_up();
-    for (let i = 0; i < FILAS_MATRIZ; i++) {
-        matriz_figuras[i].fill(0);
-    }
-    lista_figuras = [];
-    div_figuras = [];
+        
+    // Cargas el estado
     let key_id = 0;
     json = data;
     Object.keys(data).forEach((key) => {
         key_id = key;
-        console.log("El tipo de la figura cargada es", data[key.tipo]);
-        console.log(data);
         figura_actual = new Figura(
             key,
             data[key].x,
@@ -79,8 +76,25 @@ export function cargar_estado(data) {
 
     generar_bloque("Crema");
 }
+
+export function reset_inventory() {
+	// Reinicias el inventario
+    for (let i = 0; i < FILAS_MATRIZ; i++) {
+        matriz_figuras[i].fill(0);
+    }
+    
+    for (let div of div_figuras) {
+    	div["div_figura"].remove();
+    }
+    
+    figura_seleccionada = null;
+    
+    lista_figuras = [];
+    div_figuras = [];
+
+}
+
 export function escribir_estado() {
-    console.log(json);
     socket.emit("STORE_STATE", json);
 }
 
@@ -144,6 +158,7 @@ function colocarBloque() {
     };
     escribir_estado();
     figura_actual = null;
+    modal_tetris.style.display = "none";
 }
 
 function divFigura() {
@@ -176,36 +191,39 @@ function divFigura() {
     document.body.appendChild(div_figura);
     div_figuras.push({ div_figura, figura_actual });
     div_figura.addEventListener("touchend", () => {
-        {
-            let par_figura_div;
-            // Si se vuelve a tocar la misma se deselecciona
-            if (figura_seleccionada === div_figura) {
-                par_figura_div = div_figuras.find(
-                    (elemento) => elemento.div_figura === div_figura
-                );
-
-                par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
-                figura_seleccionada = null;
-                favorito.div_id = null;
-
-                // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
-            } else {
-                par_figura_div = div_figuras.find(
-                    (elemento) => elemento.div_figura === div_figura
-                );
-                if (figura_seleccionada) {
-                    let par_figura_div_select = div_figuras.find(
-                        (elemento) => elemento.div_figura === figura_seleccionada
-                    );
-                    par_figura_div_select.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
-                }
-                par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
-                figura_seleccionada = div_figura;
-                favorito.div_id = figura_seleccionada.id;
-            }
-        }
+    	handle_touch(div_figura);
     });
     return div_figura;
+}
+
+function handle_touch(div_figura) {
+	
+    let par_figura_div;
+    // Si se vuelve a tocar la misma se deselecciona
+    if (figura_seleccionada === div_figura) {
+        par_figura_div = div_figuras.find(
+            (elemento) => elemento.div_figura === div_figura
+        );
+
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+        figura_seleccionada = null;
+        favorito.div_id = null;
+
+        // Si se toca cualquier otra se selecciona y la anterior deja de estar seleccionada
+    } else {
+        par_figura_div = div_figuras.find(
+            (elemento) => elemento.div_figura === div_figura
+        );
+        if (figura_seleccionada) {
+            let par_figura_div_select = div_figuras.find(
+                (elemento) => elemento.div_figura === figura_seleccionada
+            );
+            par_figura_div_select.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+        }
+        par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
+        figura_seleccionada = div_figura;
+        favorito.div_id = figura_seleccionada.id;
+    }    
 }
 
 function divFavorito(div_figura) {
@@ -217,6 +235,7 @@ function divFavorito(div_figura) {
     div_pequeno.style.width = "20px";
     div_pequeno.style.height = "20px";
     div_pequeno.style.backgroundColor = "red";
+    div_pequeno.style.zIndex = "100";
     div_pequeno.setAttribute("class", "favorito");
 
     div_figura.appendChild(div_pequeno);
@@ -363,6 +382,7 @@ function hayColision(nuevaMatriz) {
 }
 
 function generar_bloque(tipo) {
+	modal_tetris.style.display = "block";
     figura_actual = new Figura(
         id_actual,
         2,
@@ -392,7 +412,6 @@ function dibujar_figuras() {
                 ) {
                     const index = (figura.y + i) * COLUMNAS_MATRIZ + (figura.x + j);
                     cells[index].style.backgroundColor = figura.color;
-                    console.log(figura.tipo);
                     cells[
                         index
                     ].style.backgroundImage = `url('imagenes/${figura.tipo}.png')`;
@@ -405,7 +424,7 @@ function dibujar_figuras() {
 
 function set_up() {
     setInterval(dibujar_figuras, 100);
-    setInterval(moverFiguraAbajo, 3000);
+    setInterval(moverFiguraAbajo, 100);
     let startAngle = {};
     let startTime = null;
     let isLocked = false; // nuevo estado de bloqueo
