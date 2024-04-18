@@ -76,14 +76,17 @@ function handleOrientation(event) {
 }
 
 window.addEventListener('deviceorientation', handleOrientation);
-
+var fav;
 const annadir_div = document.getElementById("annadir");
 const inventario = document.getElementById("inventario");
 document.getElementById("add_button").addEventListener("touchend", () => {
     canvas_cont.style.display = "none";
+    fav = document.querySelectorAll(".favorito")
+
     init(); 
     //inventario.style.display = "none";
     annadir_div.style.display="flex";
+    fav.forEach( (e => {e.style.display = "none"}));
     fotico = false;
 
 
@@ -115,6 +118,7 @@ async function predict() {
 closeButton.addEventListener("touchend", () => {
     //inventario.style.display = "flex";
     annadir_div.style.display = "none"; 
+    fav.forEach( (e => {e.style.display = "block"}));
     var tr = player.srcObject.getTracks();
     tr[0].stop();
 });

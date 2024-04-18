@@ -64,14 +64,16 @@ const html5QrCode = new Html5Qrcode(
 scanButton.addEventListener("touchend", () => {
     //inventario.style.display = "none";
     cobro.style.display = "flex";
-
+    document.querySelectorAll(".favorito").forEach((e) => {e.style.display = "none"});
     html5QrCode.start({ facingMode: { exact: "environment" } }, config, qrCodeSuccessCallback);
     let toDelete = document.getElementById("reader__dashboard_section_csr");
-    toDelete.style.display="none";
+    
+    if (toDelete != null){toDelete.style.display="none";}
 });
 
 closeButton.addEventListener("touchend", () => {
     //inventario.style.display = "flex";
+    document.querySelectorAll(".favorito").forEach((e) => {e.style.display = "block"});
     cobro.style.display = "none"; 
     html5QrCode.stop();
 });
