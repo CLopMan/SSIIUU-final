@@ -61,6 +61,8 @@ export function cargar_estado(data) {
     json = data;
     Object.keys(data).forEach((key) => {
         key_id = key;
+        console.log("El tipo de la figura cargada es", data[key.tipo]);
+        console.log(data);
         figura_actual = new Figura(
             key,
             data[key].x,
@@ -68,7 +70,7 @@ export function cargar_estado(data) {
             data[key].height,
             data[key].width,
             COLOR_FIGURAS,
-            data[key.tipo]
+            data[key].tipo
         );
         lista_figuras.push(figura_actual);
         colocarBloque();
@@ -200,7 +202,6 @@ function divFigura() {
                 figura_seleccionada = div_figura;
                 favorito.div_id = figura_seleccionada.id;
             }
-            console.log(figura_seleccionada);
         }
     });
     return div_figura;
@@ -209,7 +210,7 @@ function divFigura() {
 function divFavorito(div_figura) {
     let div_pequeno = document.createElement("div");
 
-    div_pequeno.style.position = "absolute";
+    div_pequeno.style.position = "relative";
     div_pequeno.style.right = "0px";
     div_pequeno.style.top = "0px";
     div_pequeno.style.width = "20px";
@@ -229,11 +230,14 @@ function eliminarFigura() {
     let par_figura_div = div_figuras.find(
         (elemento) => elemento.div_figura === figura_seleccionada
     );
+
     par_figura_div.div_figura.parentNode.removeChild(par_figura_div.div_figura);
     figura_seleccionada = null;
 
-    par_figura_div.figura_actual.color = COLOR_FONDO;
     borrarFiguraEnMatriz(par_figura_div.figura_actual);
+    lista_figuras = lista_figuras.filter(
+        (figura) => figura !== par_figura_div.figura_actual
+    );
 
     let id = par_figura_div.figura_actual.id;
     if (json[id]) {
@@ -373,6 +377,7 @@ function generar_bloque(tipo) {
 function dibujar_figuras() {
     for (let cell of cells) {
         cell.style.backgroundColor = COLOR_FONDO;
+        cell.style.backgroundImage = "none";
     }
     for (let figura of lista_figuras) {
         for (let i = 0; i < figura.height; i++) {
@@ -385,6 +390,11 @@ function dibujar_figuras() {
                 ) {
                     const index = (figura.y + i) * COLUMNAS_MATRIZ + (figura.x + j);
                     cells[index].style.backgroundColor = figura.color;
+                    console.log(figura.tipo);
+                    cells[
+                        index
+                    ].style.backgroundImage = `url('imagenes/${figura.tipo}.png')`;
+                    cells[index].style.backgroundSize = "cover";
                 }
             }
         }
