@@ -17,6 +17,7 @@ import {
     hide_duel_qr,
 } from "./funcionalidades/duelo.js";
 import { leer_estado, cargar_estado } from "./funcionalidades/inventario.js";
+
 // Socket
 export const socket = io();
 var id;
@@ -41,24 +42,6 @@ var opponent_name;
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function add() {
-    console.log("add");
-}
-
-function del() {
-    console.log("del");
-}
-
-function fav() {}
-
-function inventory() {
-    console.log("inventory");
-}
-
-function pay() {
-    console.log("pay");
 }
 
 function minigame() {
@@ -100,16 +83,6 @@ socket.on("connect", () => {
             name = username;
         }
     });
-
-    socket.on("TRIGGER_ADD", add);
-
-    socket.on("TRIGGER_DELETE", del);
-
-    socket.on("TRIGGER_FAVOURITE", fav);
-
-    socket.on("TRIGGER_INVENTORY", inventory);
-
-    socket.on("TRIGGER_PAYMENT", pay);
 
     socket.on("TRIGGER_MINIGAME", minigame);
 
@@ -161,7 +134,6 @@ document.getElementById("sign-up_register").addEventListener("touchend", (ev) =>
 });
 
 // Elementos que sirven para triggerear los eventos, eliminar cuando se puedan lanzar por el flujo esperado de la aplicación
-document.getElementById("favorito").addEventListener("touchend", fav);
 document
     .getElementById("minigame_button")
     .addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
