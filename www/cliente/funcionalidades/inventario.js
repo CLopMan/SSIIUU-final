@@ -80,6 +80,7 @@ export function cargar_estado(data) {
     generar_bloque("Crema");
 }
 export function escribir_estado() {
+    console.log(json);
     socket.emit("STORE_STATE", json);
 }
 
@@ -216,6 +217,7 @@ function divFavorito(div_figura) {
     div_pequeno.style.width = "20px";
     div_pequeno.style.height = "20px";
     div_pequeno.style.backgroundColor = "red";
+    div_pequeno.setAttribute("class", "favorito");
 
     div_figura.appendChild(div_pequeno);
 
