@@ -209,7 +209,7 @@ function duel_aftermath(objects, win) {
 		
 		// Nombre del objeto
 		let p = document.createElement("p")
-		p.innerHTML = objects[item]["tipo"];
+		p.innerHTML = item + "." + objects[item]["tipo"];
 		p.setAttribute("class", "item_p");
 		
 		p.addEventListener("touchend", confirmation);
@@ -263,7 +263,7 @@ function confirmation(ev) {
 }
 
 function confirmation_yes() {
-	stolen_object = conf_div.parentNode.children[0].innerHTML;
+	stolen_object = conf_div.parentNode.children[0].innerHTML.split(".")[0];
 	op_inventario.style.display = "none";
 }
 

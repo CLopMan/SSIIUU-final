@@ -128,15 +128,13 @@ function del_object(object, username) {
         .then((data) => {
             let data_user = {};
             data_user[username] = {};
-            let i = 0;
-            for (let elem in data[username]) {
-                if (object != data[username][elem]["tipo"]) {
-                    data_user[username][i] = data[username][elem];
-                    i += 1;
+            Object.keys(data[username]).forEach((key) => {
+                if (key != object) {
+                    data_user[username][key] = data[username][key];
                 }
-            }
+            })
             data[username] = data_user[username];
-            write_objects(data_user);
+            write_objects(data);
         })
         .catch((err) => {
             console.log(err);
@@ -285,8 +283,16 @@ io.on("connection", (socket) => {
                 console.log(err);
             });
     });
-    socket.on("STORE_STATE", (json_user) => {
-        console.log(json_user);
+    
+    socket.on("STORE_STATE", (json, user) => {
+        read_objects()
+        .then((objects) => {
+        	objects[user] = json;
+        	write_objects(objects);
+        })
+        .catch((err) => {
+        	console.log(err);
+        })
     });
 
     socket.on("LOG_IN", (data) => {

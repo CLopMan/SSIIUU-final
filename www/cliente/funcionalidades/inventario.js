@@ -95,7 +95,7 @@ export function reset_inventory() {
 }
 
 export function escribir_estado() {
-    socket.emit("STORE_STATE", json);
+    socket.emit("STORE_STATE", json, name);
 }
 
 function dibujarFiguraEnMatriz() {
@@ -261,9 +261,14 @@ function eliminarFigura() {
     );
 
     let id = par_figura_div.figura_actual.id;
-    if (json[id]) {
-        delete json[id];
-    }
+    let json_copy = {};
+	Object.keys(json).forEach((i) => {
+    	if (id != i) {
+    		json_copy[i] = json[i]
+    	}
+    })
+    console.log(json_copy);
+    json = json_copy;
     escribir_estado();
 }
 
