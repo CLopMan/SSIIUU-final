@@ -228,7 +228,14 @@ io.on("connection", (socket) => {
         if (duelos[op_id]["done"] == null) {
             read_objects()
                 .then((objects) => {
-                    socket.emit("DUEL_WON", objects[socket_name[op_id]]);
+                	let objects_user = objects[socket_name[op_id]];
+                	let objects_to_lose = {}
+                	Object.keys(objects_user).forEach((item) => {
+                		if (objects_user[item]["fav"] == 0) {
+                			objects_to_lose[item] = objects_user[item];
+                		}
+                	})
+                    socket.emit("DUEL_WON", objects_to_lose);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -279,7 +286,7 @@ io.on("connection", (socket) => {
             });
     });
     socket.on("STORE_STATE", (json_user) => {
-        // *********************** FALTA ESCRIBIR EN EL FICHERO
+        console.log(json_user);
     });
 
     socket.on("LOG_IN", (data) => {
