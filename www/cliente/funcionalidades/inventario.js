@@ -15,7 +15,6 @@ const modal_tetris = document.getElementById("modal_tetris");
 const COLOR_FIGURAS = "red";
 const COLOR_FIGURAS_COLOCADAS = "blue";
 
-
 class Figura {
     constructor(id, x, y, height, width, favorito, tipo) {
         this.id = id;
@@ -246,10 +245,10 @@ function handle_touch(div_figura) {
             let par_figura_div_select = div_figuras.find(
                 (elemento) => elemento.div_figura === figura_seleccionada
             );
-            if (par_figura_div.figura_actual.tipo == "bollo") {
-                par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+            if (par_figura_div_select.figura_actual.tipo == "bollo") {
+                par_figura_div_select.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
             } else {
-                par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+                par_figura_div_select.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
             }
         }
         par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
@@ -304,7 +303,6 @@ function eliminarFigura() {
             json_copy[i] = json[i];
         }
     });
-    console.log(json_copy);
     json = json_copy;
     num["num"] -= 1;
     escribir_estado();
