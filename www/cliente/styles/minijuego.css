@@ -78,7 +78,7 @@
 }
 
 #reglas_pesca p {
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	padding: 2%;
 }
 
@@ -105,6 +105,7 @@
 	left: 30%;
 	display: none;
 	font-size: 2rem;
+	z-index: 999999;
 }
 
 @keyframes ripple {

@@ -14,7 +14,7 @@ import {
     display_object_lost,
     gen_duel_qr,
     start_duel_scanning,
-    hide_duel_qr,
+    hide_duel_qr
 } from "./funcionalidades/duelo.js";
 import { leer_estado, cargar_estado, generar_bloque, num } from "./funcionalidades/inventario.js";
 
@@ -43,6 +43,7 @@ scan_duel_button.addEventListener("touchend", () => {
 		start_duel_scanning();
 	}
 });
+
 // Variables para el duelo
 var opponent_id;
 var opponent_name;

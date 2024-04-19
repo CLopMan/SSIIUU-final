@@ -5,15 +5,18 @@ const qr = new QRCode("qrcode", {
   width: 512,
   height: 512,
   colorDark: "#000000",
-  colorLight: "#ffffff",
+  colorLight: "transparent",
   correctLevel: QRCode.CorrectLevel.H
 });
+
+// conexion 
 socket.on("connect", () => {
   socket.emit("CASHIER_CONNECTED", { id: 1 });
 
   socket.on("ACK_CONNECTION", () => {
     console.log("ACK");
   });
+
 // Escuchar el evento 'jsonData' del servidor
 socket.on('jsonData', (data, name) => {
   console.log("Datos JSON recibidos del servidor:", data );
@@ -25,6 +28,7 @@ socket.on('jsonData', (data, name) => {
 
 });
 
+// enseña la cesta de la copra de un usuario
 function mostrarInformacion(data, username) {
   const informacionUsuario = data[username];
 
@@ -40,7 +44,8 @@ function mostrarInformacion(data, username) {
 
   const titulo = document.createElement('h2');
   titulo.textContent = `¡SE BUSCA: ${username}!`;
-
+  const icon = document.createElement("img");
+  icon.src = "user-solid.svg";
   const lista = document.createElement('ul');
 
   // Iterar sobre las entradas de información del usuario
@@ -51,19 +56,22 @@ function mostrarInformacion(data, username) {
           const precio = informacionUsuario[id].precio;
           total += precio; 
           const elementoLista = document.createElement('li');
-          elementoLista.textContent = `${tipo}-${precio}`;
+          elementoLista.textContent = `${tipo}-${precio}€`;
           lista.appendChild(elementoLista);
       }
   }
   const elementoLista = document.createElement('li');
-  elementoLista.textContent = `TOTAL: ${total}`;
+  elementoLista.textContent = `TOTAL: ${total}€`;
   lista.appendChild(elementoLista);
 
   cartel.appendChild(titulo);
+  //cartel.appendChild(icon_div);
+  cartel.appendChild(icon);
   cartel.appendChild(lista);
 
   // Agregar el cartel al cuerpo del documento HTML
   document.body.appendChild(cartel);
+  document.body.style.backgroundColor = `linear-gradient("to bottom", #3b2916, #1b0f05);`;
 }
 
 

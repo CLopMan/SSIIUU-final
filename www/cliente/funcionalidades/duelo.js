@@ -1,4 +1,5 @@
 import { socket } from "../script.js";
+import { num } from "./inventario.js";
 
 // Páginas que cambiar
 const inventario = document.getElementById("inventario");
@@ -185,21 +186,20 @@ function display_loss(object, win) {
 }
 
 function duel_aftermath(objects, win) {
-	
+	clear_objects_list();
+		
 	if (win == 1) {
-		h1_op_inv.innerHTML = "ROBA UN OBJETO";	
+		let h1 = document.createElement("h1");
+		h1.innerHTML = "ROBA UN OBJETO";
+		h1.style.textAlign = "center";
+		op_inventario.appendChild(h1);
+		
 		op_inventario.style.display = "block";
 		inventario.style.display = "block";
 		duel_page.style.display = "none";
-
-		for (let i of op_inventario.children) {
-			if (i.getAttribute("class") == "item_div") {
-				i.remove();
-			}
-			
-		}
 	}
 	else {
+		num["num"] -= num["num"];
 		wait_for_object_lost();
 		return ;
 	}
@@ -247,6 +247,12 @@ function duel_aftermath(objects, win) {
 		op_inventario.appendChild(div);
 	})
 	
+}
+
+function clear_objects_list() {
+	while (op_inventario.firstChild) {
+    	op_inventario.removeChild(op_inventario.lastChild);
+  	}
 }
 
 function wait_for_object_lost() {
@@ -343,9 +349,7 @@ function scan_duel_success(qrCodeMssg) {
 	console.log(qrCodeMssg);
 	qr_duel_scanner_div.style.display = "";
 	qr_duel_scanner.stop();
-	socket.emit("REGISTER_DUEL", qrCodeMssg);
-	
-	
+	socket.emit("REGISTER_DUEL", qrCodeMssg);	
 }
 
 function scan_duel_error(err) {
