@@ -7,6 +7,7 @@ const error_texts = document.getElementsByClassName("register_error");
 
 // Botones de registro
 const log_out_button = document.getElementById("log-out");
+const scan_button = document.getElementById("Scan");
 const to_sign_up_button = document.getElementById("to_sign-up");
 const to_log_in_button = document.getElementById("to_log-in");
 
@@ -109,6 +110,7 @@ export function register_effective() {
         log_in.style.marginLeft = "0vw";
         sign_up.style.marginLeft = "100vw";
         log_out_button.style.display = "block";
+        scan_button.style.display = "block";
         register.style.display = "none";
     }, 600);
 
@@ -146,6 +148,7 @@ function log_out() {
     register.style.animation = "log_out 0.6s 1";
     register.style.marginTop = "0vh";
     log_out_button.style.display = "none";
+	scan_button.style.display = "none";
 	
 	window.setTimeout(()=> {
 		inventario.style.display = "none";
