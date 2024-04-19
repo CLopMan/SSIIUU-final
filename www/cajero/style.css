@@ -121,4 +121,12 @@ body {
     /* Otros estilos para el total */
 }
 
-  
+button {
+    position:absolute;
+    z-index: 1000000000000;
+    background-color: transparent;
+    font-size: 24px;
+    color: red;
+    right: 10;
+    top:10;
+}

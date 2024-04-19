@@ -95,7 +95,7 @@ function mostrarInformacion(data, username) {
       }
   }
   const etotal = document.createElement('p');
-  etotal.textContent = `TOTAL: ${total}€`;
+  etotal.textContent = `TOTAL: ${redondear(total, 2)}€`;
   etotal.classList.add("total");
   const hr = document.createElement("p");
   const hr2 = document.createElement("p");
@@ -113,13 +113,23 @@ function mostrarInformacion(data, username) {
   cartel.appendChild(container);
 
   cartel.style.opacity = 1.0;  
-
+  closeButton = document.createElement("button");
+  closeButton.textContent = "X";
+  closeButton.addEventListener("click", () => {
+    location.reload();
+  });
 
   // Agregar el cartel al cuerpo del documento HTML
   document.body.appendChild(cartel);
   document.body.appendChild(background);
+  cartel.appendChild(closeButton);
 }
 
+
+function redondear(num, decimales) {
+  let factor = Math.pow(10, decimales);
+  return Math.round(num * factor) / factor;
+}
 
 
 
