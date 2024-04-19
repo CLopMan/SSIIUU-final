@@ -5,9 +5,11 @@ const ANCHO_FIGURA = 2;
 const ALTURA_FIGURA = 3;
 const FILAS_MATRIZ = 10;
 const COLUMNAS_MATRIZ = 8;
-const COLOR_FIGURAS = "#8f90b5";
-const COLOR_FIGURAS_COLOCADAS = "#7273b8";
-const COLOR_FIGURA_SELECCIONADA = "red";
+const COLOR_FIGURAS_BOLLO = "#8a500f";
+const COLOR_FIGURAS_CREMA = "#a588db";
+const COLOR_FIGURAS_BOLLO_COLOCADAS = "#471302";
+const COLOR_FIGURAS_CREMA_COLOCADAS = "#7966b9";
+const COLOR_FIGURA_SELECCIONADA = "#a52230";
 const COLOR_FONDO = "#3c2012";
 const modal_tetris = document.getElementById("modal_tetris");
 
@@ -44,7 +46,7 @@ let figura_actual;
 let figura_seleccionada;
 let draw_id;
 let move_id;
-export let num = {"num": 0};
+export let num = { num: 0 };
 
 // Generar las celdas del juego de Tetris
 const grid = document.getElementById("grid");
@@ -66,7 +68,7 @@ export function leer_estado() {
 
 export function cargar_estado(data) {
     set_up();
-        
+
     // Cargas el estado
     let key_id = 0;
     json = data;
@@ -90,23 +92,22 @@ export function cargar_estado(data) {
 }
 
 function reset_inventory() {
-	// Reinicias el inventario
+    // Reinicias el inventario
     for (let i = 0; i < FILAS_MATRIZ; i++) {
         matriz_figuras[i].fill(0);
     }
-    
+
     for (let div of div_figuras) {
-    	div["div_figura"].remove();
+        div["div_figura"].remove();
     }
-    
+
     figura_seleccionada = null;
-    
+
     window.clearInterval(draw_id);
     window.clearInterval(move_id);
-    
+
     lista_figuras = [];
     div_figuras = [];
-
 }
 
 export function escribir_estado() {
@@ -208,13 +209,12 @@ function divFigura() {
     document.body.appendChild(div_figura);
     div_figuras.push({ div_figura, figura_actual });
     div_figura.addEventListener("touchend", () => {
-    	handle_touch(div_figura);
+        handle_touch(div_figura);
     });
     return div_figura;
 }
 
 function handle_touch(div_figura) {
-	
     let par_figura_div;
     // Si se vuelve a tocar la misma se deselecciona
     if (figura_seleccionada === div_figura) {
@@ -240,7 +240,7 @@ function handle_touch(div_figura) {
         par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
         figura_seleccionada = div_figura;
         favorito.div_id = figura_seleccionada.id;
-    }    
+    }
 }
 
 function divFavorito(div_figura, favorito) {
@@ -263,7 +263,10 @@ function divFavorito(div_figura, favorito) {
 }
 
 function eliminarFigura() {
-	if (!figura_seleccionada || favorito["favourite_list"][figura_seleccionada.id]["favorito"] == 1) {
+    if (
+        !figura_seleccionada ||
+        favorito["favourite_list"][figura_seleccionada.id]["favorito"] == 1
+    ) {
         return;
     }
 
@@ -281,11 +284,11 @@ function eliminarFigura() {
 
     let id = par_figura_div.figura_actual.id;
     let json_copy = {};
-	Object.keys(json).forEach((i) => {
-    	if (id != i) {
-    		json_copy[i] = json[i]
-    	}
-    })
+    Object.keys(json).forEach((i) => {
+        if (id != i) {
+            json_copy[i] = json[i];
+        }
+    });
     console.log(json_copy);
     json = json_copy;
     num["num"] -= 1;
@@ -407,7 +410,7 @@ function hayColision(nuevaMatriz) {
 }
 
 export function generar_bloque(tipo) {
-	modal_tetris.style.display = "block";
+    modal_tetris.style.display = "block";
     figura_actual = new Figura(
         id_actual,
         2,
@@ -456,10 +459,10 @@ function set_up() {
     let isLocked = false; // nuevo estado de bloqueo
     const lockTimeMS = 500; // tiempo de bloqueo después de detectar un giro
     window.addEventListener("deviceorientation", handleOrientation, true);
-    
+
     function handleOrientation(event) {
         if (isLocked) return;
-        
+
         const currentAngle = {
             alpha: event.alpha,
             beta: event.beta,
