@@ -5,16 +5,16 @@ const ANCHO_FIGURA = 2;
 const ALTURA_FIGURA = 3;
 const FILAS_MATRIZ = 10;
 const COLUMNAS_MATRIZ = 8;
-const COLOR_FIGURAS_BOLLO = "#8a500f";
+const COLOR_FIGURAS_BOLLO = "#aa6a3b";
 const COLOR_FIGURAS_CREMA = "#a588db";
-const COLOR_FIGURAS_BOLLO_COLOCADAS = "#471302";
+const COLOR_FIGURAS_BOLLO_COLOCADAS = "#7f3f2c";
 const COLOR_FIGURAS_CREMA_COLOCADAS = "#7966b9";
 const COLOR_FIGURA_SELECCIONADA = "#a52230";
 const COLOR_FONDO = "#3c2012";
 const modal_tetris = document.getElementById("modal_tetris");
 
 class Figura {
-    constructor(id, x, y, height, width, color, favorito, tipo) {
+    constructor(id, x, y, height, width, favorito, tipo) {
         this.id = id;
         this.height = height;
         this.width = width;
@@ -22,14 +22,15 @@ class Figura {
         this.x = x;
         this.y = y;
         this.colocada = false;
-        this.color = color;
         this.favorito = favorito;
         this.tipo = tipo;
+
         if (tipo == "bollo") {
-		    this.precio = 2;        
-        }
-        else {
-        	this.precio = 15.94;
+            this.precio = 2;
+            this.color = COLOR_FIGURAS_BOLLO;
+        } else {
+            this.precio = 15.94;
+            this.color = COLOR_FIGURAS_CREMA;
         }
     }
 }
@@ -80,7 +81,6 @@ export function cargar_estado(data) {
             data[key].y,
             data[key].height,
             data[key].width,
-            COLOR_FIGURAS,
             data[key].fav,
             data[key].tipo
         );
@@ -89,6 +89,7 @@ export function cargar_estado(data) {
     });
     id_actual = Number(key_id) + 1;
     init_fav();
+    generar_bloque("bollo");
 }
 
 function reset_inventory() {
@@ -149,7 +150,11 @@ function moverFiguraIzquierda() {
 }
 
 function colocarBloque(fav) {
-    figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+    if (figura_actual.tipo == "bollo") {
+        figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+    } else {
+        figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+    }
     window.navigator.vibrate(100);
 
     let div_figura = divFigura();
@@ -171,7 +176,7 @@ function colocarBloque(fav) {
         y: figura_actual.y,
         height: figura_actual.height,
         width: figura_actual.width,
-        precio: figura_actual.precio
+        precio: figura_actual.precio,
     };
     escribir_estado();
     figura_actual = null;
@@ -221,8 +226,11 @@ function handle_touch(div_figura) {
         par_figura_div = div_figuras.find(
             (elemento) => elemento.div_figura === div_figura
         );
-
-        par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+        if (par_figura_div.figura_actual.tipo == "bollo") {
+            par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+        } else {
+            par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+        }
         figura_seleccionada = null;
         favorito.div_id = null;
 
@@ -235,7 +243,11 @@ function handle_touch(div_figura) {
             let par_figura_div_select = div_figuras.find(
                 (elemento) => elemento.div_figura === figura_seleccionada
             );
-            par_figura_div_select.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+            if (par_figura_div.figura_actual.tipo == "bollo") {
+                par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+            } else {
+                par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+            }
         }
         par_figura_div.figura_actual.color = COLOR_FIGURA_SELECCIONADA;
         figura_seleccionada = div_figura;
@@ -252,7 +264,7 @@ function divFavorito(div_figura, favorito) {
     div_pequeno.style.width = "20px";
     div_pequeno.style.height = "20px";
     if (favorito == true) {
-    	div_pequeno.style.backgroundColor = "yellow";
+        div_pequeno.style.backgroundColor = "yellow";
     }
     div_pequeno.style.zIndex = "100";
     div_pequeno.setAttribute("class", "favorito");
@@ -411,16 +423,7 @@ function hayColision(nuevaMatriz) {
 
 export function generar_bloque(tipo) {
     modal_tetris.style.display = "block";
-    figura_actual = new Figura(
-        id_actual,
-        2,
-        0,
-        ALTURA_FIGURA,
-        ANCHO_FIGURA,
-        COLOR_FIGURAS,
-        0,
-        tipo
-    );
+    figura_actual = new Figura(id_actual, 2, 0, ALTURA_FIGURA, ANCHO_FIGURA, 0, tipo);
     id_actual += 1;
     lista_figuras.push(figura_actual);
 }
@@ -554,12 +557,16 @@ function set_up() {
 }
 
 export function deseleccionar_objeto(div_id) {
-	let div_figura = document.getElementById(div_id);
-	let par_figura_div = div_figuras.find(
-            (elemento) => elemento.div_figura === div_figura
-        );
+    let div_figura = document.getElementById(div_id);
+    let par_figura_div = div_figuras.find(
+        (elemento) => elemento.div_figura === div_figura
+    );
 
-        par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
-        figura_seleccionada = null;
-        favorito.div_id = null;
-} 
+    if (par_figura_div.figura_actual.tipo == "bollo") {
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+    } else {
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+    }
+    figura_seleccionada = null;
+    favorito.div_id = null;
+}
