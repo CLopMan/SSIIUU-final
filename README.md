@@ -1,7 +1,14 @@
 # SSIIUU-final
 Este proyecto implementa las funcionalidades descritas en en documento desarrollado para la primera parte. La aplicación trata de ser una forma de gamificar el proceso de compra. 
 
-El prototipo cuenta con 9 funcionalidades que describimos a continuación. 
+El prototipo cuenta con 9 funcionalidades que describimos a continuación.
+
+### Autores: 
+**Grupo: 14**
+- Adrián Ferández Galán (100472282)
+- Manuel Gómez-Plana Rodríguez (100472310)
+- César López Mantecón (100472092)
+
 
 ## Funcionalidades
 Para facilitar las explicaciones, definiremos una serie de términos: 
@@ -9,7 +16,7 @@ Para facilitar las explicaciones, definiremos una serie de términos:
 - Girar: hablaremos de *girar el dispositivo* cuando nos refiramos a girarlo manteniendo la pantalla mirando directamente al usuario. 
 
 ### Login-register
-El usuario puede identificarse mediante un nombre y una constraseña. La contraseña se cifra haciendo uso del módulo `crypto`. 
+El usuario puede identificarse mediante un nombre y una constraseña. La contraseña se cifra haciendo uso del módulo `crypto`. El usuario puede intercambiar entre los menús de registrar y e iniciear sesión mediante un giro rápido del móvil a la izquierda o derecha. 
 
 ### Ordenar  
 La cesta de la compra viene representada por un inventario. El inventario está compuesto por casillas y se organizará de forma similar al tetris. De esta forma, un usuario debe **ordenar** bien las piezas según caen para maximizar el espacio. El inventario permite dos acciones: 
@@ -24,7 +31,7 @@ En el inventario un usuario puede seleccionar un objeto pulsando sobre él. Una 
 ### Marcar como favorito
 Con un objeto seleccionado, se puede agitar el móvil adelante y hacia atrás para marcarlo como favorito. Sólo se podrá marcar como favorito un objeto, representado por un cuadrado amarillo colocado sobre la esquina de la figura. 
 
-Un objeto marcado como favorito no puede ser eliminado, ni mediante la función anterior ni mediante un duelo.
+Un objeto marcado como favorito no puede ser eliminado, ni mediante la función anterior ni mediante un duelo. Un usuario sólo puede tener un objeto marcado como favorito. 
 
 ### Añadir un objeto
 En el inventario existe un botón marcado con un símbolo `+`. Este permite iniciar la cámara y hacer una foto a un objeto. 
@@ -40,4 +47,8 @@ En el cajero existe un código qr, mientras que un cliente cuenta con un botón 
 Después de escanear un objeto, el usuario debe superar un minijuego de pesca para obtenerlo. Una vez superado una figura que representa el objeto caerá en tu inventario.
 
 ### Duelo 
-Dos usuarios se pueden batir en un duelo del oeste para obtener un objeto del otro. 
+Dos usuarios se pueden batir en un duelo del oeste para obtener un objeto del otro. En el duelo existen dos figuras: 
+- Unsuario retante: este usuario podrá mostrar un código qr al rival contra el que se quiera enfrentar. 
+- Usuario retado: este usuario deberá escanear el código qr del retante, entonces se iniciará un duelo entre ambos. 
+
+En un duelo, un mensaje (acompañado de vibración) aparecerá en la pantalla de ambos contrigantes. El primero que levante el teléfono, como si fuera una pistola, vencerá y podrá robar un objeto del inventario del contraio. 
