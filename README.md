@@ -43,6 +43,8 @@ Actualmente la inteligencia artificial entrenada reconoce dos tipos de objetos: 
 ### Cobro 
 En el cajero existe un código qr, mientras que un cliente cuenta con un botón para acceder al cobro de la aplicación. Este botón le permite escanear dicho qr y que en el cajero aparezca el conjunto de su compra, junto con la suma total. 
 
+Para el resumen de la compra, hemos decidido seguir una estética de forajidos, de la mano con la temática del duelo. Así, un cliente recibirá un cartel personalizado con su nombre y compra como si fuera un cartel de recompensa. 
+
 ### Minijuego 
 Después de escanear un objeto, el usuario debe superar un minijuego de pesca para obtenerlo. Una vez superado una figura que representa el objeto caerá en tu inventario.
 
