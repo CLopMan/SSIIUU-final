@@ -31,13 +31,6 @@ var beta;
 // Listener para la pesca por movimiento
 window.addEventListener("deviceorientation", handle_pos);
 
-////////QUITAR ESTO CUANDO ACABE DE DEBUGGEAR
-shadow.addEventListener("touchend", () => {
-	window.clearTimeout(tries_id);
-	window.clearTimeout(next_try_id);
-	window.setTimeout(trigger_win, 350);
-});
-
 export function init_minigame() {
 	// Corrige el warning
 	warning.style.marginLeft = "100vw";
