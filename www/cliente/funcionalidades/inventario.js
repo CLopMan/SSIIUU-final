@@ -12,8 +12,6 @@ const COLOR_FIGURAS_CREMA_COLOCADAS = "#7966b9";
 const COLOR_FIGURA_SELECCIONADA = "#a52230";
 const COLOR_FONDO = "#3c2012";
 const modal_tetris = document.getElementById("modal_tetris");
-const COLOR_FIGURAS = "blue";
-const COLOR_FIGURAS_COLOCADAS = "red";
 
 class Figura {
     constructor(id, x, y, height, width, color, favorito, tipo) {
