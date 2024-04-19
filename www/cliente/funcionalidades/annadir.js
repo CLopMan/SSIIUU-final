@@ -5,12 +5,15 @@ const player = document.getElementById('player');
 const canvas_cont = document.getElementById("container")
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+
+// botones
 const captureButton = document.getElementById('capture');
 const closeButton = document.getElementById('annadir_close_button');
 
 let fotico = false; // controla si ya ha hecho la foto
 
-// camara trasera y sin audio
+/*=========== CAMERA Y FOTO ===========*/
+
 const constraints = {
     audio: false,
     video:{ facingMode: { exact: "environment" } } 
@@ -22,14 +25,16 @@ captureButton.addEventListener('touchend', () => { // hacer foto
     fotico = true;
 });
 
+/*=========== FIN CAMERA Y FOTO ===========*/
 
 
-// gestos 
+/*=========== GESTOS ===========*/
 let startGamma = null; 
 let startTime = null; 
 const minRotacion = 30; 
 const movementTimeMS = 500; 
 
+// descartar o procesar foto
 function handleOrientation(event) {
     const currentGamma = event.gamma; 
     const currentTime = new Date().getTime(); 
@@ -45,7 +50,7 @@ function handleOrientation(event) {
             if (gammaDiff >= minRotacion && timeDiff <= movementTimeMS) { // derecha
                 document.getElementById("annadir").style.display="none";
                 var tr = player.srcObject.getTracks();
-                tr[0].stop();
+                tr[0].stop(); // para la cámara
                 predict();
                 init_minigame() // ir al minijuego
                 fotico = false; 
@@ -53,14 +58,13 @@ function handleOrientation(event) {
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
                 console.log("eliminar foto");
-
+                // descartar foto
                 canvas_cont.classList.add("animate-left")
                 window.setTimeout(() => {
                     canvas_cont.style.display = "none";
                     canvas_cont.classList.remove("animate-left");
                 }, 500);
-                
-        
+                // reinicializar valores
                 startGamma = null;
                 startTime = null;
                 fotico = false;
@@ -78,25 +82,12 @@ function handleOrientation(event) {
 window.addEventListener('deviceorientation', handleOrientation);
 var fav;
 const annadir_div = document.getElementById("annadir");
-const inventario = document.getElementById("inventario");
-document.getElementById("add_button").addEventListener("touchend", () => {
-    canvas_cont.style.display = "none";
-    fav = document.querySelectorAll(".favorito")
-
-    init(); 
-    //inventario.style.display = "none";
-    annadir_div.style.display="flex";
-    fav.forEach( (e => {e.style.display = "none"}));
-    fotico = false;
 
 
-    // mostrar foto
-    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-        player.srcObject = stream;
-});
-});
+/*=========== FIN GESTOS ===========*/
 
-// IA - Teachable machine 
+
+/*=========== IA - TEACHABLE MACHINE ===========*/ 
 export let last_predict; 
 let model;
 const URL = "https://teachablemachine.withgoogle.com/models/h8pgHqUIh/";
@@ -104,7 +95,6 @@ async function init () {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
     const weightsURL = URL + "weights.bin";
-    //model = await tmImage.loadFromFiles(uploadModelFile.files[0], uploadWeights.files[0], uploadDataFile[0])
     model = await tmImage.load(modelURL, metadataURL);
 }
 
@@ -115,10 +105,36 @@ async function predict() {
     console.log(last_predict);
 }
 
+/*=========== FIN - TEACHABLE MACHINE ===========*/ 
+
+/*=========== BOTONES NAVEGACIÓN ===========*/ 
+
+// entrar a "annadir objeto"
+document.getElementById("add_button").addEventListener("touchend", () => {
+    console.log("add");
+    canvas_cont.style.display = "none";
+    annadir_div.style.display = "flex";
+    fav = document.querySelectorAll(".favorito")
+
+    init(); 
+    fav.forEach( (e => {e.style.display = "none"}));
+    fotico = false;
+
+
+    // mostrar foto
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        player.srcObject = stream;
+    });
+});
+
+// salir 
 closeButton.addEventListener("touchend", () => {
-    //inventario.style.display = "flex";
     annadir_div.style.display = "none"; 
     fav.forEach( (e => {e.style.display = "block"}));
     var tr = player.srcObject.getTracks();
     tr[0].stop();
 });
+
+
+
+/*=========== FIN BOTONES NAVEGACIÓN ===========*/ 

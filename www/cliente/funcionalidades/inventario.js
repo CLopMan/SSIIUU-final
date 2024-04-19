@@ -1,4 +1,4 @@
-import { favorito } from "./favorito.js";
+import { init_fav, favorito } from "./favorito.js";
 import { socket, name } from "../script.js";
 
 const ANCHO_FIGURA = 2;
@@ -14,7 +14,7 @@ const COLOR_FONDO = "#3c2012";
 const modal_tetris = document.getElementById("modal_tetris");
 
 class Figura {
-    constructor(id, x, y, height, width, color, tipo) {
+    constructor(id, x, y, height, width, color, favorito, tipo) {
         this.id = id;
         this.height = height;
         this.width = width;
@@ -23,7 +23,14 @@ class Figura {
         this.y = y;
         this.colocada = false;
         this.color = color;
+        this.favorito = favorito;
         this.tipo = tipo;
+        if (tipo == "bollo") {
+		    this.precio = 2;        
+        }
+        else {
+        	this.precio = 15.94;
+        }
     }
 }
 
@@ -31,7 +38,7 @@ let lista_figuras = [];
 let div_figuras = [];
 const matriz_figuras = [];
 let id_actual = 0;
-let json;
+export let json;
 for (let i = 0; i < FILAS_MATRIZ; i++) {
     matriz_figuras.push(new Array(COLUMNAS_MATRIZ).fill(0));
 }
@@ -74,12 +81,14 @@ export function cargar_estado(data) {
             data[key].height,
             data[key].width,
             COLOR_FIGURAS,
+            data[key].fav,
             data[key].tipo
         );
         lista_figuras.push(figura_actual);
-        colocarBloque();
+        colocarBloque(figura_actual.favorito);
     });
     id_actual = Number(key_id) + 1;
+    init_fav();
 }
 
 function reset_inventory() {
@@ -139,16 +148,16 @@ function moverFiguraIzquierda() {
     }
 }
 
-function colocarBloque() {
+function colocarBloque(fav) {
     figura_actual.color = COLOR_FIGURAS_COLOCADAS;
     window.navigator.vibrate(100);
 
     let div_figura = divFigura();
 
-    let div_fav = divFavorito(div_figura);
+    let div_fav = divFavorito(div_figura, fav);
 
     favorito["favourite_list"][div_figura.id] = {
-        favorito: 0,
+        favorito: fav,
         contador: 0,
         estrella: div_fav,
     };
@@ -157,11 +166,12 @@ function colocarBloque() {
 
     json[figura_actual.id] = {
         tipo: figura_actual.tipo,
-        fav: 0,
+        fav: fav,
         x: figura_actual.x,
         y: figura_actual.y,
         height: figura_actual.height,
         width: figura_actual.width,
+        precio: figura_actual.precio
     };
     escribir_estado();
     figura_actual = null;
@@ -233,7 +243,7 @@ function handle_touch(div_figura) {
     }
 }
 
-function divFavorito(div_figura) {
+function divFavorito(div_figura, favorito) {
     let div_pequeno = document.createElement("div");
 
     div_pequeno.style.position = "relative";
@@ -241,7 +251,9 @@ function divFavorito(div_figura) {
     div_pequeno.style.top = "0px";
     div_pequeno.style.width = "20px";
     div_pequeno.style.height = "20px";
-    div_pequeno.style.backgroundColor = "red";
+    if (favorito == true) {
+    	div_pequeno.style.backgroundColor = "yellow";
+    }
     div_pequeno.style.zIndex = "100";
     div_pequeno.setAttribute("class", "favorito");
 
@@ -306,7 +318,7 @@ function moverFiguraAbajo() {
         // Actualizar visualización o lógica relacionada con el movimiento
     } else {
         // La figura ha llegado al final, puedes hacer algo aquí como colocarla o generar una nueva figura.
-        colocarBloque();
+        colocarBloque(false);
     }
 }
 
@@ -406,6 +418,7 @@ export function generar_bloque(tipo) {
         ALTURA_FIGURA,
         ANCHO_FIGURA,
         COLOR_FIGURAS,
+        0,
         tipo
     );
     id_actual += 1;
@@ -539,3 +552,14 @@ function set_up() {
         }
     }
 }
+
+export function deseleccionar_objeto(div_id) {
+	let div_figura = document.getElementById(div_id);
+	let par_figura_div = div_figuras.find(
+            (elemento) => elemento.div_figura === div_figura
+        );
+
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_COLOCADAS;
+        figura_seleccionada = null;
+        favorito.div_id = null;
+} 

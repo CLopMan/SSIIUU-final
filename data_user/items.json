@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"manu":{},"J":{"11":{"tipo":"Crema","fav":0,"x":2,"y":7,"height":3,"width":2}},"adri":{}}
-=======
-{"manu":{"1":{"tipo":"Crema","fav":0,"x":2,"y":7,"height":3,"width":2},"2":{"tipo":"Crema","fav":0,"x":2,"y":4,"height":3,"width":2},"3":{"tipo":"Crema","fav":true,"x":2,"y":1,"height":3,"width":2},"4":{"tipo":"Crema","fav":0,"x":2,"y":0,"height":3,"width":2},"5":{"tipo":"Crema","fav":0,"x":2,"y":0,"height":3,"width":2},"6":{"tipo":"Crema","fav":0,"x":2,"y":0,"height":3,"width":2},"7":{"tipo":"Crema","fav":0,"x":2,"y":0,"height":3,"width":2},"8":{"tipo":"Crema","fav":true,"x":2,"y":0,"height":3,"width":2}},"F":{"1":{"tipo":"Crema","fav":0,"x":2,"y":7,"height":3,"width":2},"3":{"tipo":"Crema","fav":0,"x":2,"y":1,"height":3,"width":2},"4":{"tipo":"Crema","fav":0,"x":2,"y":0,"height":3,"width":2}}}
->>>>>>> f8cb2eb28206180fdd32305a6ba4fb2c37b57939
+{"Felipe":{"1":{"tipo":"Crema","fav":0,"x":1,"y":8,"height":2,"width":3},"2":{"tipo":"Crema","fav":0,"x":4,"y":8,"height":2,"width":3}}}
