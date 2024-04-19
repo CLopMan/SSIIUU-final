@@ -4,7 +4,7 @@ import { generar_bloque } from "./inventario.js";
 // Constantes de las escenas
 const inventario = document.getElementById("inventario");
 const minijuego = document.getElementById("minijuego");
-const styleSheet = document.styleSheets[0];
+const styleSheet = document.styleSheets[1];
 
 // Constantes para la animación de la onda
 const wave = document.getElementById("wave");
@@ -137,8 +137,6 @@ function handle_pos(ev) {
 	if (capturable) {
 		// Si el jugador ha hecho un movimiento de 70 grados en el eje beta 
 		if (Math.abs(ev.beta - beta) >= 70) {
-			console.log(ev.beta - beta);
-
 			// Se evita enseñar el número de intentos e iniciar la siguiente ronda
 			if (tries_id != null) {
 				window.clearTimeout(tries_id);
