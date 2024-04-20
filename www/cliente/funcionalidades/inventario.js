@@ -122,7 +122,7 @@ export function cargar_estado(data) {
 /**
  * Recarga el tetris a su estado original
  */
-function reset_inventory() {
+export function reset_inventory() {
     // Reinicias el inventario
     for (let i = 0; i < FILAS_MATRIZ; i++) {
         matriz_figuras[i].fill(0);
