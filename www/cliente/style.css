@@ -107,6 +107,42 @@ h2 {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); /* Añade esta línea */
 }
 
+#reglas_duelo {
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.9);
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	z-index: 99999;
+	display: none;
+}
+
+#reglas_duelo_p {
+	padding: 5%;
+	font-size: 1.8rem;
+}
+
+#reglas_duelo_aceptar {
+	width: 80vw;
+	height: 10vh;
+	margin-left: 10vw;
+	margin-right: 10vw;
+	border-radius: 25px;
+	border: none;
+	background-color: #FFC300;
+}
+
+#reglas_duelo_cbox {
+	height: 10vh;
+	width: 6vw;
+	margin-left: 47vw;
+}
+
+#reglas_duelo_label {
+	margin-left: -28%;
+}
+
 #scan_duel_button {
     width: 8vh;
     height: 8vh;

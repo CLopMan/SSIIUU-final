@@ -5,6 +5,12 @@ import { num } from "./inventario.js";
 const inventario = document.getElementById("inventario");
 const duel_page = document.getElementById("duelo");
 
+// Reglas del duelo
+const rules = document.getElementById("reglas_duelo");
+const rules_button = document.getElementById("reglas_duelo_aceptar");
+const rules_cbox = document.getElementById("reglas_duelo_cbox");
+var showing_rules = true;
+
 // Generación de QR del duelo
 const qr_duel_div = document.getElementById("qr_duel_div");
 const qr_duel_images = document.getElementById("qr_duel");
@@ -42,6 +48,13 @@ let beta;
 let duel_start = false;
 
 // Listeners de botones
+rules_button.addEventListener("touchend", () => {
+	rules.style.display = "none";
+});
+rules_cbox.addEventListener("touchend", () => {
+	showing_rules = !showing_rules;
+})
+
 duel_warning.addEventListener("touchend", register_done);
 qr_duel_close_button.addEventListener("touchend", () => {
 	qr_duel_div.style.display = "none";
@@ -291,6 +304,12 @@ export async function get_duel_done() {
 	return true;
 }
 
+export async function accept_rules() {
+	while (rules.style.display == "block") {
+		await new Promise(resolve => setTimeout(resolve, 200));
+	}
+}
+
 export function display_object_lost(object) {
 	duel_page.style.display = "none";
 	inventario.style.display = "block";
@@ -313,6 +332,12 @@ function handle_pos(ev) {
 	}
 	else {
 		beta = ev.beta;
+	}
+}
+
+export function show_rules() {
+	if (showing_rules) {
+		reglas_duelo.style.display = "block";
 	}
 }
 

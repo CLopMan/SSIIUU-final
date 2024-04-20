@@ -12,6 +12,8 @@ import {
     display_duel_outcome,
     get_stolen_object,
     display_object_lost,
+    show_rules,
+    accept_rules,
     gen_duel_qr,
     start_duel_scanning,
     hide_duel_qr
@@ -29,16 +31,26 @@ const add_button = document.getElementById("add_button");
 const scan_duel_button = document.getElementById("scan_duel_button");
 
 // Listeners para los botones
-qr_duel_button.addEventListener("touchend", () => {
-	console.log(num["num"]);
+qr_duel_button.addEventListener("touchend", async () => {
+	
+	// Muestra las reglas del duelo
+	show_rules();
+	await accept_rules();
+	
+	// Si tiene objetos, muestra el qr
 	if (num["num"] > 0) {
 		gen_duel_qr(id);
 		socket.emit("REGISTER_DUEL");
 	}
 });
 add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
-scan_duel_button.addEventListener("touchend", () => {
-	console.log(num["num"]);
+scan_duel_button.addEventListener("touchend", async () => {
+	
+	// Muestra las reglas del duelo
+	show_rules();
+	await accept_rules();
+	
+	// Si tiene objetos, muestra scanner
 	if (num["num"] > 0) {
 		start_duel_scanning();
 	}
