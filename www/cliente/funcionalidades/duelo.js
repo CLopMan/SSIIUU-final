@@ -71,6 +71,8 @@ qr_close_duel_scanner.addEventListener("touchend", () => {
 // Posición
 window.addEventListener("deviceorientation", handle_pos);
 
+
+// Función que inicializa el duelo
 export function init_duel(timer, name, op_name) {
 	// Reinicia variables
 	done = false;
@@ -114,6 +116,7 @@ export function init_duel(timer, name, op_name) {
 	}, 2000);
 }
 
+// Función que hace aparecer el warning del duelo
 function appear_duel_warning() {
 	navigator.vibrate(500);
 	duel_warning.style.display = "block";
@@ -121,17 +124,20 @@ function appear_duel_warning() {
 	loss_id = window.setTimeout(trigger_loss, 10000);	
 }
 
+// Función que hace perder al usuario por timeout
 function trigger_loss() {
 	duel_warning.style.display = "none";
 	done = true;
 }
 
+// Función que cambia el estado de done
 function register_done() {
 	done = true;
 	duel_warning.style.display = "none";	
 	window.clearTimeout(loss_id);
 }
 
+// Función que llama a las funciones que enseñan quien ha ganado y quien ha perdido
 export function display_duel_outcome(objects, win) {
 	if (win == 1) {
 		display_win(objects, win);
@@ -141,6 +147,7 @@ export function display_duel_outcome(objects, win) {
 	}
 }
 
+// Función que muestra los banners si el usuario ha ganado
 function display_win(objects, win) {
 	// Cambia el estilo del user
 	let user = user_banner.innerHTML; 
@@ -168,6 +175,8 @@ function display_win(objects, win) {
 	}, 2000);
 }
 
+
+// Función que muestra los banners si el usuario ha perdido
 function display_loss(object, win) {
 	// Esconde el warning de duelo
 	duel_warning.style.display = "none";
@@ -199,9 +208,12 @@ function display_loss(object, win) {
 	}, 2000);
 }
 
+
+// Función que procesa la lógica del fin del duelo
 function duel_aftermath(objects, win) {
 	clear_objects_list();
-		
+	
+	// Si has ganado, inicializa el menú de objetos del oponente
 	if (win == 1) {
 		let h1 = document.createElement("h1");
 		h1.innerHTML = "ROBA UN OBJETO";
@@ -213,11 +225,13 @@ function duel_aftermath(objects, win) {
 		duel_page.style.display = "none";
 	}
 	else {
+		// Pierde un objeto, y espera a que le digan cual es
 		num["num"] -= num["num"];
 		wait_for_object_lost();
 		return ;
 	}
 	
+	// Se inicializa la lista de objetos del oponente con todos sus objetos
 	Object.keys(objects).forEach((item) => {
 		let div = document.createElement("div");
 		
@@ -263,17 +277,20 @@ function duel_aftermath(objects, win) {
 	
 }
 
+// Función que limpia la lista de objetos del oponente
 function clear_objects_list() {
 	while (op_inventario.firstChild) {
     	op_inventario.removeChild(op_inventario.lastChild);
   	}
 }
 
+// Función que muestra el banner de espera
 function wait_for_object_lost() {
 	wait_msg.style.animation = "appear_wait_msg 0.5s 1";
 	wait_msg.style.marginLeft = "0%";
 }
 
+// Función que muestra el div de confirmación
 function confirmation(ev) {
 	if (conf_div != null) {
 		conf_div.style.display = "none";
@@ -282,15 +299,18 @@ function confirmation(ev) {
 	conf_div.style.display = "block";
 }
 
+// Si se hace click en si en la confirmación
 function confirmation_yes() {
 	stolen_object = conf_div.parentNode.children[0].innerHTML.split(".")[0];
 	op_inventario.style.display = "none";
 }
 
+// Si se hace click en no en la confirmación
 function confirmation_no() {
 	conf_div.style.display = "none";
 }
 
+// Función asincrona que espera a que el usuario ganador eelija el objeto
 export async function get_stolen_object() {
 	while (stolen_object == null) {
 		await new Promise(resolve => setTimeout(resolve, 200));
@@ -298,6 +318,7 @@ export async function get_stolen_object() {
 	return stolen_object;
 }
 
+// Función asíncrona que espera a que se acabe el duelo 
 export async function get_duel_done() {
 	while (done == false) {
 		await new Promise(resolve => setTimeout(resolve, 200));
@@ -305,27 +326,37 @@ export async function get_duel_done() {
 	return true;
 }
 
+// Función asíncrona que espera a que el usuario lea las reglas y las acepte
 export async function accept_rules() {
 	while (rules.style.display == "block") {
 		await new Promise(resolve => setTimeout(resolve, 200));
 	}
 }
 
+// Función que muestra un banner con el obketo que has perdido
 export function display_object_lost(object) {
+
+	// Pone las animaciones y el texto
 	duel_page.style.display = "none";
 	inventario.style.display = "block";
 	object_lost.innerHTML = "Objeto perdido: " + object;
 	object_lost.style.animation = "appear_object_lost 1s 1";
 	object_lost.style.marginLeft = "0vw";
 	
+	// A los 2.5 segundos desaparece el banner
 	window.setTimeout(() => {
 		object_lost.style.animation = "disappear_object_lost 1s 1";
 		object_lost.style.marginLeft = "100vw";
 	}, 2500);
 }
 
+// Función que checkea si el usuario ahce el movimiento del duelo
 function handle_pos(ev) {
+
+	// Si se puede hacer el movimiento
 	if (duel_start) {
+		
+		// Se comprueba que el usuario haga un desplazamiento de 70 grados en el eje beta
 		if (Math.abs(beta - ev.beta) > 70) {
 			duel_start = false;
 			register_done();
@@ -336,18 +367,23 @@ function handle_pos(ev) {
 	}
 }
 
+// Función que muestra las reglas
 export function show_rules() {
 	if (showing_rules) {
 		reglas_duelo.style.display = "block";
 	}
 }
 
+// Función que muestra el QR de duelo
 export function gen_duel_qr(id) {	
+
+	// Borra los qr anteriores
 	if (qr_duel_images.children.length > 0) {
 		qr_duel_images.removeChild(qr_duel_images.children[0]);
 		qr_duel_images.removeChild(qr_duel_images.children[0]);
 	}
 	
+	// Crea el nuevo qr
 	const duel_qr = new QRCode("qr_duel", {
 		text: id,
 		width: 512,
@@ -362,15 +398,18 @@ export function gen_duel_qr(id) {
 	}, 100);
 }
 
+// Función que esocnde el QR del duelo
 export function hide_duel_qr() {
 	qr_duel_div.style.display = "none";
 }
 
+// Función que muestra el scanner del duelo 
 export function start_duel_scanning() {
 	qr_duel_scanner_div.style.display = "block";
 	qr_duel_scanner.start({facingMode : {exact: "environment"}}, config, scan_duel_success, scan_duel_error);
 }
 
+// Función que indica que pasa si el scanner es correcto
 function scan_duel_success(qrCodeMssg) {
 	console.log(qrCodeMssg);
 	qr_duel_scanner_div.style.display = "";
@@ -378,6 +417,7 @@ function scan_duel_success(qrCodeMssg) {
 	socket.emit("REGISTER_DUEL", qrCodeMssg);	
 }
 
+// Funcion de error del scanner
 function scan_duel_error(err) {
-
+	return ;
 }
