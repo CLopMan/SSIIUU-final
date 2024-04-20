@@ -35,45 +35,57 @@ to_log_in_button.addEventListener("touchend", sign_up_to_log_in);
 // Listener para control por movimientos
 window.addEventListener("deviceorientation", handle_pos);
 
+// Función que checkea el log in
 export function check_log_in(ev) {
     ev.preventDefault();
+    
+    // Si no tiene un usuario
     if (login_user.value.length == 0) {
         register_error("Usuario necesario", page);
         return null;
     }
 
+	// Si no tiene contraseña
     if (login_pwd.value.length == 0) {
         register_error("Contraseña necesaria", page);
         return null;
     }
-
+	
+	// Se devuelven los datos del formulario
     return { user: login_user.value, pwd: login_pwd.value };
 }
 
+// Función que checkea el sign_up
 export function check_sign_up(ev) {
     ev.preventDefault();
 
+	// Si no tiene un usuario
     if (signup_user.value.length == 0) {
         register_error("Usuario necesario", page);
         return null;
     }
 
+	// Si no tiene contraseña
     if (signup_pwd.value.length == 0) {
         register_error("Contraseña necesaria", page);
         return null;
     }
 
+	// Si las contraseñlas no coinciden
     if (signup_pwd.value != signup_pwd_rep.value) {
         register_error("Las contraseñas no coinciden", page);
         return null;
     }
 
+	// Se devuelven los datos del formulario
     return { user: signup_user.value, pwd: signup_pwd.value };
 }
 
+// Función que transiciona de log in a sign up
 function log_in_to_sign_up(ev) {
     ev.preventDefault();
 
+	// Se aplican las animaciones
     log_in.style.animation = "move_left_log-in 0.6s 1";
     sign_up.style.animation = "move_left_sign-up 0.6s 1";
     log_in.style.marginLeft = "-100vw";
@@ -85,9 +97,11 @@ function log_in_to_sign_up(ev) {
     login_pwd.value = "";
 }
 
+// Función que transiciona de sign up a log in
 function sign_up_to_log_in(ev) {
     ev.preventDefault();
 
+	// Se aplican las animaciones
     log_in.style.animation = "move_right_log-in 0.6s 1";
     sign_up.style.animation = "move_right_sign-up 0.6s 1";
     log_in.style.marginLeft = "0vw";
@@ -100,11 +114,14 @@ function sign_up_to_log_in(ev) {
     signup_pwd_rep.value = "";
 }
 
+// Función que controla que pasa si el log in o el sign up es correcto
 export function register_effective() {
+	// Se aplican las animaciones
     register.style.animation = "registered 0.6s 1";
     register.style.marginTop = "-100vh";
     inventario.style.display = "block";
 
+	// Cuando se vea el inventario, se resetea el menú de registro
     window.setTimeout(() => {
         page = 0;
         log_in.style.animation = "";
@@ -116,6 +133,7 @@ export function register_effective() {
         register.style.display = "none";
     }, 600);
 
+	// Guarda el nombre del usuario
     let name;
     if (page == 0) {
         name = login_user.value;
@@ -133,33 +151,50 @@ export function register_effective() {
     return name;
 }
 
+// Función que hace aparecer los errores del registro
 export function register_error(error, id) {
+    
+    // Si hay un error, se evita que desaparezca
     if (error_id != null) {
         window.clearTimeout(error_id);
     }
+    
+    // Se cambia el texto y el estilo del error
     error_texts[id].innerHTML = error;
     error_texts[id].style.display = "block";
+    
+    // A los 2 segundos desaparece
     error_id = window.setTimeout(() => {
         error_texts[id].style.display = "none";
         error_id = null;
     }, 2000);
 }
 
+// Función que hace el log_out
 function log_out() {
+	// Resetea el inventario
 	reset_inventory();
+	
+	// Pone las animaciones
 	register.style.display = "block";
     register.style.animation = "log_out 0.6s 1";
     register.style.marginTop = "0vh";
     log_out_button.style.display = "none";
 	scan_button.style.display = "none";
 	
+	// Cuando se acabe la animación, se esconde el inventario
 	window.setTimeout(()=> {
 		inventario.style.display = "none";
 	}, 600);
 }
 
+// Función que checkea la posición del móvil para cambiar de pestaña de forma ubicua
 function handle_pos(ev) {
+
+	// Si se pueden cambiar las páginas
     if (changeable) {
+    
+    	// Si se hace un desplazamiento hacia la derecha se cambia a sign up, si es a la izquierda, se cambia a log in
         if (ev.gamma > 40) {
             if (page == 0) {
                 log_in_to_sign_up(ev);
@@ -172,7 +207,8 @@ function handle_pos(ev) {
             }
         }
     } else {
-        if (ev.gamma < 10 || ev.gamma > 10) {
+    	// Se espera a que el teléfono este en una posición neutra para reiniciar el booleano
+        if (ev.gamma < 5 || ev.gamma > 5) {
             changeable = true;
         }
     }
