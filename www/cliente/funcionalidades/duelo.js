@@ -10,6 +10,7 @@ const rules = document.getElementById("reglas_duelo");
 const rules_button = document.getElementById("reglas_duelo_aceptar");
 const rules_cbox = document.getElementById("reglas_duelo_cbox");
 var showing_rules = true;
+rules_cbox.checked = false;
 
 // Generación de QR del duelo
 const qr_duel_div = document.getElementById("qr_duel_div");
