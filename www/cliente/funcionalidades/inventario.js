@@ -1,6 +1,8 @@
 import { init_fav, favorito } from "./favorito.js";
 import { socket, name } from "../script.js";
 
+// Declaramos las constantes del programa
+
 const ANCHO_FIGURA = 2;
 const ALTURA_FIGURA = 3;
 const FILAS_MATRIZ = 10;
@@ -12,8 +14,17 @@ const COLOR_FIGURAS_CREMA_COLOCADAS = "#7966b9";
 const COLOR_FIGURA_SELECCIONADA = "#a52230";
 const COLOR_FONDO = "#3c2012";
 const modal_tetris = document.getElementById("modal_tetris");
-const COLOR_FIGURAS = "red";
-const COLOR_FIGURAS_COLOCADAS = "blue";
+
+/**
+ * Clase que corresponde con las figuras del tetris
+ * @param {int} id - Id que corresponde a la figura, relaciona la figura con el id en el json
+ * @param {int} x - Posición x de la figura
+ * @param {int} y - Posición y de la figura
+ * @param {int} height - Altura de la figura
+ * @param {int} widht - Anchura de la figura
+ * @param {bool} favorito - Si esta figura es favorito o no
+ * @param {string} tipo - Tipo de objeto al que corresponde la figura
+ */
 
 class Figura {
     constructor(id, x, y, height, width, favorito, tipo) {
@@ -37,14 +48,22 @@ class Figura {
     }
 }
 
+// Declaración de array de figuras y de array de objetos que relacionan la figura con su div
 let lista_figuras = [];
 let div_figuras = [];
+
+// Declaración de la matriz del tetris
 const matriz_figuras = [];
-let id_actual = 0;
-export let json;
 for (let i = 0; i < FILAS_MATRIZ; i++) {
     matriz_figuras.push(new Array(COLUMNAS_MATRIZ).fill(0));
 }
+
+// Variable que indica cual debe de ser el siguiente id de la siguiente figura
+let id_actual = 0;
+
+// Variable local de la lectura del json
+export let json;
+
 let figura_actual;
 let figura_seleccionada;
 let draw_id;
@@ -63,12 +82,19 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
     }
 }
 
+/**
+ * Función que envía un mensaje al servidor para leer el json
+ */
 export function leer_estado() {
     console.log("Envío el mensaje LOAD_STATE");
     reset_inventory();
     socket.emit("LOAD_STATE");
 }
 
+/**
+ * Tras recibir el json se vuelca el contenido de este en el tetris
+ * @param {object} data - Contenido del json
+ */
 export function cargar_estado(data) {
     set_up();
 
@@ -91,9 +117,11 @@ export function cargar_estado(data) {
     });
     id_actual = Number(key_id) + 1;
     init_fav();
-    generar_bloque("bollo");
 }
 
+/**
+ * Recarga el tetris a su estado original
+ */
 function reset_inventory() {
     // Reinicias el inventario
     for (let i = 0; i < FILAS_MATRIZ; i++) {
@@ -113,10 +141,16 @@ function reset_inventory() {
     div_figuras = [];
 }
 
+/**
+ * Función que envía un mensaje al servidor, enviando el json
+ */
 export function escribir_estado() {
     socket.emit("STORE_STATE", json, name);
 }
 
+/**
+ * Coloca 1's en la matriz del tetris en la posición de la figura actual
+ */
 function dibujarFiguraEnMatriz() {
     for (let i = 0; i < figura_actual.height; i++) {
         for (let j = 0; j < figura_actual.width; j++) {
@@ -125,6 +159,10 @@ function dibujarFiguraEnMatriz() {
     }
 }
 
+/**
+ * Coloca 0's en la matriz del tetris en la posición de la figura
+ * @param {Figura} figura - Figura a borrar en la matriz
+ */
 function borrarFiguraEnMatriz(figura) {
     for (let i = 0; i < figura.height; i++) {
         for (let j = 0; j < figura.width; j++) {
@@ -133,24 +171,14 @@ function borrarFiguraEnMatriz(figura) {
     }
 }
 
-function moverFiguraIzquierda() {
-    if (figura_actual.x + figura_actual.width < COLUMNAS_MATRIZ) {
-        let colision = false;
-        for (let i = 0; i < figura_actual.height && !colision; i++) {
-            if (
-                matriz_figuras[figura_actual.y + i][
-                    figura_actual.x + figura_actual.width
-                ] === 1
-            ) {
-                colision = true;
-            }
-        }
-        if (!colision) {
-            figura_actual.x++;
-        }
-    }
-}
-
+/**
+ * Se encarga de colocar el bloque y todo lo que conlleva
+ ** Vibrar
+ ** Crear un div superior para la selección de la figura
+ ** Añadir el sistema de favoritos
+ ** Escribir en la variable json la nueva figura
+ * @param {bool} fav
+ */
 function colocarBloque(fav) {
     if (figura_actual.tipo == "bollo") {
         figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
@@ -186,6 +214,10 @@ function colocarBloque(fav) {
     num["num"] += 1;
 }
 
+/**
+ * Crea un div tranparente por encima de la figura actual
+ * @returns Devuelve el div que corresponde a la figura
+ */
 function divFigura() {
     let index_top_left = figura_actual.y * COLUMNAS_MATRIZ + figura_actual.x;
     let index_bottom_right =
@@ -221,6 +253,10 @@ function divFigura() {
     return div_figura;
 }
 
+/**
+ * Se encarga de gestionar los toques realizados a div_figura para seleccionarla
+ * @param {HTMLElement} div_figura
+ */
 function handle_touch(div_figura) {
     let par_figura_div;
     // Si se vuelve a tocar la misma se deselecciona
@@ -257,6 +293,31 @@ function handle_touch(div_figura) {
     }
 }
 
+/**
+ * Se encarga de deseleccionar una figura si realiza el favorito
+ * @param {HTMLElement} div_id
+ */
+export function deseleccionar_objeto(div_id) {
+    let div_figura = document.getElementById(div_id);
+    let par_figura_div = div_figuras.find(
+        (elemento) => elemento.div_figura === div_figura
+    );
+
+    if (par_figura_div.figura_actual.tipo == "bollo") {
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
+    } else {
+        par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
+    }
+    figura_seleccionada = null;
+    favorito.div_id = null;
+}
+
+/**
+ * Se encarga de crear un div que corresponde a la respuesta visual de marcar como favorito un objeto
+ * @param {HTMLElement} div_figura
+ * @param {bool} favorito
+ * @returns {HTMLElement} div de favorito
+ */
 function divFavorito(div_figura, favorito) {
     let div_pequeno = document.createElement("div");
 
@@ -275,7 +336,11 @@ function divFavorito(div_figura, favorito) {
 
     return div_pequeno;
 }
-
+/**
+ * Se encarga de eleminar la figura actualmente seleccionada, tando de la parte lógica del tetris como de la parte visual
+ * y además de escribir el json este cambio
+ * @returns
+ */
 function eliminarFigura() {
     if (
         !figura_seleccionada ||
@@ -308,6 +373,29 @@ function eliminarFigura() {
     escribir_estado();
 }
 
+/**
+ * Mueve la figura actual hacia la izquierda si es posible
+ */
+function moverFiguraIzquierda() {
+    if (figura_actual.x + figura_actual.width < COLUMNAS_MATRIZ) {
+        let colision = false;
+        for (let i = 0; i < figura_actual.height && !colision; i++) {
+            if (
+                matriz_figuras[figura_actual.y + i][
+                    figura_actual.x + figura_actual.width
+                ] === 1
+            ) {
+                colision = true;
+            }
+        }
+        if (!colision) {
+            figura_actual.x++;
+        }
+    }
+}
+/**
+ * Mueve la figura actual hacia la derecha si es posible
+ */
 function moverFiguraDerecha() {
     if (figura_actual.x > 0) {
         let colision = false;
@@ -321,7 +409,10 @@ function moverFiguraDerecha() {
         }
     }
 }
-
+/**
+ * Mueve la figura hacia abajo si es posible, en caso contrario coloca el bloque actual
+ * @returns
+ */
 function moverFiguraAbajo() {
     if (!figura_actual) {
         return;
@@ -334,11 +425,14 @@ function moverFiguraAbajo() {
         colocarBloque(false);
     }
 }
-
+/**
+ * Evalua el estado de la figura actual para indicar si colisiona en la parte inferior de la figura
+ * o no
+ * @returns {bool} Colisiona o no colisiona
+ */
 function colisionAbajo() {
-    // Verificar si hay una colisión con otra figura o el borde inferior
     if (figura_actual.y + figura_actual.height >= FILAS_MATRIZ) {
-        return true; // Hay una colisión con el borde inferior
+        return true;
     }
     for (let i = 0; i < figura_actual.width; i++) {
         if (
@@ -346,12 +440,16 @@ function colisionAbajo() {
                 figura_actual.x + i
             ] === 1
         ) {
-            return true; // Hay una colisión con otra figura
+            return true;
         }
     }
-    return false; // No hay colisión
+    return false;
 }
 
+/**
+ * Rota la figura actual hacia la derecha, generando una nueva matriz con la figura rotada,
+ * si esta nueva figura colisiona con otra no se realizará la rotación
+ */
 function rotarFiguraDerecha() {
     const nuevaAltura = figura_actual.width;
     const nuevaAnchura = figura_actual.height;
@@ -378,6 +476,10 @@ function rotarFiguraDerecha() {
     }
 }
 
+/**
+ * Rota la figura actual hacia la izquierda, generando una nueva matriz con la figura rotada,
+ * si esta nueva figura colisiona con otra no se realizará la rotación
+ */
 function rotarFiguraIzquierda() {
     const nuevaAltura = figura_actual.width;
     const nuevaAnchura = figura_actual.height;
@@ -404,6 +506,11 @@ function rotarFiguraIzquierda() {
     }
 }
 
+/**
+ * Evalua el estado de una nueva Matriz con una figura rotada
+ * @param {Array<Array>} nuevaMatriz
+ * @returns Colisiona o no colisiona
+ */
 function hayColision(nuevaMatriz) {
     for (let i = 0; i < nuevaMatriz.length; i++) {
         for (let j = 0; j < nuevaMatriz[i].length; j++) {
@@ -422,13 +529,22 @@ function hayColision(nuevaMatriz) {
     return false;
 }
 
+/**
+ * Genera un nuevo bloque en el grid del tetris según el tipo especificado
+ * y lo añade a la lista de figuras
+ * @param {string} tipo - tipo de la nueva figura
+ */
 export function generar_bloque(tipo) {
     modal_tetris.style.display = "block";
-    figura_actual = new Figura(id_actual, 2, 0, ALTURA_FIGURA, ANCHO_FIGURA, 0, tipo);
+    figura_actual = new Figura(id_actual, 3, 0, ALTURA_FIGURA, ANCHO_FIGURA, 0, tipo);
     id_actual += 1;
     lista_figuras.push(figura_actual);
 }
 
+/** Dibuja las figuras que se encuentren en lista_figuras
+ ** Pinta todas las celdas del color del fondo
+ ** Pinta cada una de las figuras de lista_figuras
+ */
 function dibujar_figuras() {
     for (let cell of cells) {
         cell.style.backgroundColor = COLOR_FONDO;
@@ -455,6 +571,11 @@ function dibujar_figuras() {
     }
 }
 
+/**
+ * Se encarga de inicializar todo lo necesario para el funcionamiento del tetris
+ ** Intervalos de dibujado y movimiento
+ ** Crear el listener de movimiento para detectar gestos
+ */
 function set_up() {
     draw_id = setInterval(dibujar_figuras, 50);
     move_id = setInterval(moverFiguraAbajo, 1500);
@@ -555,19 +676,4 @@ function set_up() {
             }
         }
     }
-}
-
-export function deseleccionar_objeto(div_id) {
-    let div_figura = document.getElementById(div_id);
-    let par_figura_div = div_figuras.find(
-        (elemento) => elemento.div_figura === div_figura
-    );
-
-    if (par_figura_div.figura_actual.tipo == "bollo") {
-        par_figura_div.figura_actual.color = COLOR_FIGURAS_BOLLO_COLOCADAS;
-    } else {
-        par_figura_div.figura_actual.color = COLOR_FIGURAS_CREMA_COLOCADAS;
-    }
-    figura_seleccionada = null;
-    favorito.div_id = null;
 }
