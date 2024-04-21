@@ -105,9 +105,8 @@ h2 {
     border-radius: 25px;
     background-color: black;
     color: white;
-    /* margin-left: 40vw;
-    margin-top: 5%; */
-    bottom: 23%;
+
+    bottom: 16%;
     left: 40%;
     font-size: 2rem;
     position: absolute;
@@ -119,10 +118,8 @@ h2 {
     border-radius: 25px;
     background-color: black;
     color: white;
-    bottom: 13%;
+    bottom: 9%;
     left: 40%;
-    /*     margin-left: 40vw;
-    margin-bottom: 5%; */
     font-size: 2rem;
     position: absolute;
 }
@@ -136,6 +133,14 @@ h2 {
 }
 #info2 {
     background-image: url("imagenes/tutorial2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    height: 100vh;
+    width: 100vw;
+}
+#info3 {
+    background-image: url("imagenes/tutorial3.png");
     background-repeat: no-repeat;
     background-size: cover;
     display: none;

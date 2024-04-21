@@ -173,9 +173,11 @@ titulo.addEventListener("touchend", () => {
     info1.style.display = "block";
     let info2 = document.getElementById("info2");
     info2.style.display = "none";
+    let info3 = document.getElementById("info3");
+    info2.style.display = "none";
     let next_buttom = document.getElementById("info_next_button");
     next_buttom.style.display = "block";
-
+    let estado = 0;
     let close_buttom = document.getElementById("info_close_button");
 
     close_buttom.addEventListener("touchend", () => {
@@ -183,12 +185,15 @@ titulo.addEventListener("touchend", () => {
     });
 
     next_buttom.addEventListener("touchend", () => {
-        info1.style.display = "none";
-
-        info2.style.display = "block";
-        next_buttom.style.display = "none";
-        close_buttom.addEventListener("touchend", () => {
-            div_info.style.display = "none";
-        });
+        estado = estado + 1;
+        if (estado == 1) {
+            info1.style.display = "none";
+            info2.style.display = "block";
+        }
+        if (estado == 2) {
+            info2.style.display = "none";
+            info3.style.display = "block";
+            next_buttom.style.display = "none";
+        }
     });
 });
