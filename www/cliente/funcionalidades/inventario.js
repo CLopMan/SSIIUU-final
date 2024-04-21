@@ -86,7 +86,6 @@ for (let i = 0; i < FILAS_MATRIZ; i++) {
  * Función que envía un mensaje al servidor para leer el json
  */
 export function leer_estado() {
-    console.log("Envío el mensaje LOAD_STATE");
     reset_inventory();
     socket.emit("LOAD_STATE");
 }

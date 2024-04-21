@@ -68,7 +68,6 @@ function sleep(ms) {
 }
 
 function minigame() {
-    console.log("Doing client minigame");
     init_minigame();
 }
 
@@ -166,7 +165,7 @@ document
 
 // Gestión de info
 let titulo = document.getElementById("info");
-titulo.addEventListener("touchend", () => {
+titulo.addEventListener("touchend", (ev) => {
     let div_info = document.getElementById("info-div");
     div_info.style.display = "block";
     let info1 = document.getElementById("info1");

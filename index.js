@@ -335,8 +335,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("PAGO", (name) => {
-        console.log('Mensaje "PAGO" recibido desde el cliente');
-
+        
         // Cargar el archivo JSON que deseas enviar al cliente
         const filePath = path.join(__dirname, "./data_user/items.json");
         fs.readFile(filePath, "utf8", (err, data) => {
@@ -347,7 +346,6 @@ io.on("connection", (socket) => {
 
             // Enviar el archivo JSON al cliente
             cashierSocket.emit("jsonData", JSON.parse(data), name);
-            console.log(JSON.parse(data));
             console.log("Archivo JSON enviado al cliente");
         });
     });
