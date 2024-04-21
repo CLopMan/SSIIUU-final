@@ -1,5 +1,6 @@
 const socket = io();
 
+// generar qr
 const qr = new QRCode("qrcode", {
   text: "PAGO",
   width: 512,
@@ -27,7 +28,7 @@ socket.on('jsonData', (data, name) => {
 
 });
 
-// enseña la cesta de la copra de un usuario
+// enseña la cesta de la compra de un usuario
 function mostrarInformacion(data, username) {
   let user = username;
   const background = document.createElement("div");
@@ -61,6 +62,15 @@ function mostrarInformacion(data, username) {
   
   titulo.classList.add("one")
   const icon = document.createElement("img");
+
+  const etotal = document.createElement('p');
+  etotal.classList.add("total");
+  const hr = document.createElement("p");
+  const hr2 = document.createElement("p");
+  hr.textContent="-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+  hr2.textContent=hr.textContent;
+
+  // particularidades de username 
   if (username == "Ace" || username == "ace" || username == "ACE") {
     user = "Ace D. Donut";
     icon.src = "miscelaneous/Ace.webp"
@@ -76,6 +86,7 @@ function mostrarInformacion(data, username) {
     player.play();
     setTimeout(() => {player.pause();}, 6000);
   } else {
+    //default
     //icon.src = "https://thispersondoesnotexist.com/";
     icon.src = "user-solid.svg";
   }
@@ -94,17 +105,14 @@ function mostrarInformacion(data, username) {
           lista.appendChild(elementoLista);
       }
   }
-  const etotal = document.createElement('p');
+
   etotal.textContent = `TOTAL: ${redondear(total, 2)}€`;
-  etotal.classList.add("total");
-  const hr = document.createElement("p");
-  const hr2 = document.createElement("p");
-  hr.textContent="-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
-  hr2.textContent=hr.textContent;
+
+
+  // construcción de elemento html 
   cartel.appendChild(titulo);
   cartel.appendChild(how);
   cartel.appendChild(hr);
-  //cartel.appendChild(icon_div);
   cartel.appendChild(icon);
   cartel.appendChild(hr2);
   cartel.appendChild(nombre);
@@ -113,6 +121,7 @@ function mostrarInformacion(data, username) {
   cartel.appendChild(container);
 
   cartel.style.opacity = 1.0;  
+  // botón de cerrar 
   closeButton = document.createElement("button");
   closeButton.textContent = "X";
   closeButton.addEventListener("click", () => {
@@ -125,7 +134,7 @@ function mostrarInformacion(data, username) {
   cartel.appendChild(closeButton);
 }
 
-
+// para el total, redondea un número a los decimales que gustes 
 function redondear(num, decimales) {
   let factor = Math.pow(10, decimales);
   return Math.round(num * factor) / factor;

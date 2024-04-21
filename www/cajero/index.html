@@ -4,8 +4,6 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
         ></script>
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <link rel="stylesheet" href="style.css" />
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
         </style>
@@ -13,9 +11,14 @@
             src="https://kit.fontawesome.com/35eaad193d.js"
             crossorigin="anonymous"
         ></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="style.css" />
+        <style>
+        </style>
+       
     </head>
     <body>
-        <center><h1>Cajero</h1></center>
+        <center><h1 id="title">Cajero</h1></center>
         <hr />
         <div id="qr_container"><div id="qrcode"></div></div>
         <script type="text/javascript" src="script.js"></script>
