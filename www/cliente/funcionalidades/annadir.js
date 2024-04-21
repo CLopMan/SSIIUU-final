@@ -57,7 +57,6 @@ function handleOrientation(event) {
                 startGamma = null;
                 startTime = null;
             } else if (gammaDiff < -minRotacion && timeDiff <= movementTimeMS) { // izquierda
-                console.log("eliminar foto");
                 // descartar foto
                 canvas_cont.classList.add("animate-left")
                 window.setTimeout(() => {
@@ -102,7 +101,6 @@ async function predict() {
     // predict can take in an image, video or canvas html element
     const prediction = await model.predict(canvas);
     last_predict = (prediction[0].probability > prediction[1].probability)? prediction[0].className : prediction[1].className;
-    console.log(last_predict);
 }
 
 /*=========== FIN - TEACHABLE MACHINE ===========*/ 
@@ -111,7 +109,6 @@ async function predict() {
 
 // entrar a "annadir objeto"
 document.getElementById("add_button").addEventListener("touchend", () => {
-    console.log("add");
     canvas_cont.style.display = "none";
     annadir_div.style.display = "flex";
     fav = document.querySelectorAll(".favorito")

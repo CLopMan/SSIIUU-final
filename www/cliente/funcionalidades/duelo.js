@@ -411,7 +411,6 @@ export function start_duel_scanning() {
 
 // Función que indica que pasa si el scanner es correcto
 function scan_duel_success(qrCodeMssg) {
-	console.log(qrCodeMssg);
 	qr_duel_scanner_div.style.display = "";
 	qr_duel_scanner.stop();
 	socket.emit("REGISTER_DUEL", qrCodeMssg);	

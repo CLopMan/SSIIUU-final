@@ -68,7 +68,6 @@ function sleep(ms) {
 }
 
 function minigame() {
-    console.log("Doing client minigame");
     init_minigame();
 }
 
