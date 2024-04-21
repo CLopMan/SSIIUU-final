@@ -40,7 +40,7 @@ En el inventario un usuario puede seleccionar un objeto pulsando sobre él. Una 
 
 ### Marcar como favorito
 
-Con un objeto seleccionado, se puede agitar el móvil adelante y hacia atrás para marcarlo como favorito, volcando el móvil de forma sutil la parte superior del dispositivo hacia el usuario y en contra del usuario. Sólo se podrá marcar como favorito un objeto, representado por un cuadrado amarillo colocado sobre la esquina de la figura.
+Con un objeto seleccionado, se puede agitar el móvil hacia la izquierda y hacia la derecha para marcarlo como favorito representado por un cuadrado amarillo colocado sobre la esquina de la figura.
 
 Un objeto marcado como favorito no puede ser eliminado, ni mediante la función anterior ni mediante un duelo. Un usuario sólo puede tener un objeto marcado como favorito.
 
