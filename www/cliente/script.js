@@ -164,6 +164,7 @@ document
     .getElementById("minigame_button")
     .addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
 
+// Gestión de info
 let titulo = document.getElementById("info");
 titulo.addEventListener("touchend", () => {
     let div_info = document.getElementById("info-div");
