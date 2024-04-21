@@ -105,9 +105,12 @@ h2 {
     border-radius: 25px;
     background-color: black;
     color: white;
-    margin-left: 40vw;
-    margin-top: 5%;
+    /* margin-left: 40vw;
+    margin-top: 5%; */
+    bottom: 23%;
+    left: 40%;
     font-size: 2rem;
+    position: absolute;
 }
 #info_next_button {
     width: 20vw;
@@ -116,16 +119,19 @@ h2 {
     border-radius: 25px;
     background-color: black;
     color: white;
-    margin-left: 40vw;
-    margin-bottom: 5%;
+    bottom: 13%;
+    left: 40%;
+    /*     margin-left: 40vw;
+    margin-bottom: 5%; */
     font-size: 2rem;
+    position: absolute;
 }
 #info1 {
     background-image: url("imagenes/tutorial1.png");
     background-repeat: no-repeat;
     background-size: cover;
     display: none;
-    height: 85vh;
+    height: 100vh;
     width: 100vw;
 }
 #info2 {
@@ -133,7 +139,7 @@ h2 {
     background-repeat: no-repeat;
     background-size: cover;
     display: none;
-    height: 85vh;
+    height: 100vh;
     width: 100vw;
 }
 
