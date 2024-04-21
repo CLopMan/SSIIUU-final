@@ -16,9 +16,14 @@ import {
     accept_rules,
     gen_duel_qr,
     start_duel_scanning,
-    hide_duel_qr
+    hide_duel_qr,
 } from "./funcionalidades/duelo.js";
-import { leer_estado, cargar_estado, generar_bloque, num } from "./funcionalidades/inventario.js";
+import {
+    leer_estado,
+    cargar_estado,
+    generar_bloque,
+    num,
+} from "./funcionalidades/inventario.js";
 
 // Socket
 export const socket = io();
@@ -32,28 +37,26 @@ const scan_duel_button = document.getElementById("scan_duel_button");
 
 // Listeners para los botones
 qr_duel_button.addEventListener("touchend", async () => {
-	
-	// Muestra las reglas del duelo
-	show_rules();
-	await accept_rules();
-	
-	// Si tiene objetos, muestra el qr
-	if (num["num"] > 0) {
-		gen_duel_qr(id);
-		socket.emit("REGISTER_DUEL");
-	}
+    // Muestra las reglas del duelo
+    show_rules();
+    await accept_rules();
+
+    // Si tiene objetos, muestra el qr
+    if (num["num"] > 0) {
+        gen_duel_qr(id);
+        socket.emit("REGISTER_DUEL");
+    }
 });
 add_button.addEventListener("touchend", () => socket.emit("TRIGGER_ADD"));
 scan_duel_button.addEventListener("touchend", async () => {
-	
-	// Muestra las reglas del duelo
-	show_rules();
-	await accept_rules();
-	
-	// Si tiene objetos, muestra scanner
-	if (num["num"] > 0) {
-		start_duel_scanning();
-	}
+    // Muestra las reglas del duelo
+    show_rules();
+    await accept_rules();
+
+    // Si tiene objetos, muestra scanner
+    if (num["num"] > 0) {
+        start_duel_scanning();
+    }
 });
 
 // Variables para el duelo
@@ -128,7 +131,7 @@ socket.on("connect", () => {
         display_duel_outcome(objects, 1);
         let object = await get_stolen_object();
         socket.emit("DUEL_OBJECT", object, opponent_id);
-       	generar_bloque(objects[object]["tipo"]); 
+        generar_bloque(objects[object]["tipo"]);
     });
 
     socket.on("DUEL_LOST", (objects) => {
@@ -160,3 +163,31 @@ document.getElementById("sign-up_register").addEventListener("touchend", (ev) =>
 document
     .getElementById("minigame_button")
     .addEventListener("touchend", () => socket.emit("TRIGGER_MINIGAME"));
+
+let titulo = document.getElementById("info");
+titulo.addEventListener("touchend", () => {
+    let div_info = document.getElementById("info-div");
+    div_info.style.display = "block";
+    let info1 = document.getElementById("info1");
+    info1.style.display = "block";
+    let info2 = document.getElementById("info2");
+    info2.style.display = "none";
+    let next_buttom = document.getElementById("info_next_button");
+    next_buttom.style.display = "block";
+
+    let close_buttom = document.getElementById("info_close_button");
+
+    close_buttom.addEventListener("touchend", () => {
+        div_info.style.display = "none";
+    });
+
+    next_buttom.addEventListener("touchend", () => {
+        info1.style.display = "none";
+
+        info2.style.display = "block";
+        next_buttom.style.display = "none";
+        close_buttom.addEventListener("touchend", () => {
+            div_info.style.display = "none";
+        });
+    });
+});

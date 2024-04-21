@@ -68,11 +68,73 @@ header {
     display: none;
 }
 
+#h2-container {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    padding-top: 5vh;
+}
+
 h2 {
+    margin-left: 3%;
     color: #e8e9ff;
     font-size: 3rem;
     text-align: center;
-    padding-top: 5vh;
+    background-color: #8d5430;
+    border: none;
+    border-radius: 25px;
+    padding: 1%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+#info-div {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8ede6;
+    display: none;
+    top: 0%;
+    grid-template-rows: 1fr 5fr;
+    z-index: 2000;
+}
+#info_close_button {
+    width: 20vw;
+    height: 6vh;
+    border: none;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    margin-left: 40vw;
+    margin-top: 5%;
+    font-size: 2rem;
+}
+#info_next_button {
+    width: 20vw;
+    height: 6vh;
+    border: none;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    margin-left: 40vw;
+    margin-bottom: 5%;
+    font-size: 2rem;
+}
+#info1 {
+    background-image: url("imagenes/tutorial1.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    height: 85vh;
+    width: 100vw;
+}
+#info2 {
+    background-image: url("imagenes/tutorial2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    height: 85vh;
+    width: 100vw;
 }
 
 #botones {
@@ -108,39 +170,39 @@ h2 {
 }
 
 #reglas_duelo {
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(255, 255, 255, 0.9);
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	z-index: 99999;
-	display: none;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 99999;
+    display: none;
 }
 
 #reglas_duelo_p {
-	padding: 5%;
-	font-size: 1.8rem;
+    padding: 5%;
+    font-size: 1.8rem;
 }
 
 #reglas_duelo_aceptar {
-	width: 80vw;
-	height: 10vh;
-	margin-left: 10vw;
-	margin-right: 10vw;
-	border-radius: 25px;
-	border: none;
-	background-color: #FFC300;
+    width: 80vw;
+    height: 10vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    border-radius: 25px;
+    border: none;
+    background-color: #ffc300;
 }
 
 #reglas_duelo_cbox {
-	height: 10vh;
-	width: 6vw;
-	margin-left: 47vw;
+    height: 10vh;
+    width: 6vw;
+    margin-left: 47vw;
 }
 
 #reglas_duelo_label {
-	margin-left: -28%;
+    margin-left: -28%;
 }
 
 #scan_duel_button {
