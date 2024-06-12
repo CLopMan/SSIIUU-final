@@ -2,9 +2,9 @@
 
 **Grupo: 14**
 
--   Adrián Fernández Galán (100472182)
--   Manuel Gómez-Plana Rodríguez (100472310)
--   César López Mantecón (100472092)
+-   [Adrián Fernández Galán](https://github.com/Adri-Extremix) (100472182)
+-   [Manuel Gómez-Plana Rodríguez](https://github.com/ManuGPR) (100472310)
+-   [César López Mantecón](https://github.com/CLopMan) (100472092)
 
 # SSIIUU-final
 
